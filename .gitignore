@@ -30,3 +30,9 @@
 *.vrb
 *.xdy
 *.tdo
+*.asv
+*old_fortran.txt
+*.dvi
+*.zip
+*.spl
+*old*.m
