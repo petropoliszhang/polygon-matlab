@@ -1,0 +1,299 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      8368,        232]*)
+(*NotebookOutlinePosition[      9012,        254]*)
+(*  CellTagsIndexPosition[      8968,        250]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(b\_1[s_, t_] = 1 - s - t;\)\), "\[IndentingNewLine]", 
+    \(\(b\_2[s_, t_] = s;\)\), "\[IndentingNewLine]", 
+    \(\(b\_3[s_, t_] = t;\)\), "\[IndentingNewLine]", 
+    \(\(M = Table[0. , {i, 3}, {j, 3}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(Do[\[IndentingNewLine]\(M[\([i, 
+                    j]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)b\_i[
+                            s, t]*b\_j[s, 
+                            t] \[DifferentialD]t)\) \[DifferentialD]s;\)\
+\[IndentingNewLine], {i, 1, 3}];\)\[IndentingNewLine], {j, 1, 
+          3}];\)\), "\[IndentingNewLine]", 
+    \(24*M // MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"2", "1", "1"},
+            {"1", "2", "1"},
+            {"1", "1", "2"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(rhs = Table[0. , {i, 3}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(rhs[\([i]\)] = \
+\[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)b\_i[s, 
+                        t] \[DifferentialD]t)\) \[DifferentialD]s;\)\
+\[IndentingNewLine], {i, 1, 3}];\)\), "\[IndentingNewLine]", 
+    \(6*rhs // MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1"},
+            {"1"},
+            {"1"}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {1, 1, 1}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(Clear[\[Alpha]];\)\), "\[IndentingNewLine]", 
+    \(\(MM = Table[0. , {i, 3}, {j, 3}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(Do[\[IndentingNewLine]\(MM[\([i, 
+                    j]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)\((b\
+\_i[s, t] + \[Alpha]*b\_3[s, t])\)*\((b\_j[s, t] + \[Alpha]*
+                                b\_3[s, 
+                                  t])\) \[DifferentialD]t)\) \
+\[DifferentialD]s;\)\[IndentingNewLine], {i, 1, 
+              2}];\)\[IndentingNewLine], {j, 1, 
+          2}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]MM[\([i, 
+              3]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)\((b\_i[s, 
+                          t] + \[Alpha]*b\_3[s, t])\)*\((\[Alpha]*
+                        b\_3[s, 
+                          t])\) \[DifferentialD]t)\) \[DifferentialD]s; \
+\[IndentingNewLine]MM[\([3, i]\)] = MM[\([i, 3]\)];\[IndentingNewLine], {i, 
+          1, 2}];\)\), "\[IndentingNewLine]", 
+    \(\(MM[\([3, 
+            3]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)\((\[Alpha]*
+                      b\_3[s, t])\)*\((\[Alpha]*
+                      b\_3[s, 
+                        t])\) \[DifferentialD]t)\) \[DifferentialD]s;\)\), "\
+\[IndentingNewLine]", 
+    \(Simplify[12*\((MM)\)] // MatrixForm\), "\[IndentingNewLine]", 
+    \(Simplify[12*\((MM - M)\)] // MatrixForm\), "\[IndentingNewLine]", 
+    \(\(rhs2 = Table[0. , {i, 3}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(rhs2[\([i]\)] = \[Integral]\_0\%1\((\
+\[Integral]\_0\%\(1 - s\)\((b\_i[s, t] + \[Alpha]*
+                            b\_3[s, 
+                              t])\) \[DifferentialD]t)\) \[DifferentialD]s;\)\
+\[IndentingNewLine], {i, 1, 2}];\)\), "\[IndentingNewLine]", 
+    \(\(rhs2[\([3]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)\((\
+\[Alpha]*b\_3[s, 
+                        t])\) \[DifferentialD]t)\) \[DifferentialD]s;\)\), "\
+\[IndentingNewLine]", 
+    \(Simplify[rhs2] // MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(1 + \[Alpha] + \[Alpha]\^2\), \(1\/2 + \[Alpha] + \
+\[Alpha]\^2\), \(\[Alpha]\/2 + \[Alpha]\^2\)},
+            {\(1\/2 + \[Alpha] + \[Alpha]\^2\), \(1 + \[Alpha] + \
+\[Alpha]\^2\), \(\[Alpha]\/2 + \[Alpha]\^2\)},
+            {\(\[Alpha]\/2 + \[Alpha]\^2\), \(\[Alpha]\/2 + \[Alpha]\^2\), \(\
+\[Alpha]\^2\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\[Alpha]\ \((1 + \[Alpha])\)\), \(\[Alpha]\ \((1 + \[Alpha])\)\
+\), \(1\/2\ \((\(-1\) + \[Alpha] + 2\ \[Alpha]\^2)\)\)},
+            {\(\[Alpha]\ \((1 + \[Alpha])\)\), \(\[Alpha]\ \((1 + \[Alpha])\)\
+\), \(1\/2\ \((\(-1\) + \[Alpha] + 2\ \[Alpha]\^2)\)\)},
+            {\(1\/2\ \((\(-1\) + \[Alpha] + 
+                    2\ \[Alpha]\^2)\)\), \(1\/2\ \((\(-1\) + \[Alpha] + 
+                    2\ \[Alpha]\^2)\)\), \(\(-1\) + \[Alpha]\^2\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(1 + \[Alpha]\)\/6\)},
+            {\(\(1 + \[Alpha]\)\/6\)},
+            {\(\[Alpha]\/6\)}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {
+        Times[ 
+          Rational[ 1, 6], 
+          Plus[ 1, \[Alpha]]], 
+        Times[ 
+          Rational[ 1, 6], 
+          Plus[ 1, \[Alpha]]], 
+        Times[ 
+          Rational[ 1, 6], \[Alpha]]}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\ \)\(\[Alpha] = 1/3; Simplify[MM/1. ] // MatrixForm\)\)\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0.12037037037037036`", "0.0787037037037037`", 
+              "0.023148148148148147`"},
+            {"0.0787037037037037`", "0.12037037037037036`", 
+              "0.023148148148148147`"},
+            {"0.023148148148148147`", "0.023148148148148147`", 
+              "0.009259259259259259`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(\ \)\(13/12*2 + 3/4\)\)\)], "Input"],
+
+Cell[BoxData[
+    \(35\/12\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)b\_1[s, 
+                t] \[DifferentialD]t)\) \[DifferentialD]s\), "\
+\[IndentingNewLine]", 
+    \(\[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)b\_2[s, 
+                t] \[DifferentialD]t)\) \[DifferentialD]s\), "\
+\[IndentingNewLine]", 
+    \(\[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)b\_3[s, 
+                t] \[DifferentialD]t)\) \[DifferentialD]s\)}], "Input"],
+
+Cell[BoxData[
+    \(1\/6\)], "Output"],
+
+Cell[BoxData[
+    \(1\/6\)], "Output"],
+
+Cell[BoxData[
+    \(1\/6\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 683}},
+WindowSize->{1008, 647},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 663, 11, 229, "Input"],
+Cell[2442, 66, 266, 8, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2745, 79, 352, 6, 127, "Input"],
+Cell[3100, 87, 214, 7, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3351, 99, 2031, 36, 490, "Input"],
+Cell[5385, 137, 502, 11, 97, "Output"],
+Cell[5890, 150, 637, 12, 97, "Output"],
+Cell[6530, 164, 464, 15, 97, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7031, 184, 93, 1, 30, "Input"],
+Cell[7127, 187, 485, 11, 57, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7649, 203, 60, 1, 30, "Input"],
+Cell[7712, 206, 40, 1, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7789, 212, 440, 8, 110, "Input"],
+Cell[8232, 222, 38, 1, 42, "Output"],
+Cell[8273, 225, 38, 1, 42, "Output"],
+Cell[8314, 228, 38, 1, 42, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
