@@ -1,8 +1,10 @@
-clear all; close all; clc
+function rectangular_pwld()
+clc; close all;
+% clear all; close all; clc
 % data
-Lx=1; D=1; S=0; Q=0; Ly=1
+Lx=1; D=1; S=0; Q=0; Ly=1;
 % geometry
-nx=10; ny=nx;
+nx=3; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 ndof = (nx+1)*(ny+1);
@@ -28,6 +30,21 @@ for j=1:ny+1
         vert(ind,1:2)=[x(i) y(j)];
     end
 end
+% edge data
+new_edge=0;
+edg2poly=zeros(0,2);
+edg2vert=zeros(0,2);
+for iel=1:nel
+    elem=connectivity(iel,:);
+    nedg=length(elem);
+    elem(end+1)=elem(1);
+    for i=1:nedg
+        ed=elem(i:i+1);
+        [edg2poly,edg2vert,new_edge]=is_edge_already_recorded(...
+            ed,edg2poly,edg2vert,iel,new_edge);
+    end
+end
+
 
 % assemble
 A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
@@ -84,3 +101,5 @@ for iel=1:nel
     end
 end
 
+return
+end
