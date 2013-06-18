@@ -37,10 +37,30 @@ for iel=1:nel
     vert(ind+4,1:2)=[x(i)   y(j+1)];
     ind = ind + 4;
 end
+% single coordinates
+ind=0;
+vert_grid=zeros((nx+1)*(ny+1),2);
+for j=1:ny+1
+    for i=1:nx+1
+        ind=ind+1;
+        vert_grid(ind,1:2)=[x(i) y(j)];
+    end
+end
+% find relationship between vert and vert_grid
+vert_link=zeros(ndof,1);
+for i=1:ndof
+    v=vert(i,1:2);
+    for k=1:(nx+1)*(ny+1)
+        if(norm( vert_grid(k,:)-v )<1e-12)
+            if(vert_link(i)~=0), error('vert_link(i) should be 0'); end
+            vert_link(i)=k;
+        end
+    end
+end
 % edge data
 new_edge=0;
 edg2poly=zeros(0,2);
-edg2vert=zeros(0,2);
+edg2vert=zeros(0,4);
 for iel=1:nel
     elem=connectivity(iel,:);
     nedg=length(elem);
@@ -48,7 +68,7 @@ for iel=1:nel
     for i=1:nedg
         ed=elem(i:i+1);
         [edg2poly,edg2vert,new_edge]=is_edge_already_recorded(...
-            ed,edg2poly,edg2vert,iel,new_edge);
+            ed,edg2poly,edg2vert,iel,vert_link,new_edge);
     end
 end
 new_edge
@@ -61,7 +81,28 @@ for iel=1:nel
     A(g(:),g(:)) = A(g(:),g(:)) + D*K +S*M;
     b(g(:)) = b(g(:)) + Q*f;
 end
+spy(A)
 % DG assemble edge terms
+%              
+%           v2 ^  w1
+%              |
+%              |  n_ed  
+%  Minus side  | --->    Plus side
+%              |
+%              |
+%           v1 .  w2
+%           
+for ied=1:new_edge
+    % get K-,K+
+    Km = edg2poly(ied,1);
+    Kp = edg2poly(ied,2);
+    % get normal
+    ne = [1 1];
+    % get edge vertices
+    
+
+end
+
 spy(A)
 % apply bc
 bcnodes=1:nx+1;
