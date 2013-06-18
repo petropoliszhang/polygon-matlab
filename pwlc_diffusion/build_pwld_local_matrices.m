@@ -1,4 +1,4 @@
-function [M,K,f,g]=build_pwld_local_matrices(poly,vert)
+function [M,K,f]=build_pwld_local_matrices(poly,vert)
 % vertices are entered anti-clockwise
 % poly=[1 2 3]
 % vert=[0 0; 1 0; 0 1]
@@ -17,8 +17,6 @@ f=zeros(nv,1);    % rhs vector
 M_side=zeros(nv,nv);
 K_side=zeros(nv,nv);
 f_side=zeros(nv,1);
-% gradient on all sides
-g=zeros(2,nv,nv); % x/y | tf | iside
 % integrals of b^i_1/2 b^i_1/2 :
 m=[2 1;1 2]/24+alpha*(1+alpha)*[1 1;1 1]/12;
 % integrals of b^i_1/2 b^i_c :
@@ -53,7 +51,7 @@ for iside=1:nv
     det_J_i=norm(Jac_i,2);
     Jac_i=[(B-A)' (C-A)'];
     iJt=inv(Jac_i');
-    if(abs(det(iJt)-det_J_i)>1e-12), error('2 versions of Jac do not yield same det ...'); end
+    if(abs(det(Jac_i)-det_J_i)>1e-12), error('2 versions of Jac do not yield same det ...'); end
     
     % add contribution from M_side
     M(list_vert,list_vert) = M(list_vert,list_vert) + det_J_i*M_side;
@@ -83,14 +81,6 @@ for iside=1:nv
     K_side(3:end,3:end) = kk_side(3,3);
     % add contribution from K_side
     K(list_vert,list_vert) = K(list_vert,list_vert) + K_side;
-    
-    % gradient 
-    aux=iJt*g_side;
-    g(:,list_vert(1:2),iside) = aux(1:2,1:2);
-    for k=3:nv
-        g(:,list_vert(k),iside) = aux(1:2,3);
-    end
-    
     
     % shift vertex IDs
     list_vert=[list_vert list_vert(1)];
