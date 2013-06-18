@@ -3,19 +3,19 @@ function [edg2poly,edg2vert,new_edge]=...
 % ed: contains the 2 vertex IDs of the edge
 % use the common grid vertices to find recorded edges
 
-v1=vert_link(ed(1));
-v2=vert_link(ed(2));
+ID_v1=vert_link(ed(1));
+ID_v2=vert_link(ed(2));
 
-ind1 = find( vert_link(edg2vert(:,1))     == v1 );
-ind2 = find( vert_link(edg2vert(ind1,2))  == v2 );
-ind1_= find( vert_link(edg2vert(:,1))     == v2 );
-ind2_= find( vert_link(edg2vert(ind1_,2)) == v1 );
+ind1 = find( vert_link(edg2vert(:,1))     == ID_v1 );
+ind2 = find( vert_link(edg2vert(ind1,2))  == ID_v2 );
+ind1_= find( vert_link(edg2vert(:,1))     == ID_v2 );
+ind2_= find( vert_link(edg2vert(ind1_,2)) == ID_v1 );
 
 if(length(ind2)>1), error('duplicated edges!'); end
 if(length(ind2_)>1), error('duplicated edges!'); end
-if(length(ind2)==1 & length(ind2_)==1), error('duplicated edges!'); end
+if(length(ind2)==1 && length(ind2_)==1), error('duplicated edges!'); end
 
-if(length(ind2)==0 & length(ind2_)==0)
+if(isempty(ind2) && isempty(ind2_))
     new_edge=new_edge+1;
     edg2vert(new_edge,1:2)= ed;
     edg2poly(new_edge,1)=ipoly; % 1
@@ -27,9 +27,8 @@ else
         work=ind1_(ind2_);
     end
     ied=work(1);
-    ied
     edg2vert(ied,3:4)= ed;
-    edg2poly(ied,2)=ipoly
+    edg2poly(ied,2)=ipoly;
 end
 
 return

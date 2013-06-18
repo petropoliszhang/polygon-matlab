@@ -30,7 +30,7 @@ vert=zeros(ndof,2);
 for iel=1:nel
     j = floor((iel-1)/nx) + 1;
     i = iel - (j-1)*nx;
-    [iel i j]
+%     [iel i j]
     vert(ind+1,1:2)=[x(i)   y(j)  ];
     vert(ind+2,1:2)=[x(i+1) y(j)  ];
     vert(ind+3,1:2)=[x(i+1) y(j+1)];
@@ -58,8 +58,9 @@ for i=1:ndof
     end
 end
 % edge data
-new_edge=0;
+n_edge=0;
 edg2poly=zeros(0,2);
+edg_normal=zeros(0,2);
 edg2vert=zeros(0,4);
 for iel=1:nel
     elem=connectivity(iel,:);
@@ -67,11 +68,18 @@ for iel=1:nel
     elem(end+1)=elem(1);
     for i=1:nedg
         ed=elem(i:i+1);
-        [edg2poly,edg2vert,new_edge]=is_edge_already_recorded(...
-            ed,edg2poly,edg2vert,iel,vert_link,new_edge);
+        [edg2poly,edg2vert,n_edge]=is_edge_already_recorded(...
+            ed,edg2poly,edg2vert,iel,vert_link,n_edge);
     end
 end
-new_edge
+% compute edge normals
+for ied=1:n_edge
+    v1=vert(edg2vert(ied,1),:);
+    v2=vert(edg2vert(ied,2),:);
+    vec=v2-v1;
+    vec=vec/norm(vec);
+    edg_normal(ied,1:2)=[vec(2) -vec(1)];
+end
 % DG assemble volumetric terms
 A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
 for iel=1:nel
@@ -92,15 +100,42 @@ spy(A)
 %              |
 %           v1 .  w2
 %           
-for ied=1:new_edge
-    % get K-,K+
+for ied=1:n_edge
+    % get K-,K+ and their connectivities
     Km = edg2poly(ied,1);
+    gm = connectivity(Km,:);
     Kp = edg2poly(ied,2);
+    gp = connectivity(Kp,:);
+    % nbr of vertices in each poly
+    nvp = length(gp);
+    nvm = length(gm);
     % get normal
-    ne = [1 1];
-    % get edge vertices
-    
+    ne = edg_normal(ied,1:2);
+    % get edge vertices of K+ side
+    W = edg2vert(ied,3:4);
+    % get edge vertices of K- side
+    V = edg2vert(ied,1:2);
+    % get the local ID of the edge's first vertex in K+
+    indp = find( gp == V(1) );
+    if(length(indp) ~= 1), error('length(IDp) ~= 1'); end
+    if(indp ~= nvp)
+        IDp = [indp (indp+1) ];
+    else
+        IDp = [indp 1 ];
+    end        
+    % get the local ID of the edge's first vertex in K-
+    indm = find( gm == W(1) );
+    if(length(indm) ~= 1), error('length(IDm) ~= 1'); end
+    if(indm ~= nvm)
+        IDm = [indm (indm+1) ];
+    else
+        IDm = [indm 1 ];
+    end
+    % skipping indices
+    skip_p = [(indp:nvp) (1:indp-1)];
+    skip_m = [(indm:nvm) (1:indm-1)];
 
+    
 end
 
 spy(A)
