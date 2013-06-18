@@ -1,34 +1,41 @@
 function rectangular_pwld()
 clc; close all;
 % clear all; close all; clc
+%
 % data
+%
 Lx=1; D=1; S=0; Q=0; Ly=1;
-% geometry
+%
+% numerical parameters
+%
 nx=3; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
-ndof = (nx+1)*(ny+1);
+ndof = 4*nel;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
 connectivity=zeros(nel,4);
-iel=0;
-for j=1:ny
-    for i=1:nx
-        iel=iel+1;
-        i1=(j-1)*(nx+1)+i; i2=i1+1;
-        i4=(j  )*(nx+1)+i; i3=i4+1;
-        connectivity(iel,:)=[i1 i2 i3 i4];
-    end
+for iel=1:nel
+    skip = 4*(iel-1);
+    i1 = skip + 1;
+    i2 = skip + 2;
+    i3 = skip + 3;
+    i4 = skip + 4;
+    connectivity(iel,:)=[i1 i2 i3 i4];
 end
-% coordinates
+% DG vertex coordinates (they are duplicated for simplicity)
 ind=0;
 vert=zeros(ndof,2);
-for j=1:ny+1
-    for i=1:nx+1
-        ind=ind+1;
-        vert(ind,1:2)=[x(i) y(j)];
-    end
+for iel=1:nel
+    j = floor((iel-1)/nx) + 1;
+    i = iel - (j-1)*nx;
+    [iel i j]
+    vert(ind+1,1:2)=[x(i)   y(j)  ];
+    vert(ind+2,1:2)=[x(i+1) y(j)  ];
+    vert(ind+3,1:2)=[x(i+1) y(j+1)];
+    vert(ind+4,1:2)=[x(i)   y(j+1)];
+    ind = ind + 4;
 end
 % edge data
 new_edge=0;
@@ -45,16 +52,17 @@ for iel=1:nel
     end
 end
 
-
-% assemble
+% DG assemble volumetric terms
 A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
 for iel=1:nel
     g=connectivity(iel,:);
     v=vert(g,:);
-    [M,K,f]=build_pwld_local_matrices(g,v);
+    [M,K,f,grad{iel}]=build_pwld_local_matrices(g,v);
     A(g(:),g(:)) = A(g(:),g(:)) + D*K +S*M;
     b(g(:)) = b(g(:)) + Q*f;
 end
+% DG assemble edge terms
+spy(A)
 % apply bc
 bcnodes=1:nx+1;
 bcval(1:length(bcnodes))=1;
