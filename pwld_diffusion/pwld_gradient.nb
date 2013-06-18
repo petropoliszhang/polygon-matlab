@@ -1,0 +1,474 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     12019,        397]*)
+(*NotebookOutlinePosition[     12682,        420]*)
+(*  CellTagsIndexPosition[     12638,        416]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+  "ClearAll", "\[IndentingNewLine]", \(b\_1[s_, t_] = 
+        1 - s - t;\), "\[IndentingNewLine]", \(b\_2[s_, t_] = 
+        s;\), "\[IndentingNewLine]", \(b\_3[s_, t_] = 
+        t;\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(gb\_1[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_1]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_1]\)[s, t]\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(gb\_2[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_2]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_2]\)[s, t]\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(gb\_3[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_3]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_3]\)[s, t]\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"U", "=", 
+        RowBox[{"(", GridBox[{
+              {"u1"},
+              {"u2"},
+              {"u3"}
+              }], ")"}]}], 
+      ";"}], "\[IndentingNewLine]", \(G = 
+        Table[0. , {i, 2}, {j, 
+            3}];\), "\[IndentingNewLine]", \(Do[\[IndentingNewLine]\(Do[\
+\[IndentingNewLine]\(G[\([i, j]\)] = 
+                Extract[gb\_j[s, t], {i, 1}];\)\[IndentingNewLine], {j, 1, 
+              3}\[IndentingNewLine]];\)\[IndentingNewLine], {i, 1, 
+          2}\[IndentingNewLine]];\), "\[IndentingNewLine]", \(MatrixForm[
+      G]\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"vA", "=", 
+        RowBox[{"(", GridBox[{
+              {"0"},
+              {"0"}
+              }], ")"}]}], ";", 
+      RowBox[{"vB", "=", 
+        RowBox[{"(", GridBox[{
+              {"1"},
+              {"0"}
+              }], ")"}]}], ";", 
+      RowBox[{"vC", "=", 
+        RowBox[{"(", GridBox[{
+              {"0"},
+              {"1"}
+              }], ")"}]}], ";", 
+      RowBox[{"centroid", "=", 
+        RowBox[{"(", GridBox[{
+              {\(1/3\)},
+              {\(1/3\)}
+              }], ")"}]}], 
+      ";"}], "\[IndentingNewLine]", \(Jac = 
+        Table[0. , {i, 2}, {j, 
+            2}];\), "\[IndentingNewLine]", \(Do[\[IndentingNewLine]v1 = vA; 
+        v2 = vB; \[IndentingNewLine]If[
+          side \[Equal] 2, {v1 = vB, v2 = vC}]; \[IndentingNewLine]If[
+          side \[Equal] 3, {v1 = vC, 
+            v2 = vA}]; \[IndentingNewLine]Print["\<side \>", 
+          side]; \[IndentingNewLine]Do[\[IndentingNewLine]col1 = 
+            Extract[v2, {i, 1}] - 
+              Extract[v1, {i, 1}]; \[IndentingNewLine]col2 = 
+            Extract[centroid, {i, 1}] - 
+              Extract[v1, {i, 1}]; \[IndentingNewLine]Jac[\([i, 1]\)] = 
+            col1; \[IndentingNewLine]Jac[\([i, 2]\)] = 
+            col2;\[IndentingNewLine], {i, 1, 
+            2}\[IndentingNewLine]]; \[IndentingNewLine]Print["\<Jac \>"]; \
+\[IndentingNewLine]Print[
+          MatrixForm[Jac]]; \[IndentingNewLine]iJt = \(iJt = 
+            Inverse[Transpose[
+                Jac]]\); \[IndentingNewLine]Print["\<iJt \>"]; \
+\[IndentingNewLine]Print[
+          MatrixForm[
+            iJt]]; \[IndentingNewLine]Print["\<iJt.G \>"]; \
+\[IndentingNewLine]Print[MatrixForm[iJt . G]]; \[IndentingNewLine]VV = 
+          RotateLeft[U, 
+            side - 1]; \[IndentingNewLine]VV[\([3, 1]\)] = \((u1 + u2 + u3)\)/
+            3; \[IndentingNewLine]Print["\<VV\>"]; \[IndentingNewLine]Print[
+          MatrixForm[
+            VV]]; \[IndentingNewLine]Print["\<iJt.G.VV\>"]; \
+\[IndentingNewLine]Print[MatrixForm[iJt . G . VV]]; \[IndentingNewLine]Print[
+          MatrixForm[G . VV]];\[IndentingNewLine], {side, 1, 
+          3}\[IndentingNewLine]];\), "\[IndentingNewLine]", "Null"}], "Input"],
+
+Cell[BoxData[
+    \(ClearAll\)], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\), "1", "0"},
+            {\(-1\), "0", "1"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    InterpretationBox[\("side "\[InvisibleSpace]1\),
+      SequenceForm[ "side ", 1],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \("Jac "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", \(1\/3\)},
+            {"0", \(1\/3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", "0"},
+            {\(-1\), "3"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\), "1", "0"},
+            {\(-2\), \(-1\), "3"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"u1"},
+            {"u2"},
+            {\(1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G.VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-u1\) + u2\)},
+            {\(\(-u1\) + u3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-u1\) + u2\)},
+            {\(\(-u1\) + 1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("side "\[InvisibleSpace]2\),
+      SequenceForm[ "side ", 2],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \("Jac "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\), \(-\(2\/3\)\)},
+            {"1", \(1\/3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", \(-3\)},
+            {"2", \(-3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"2", "1", \(-3\)},
+            {"1", "2", \(-3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"u2"},
+            {"u3"},
+            {\(1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G.VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-u1\) + u2\)},
+            {\(\(-u1\) + u3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-u2\) + u3\)},
+            {\(\(-u2\) + 1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("side "\[InvisibleSpace]3\),
+      SequenceForm[ "side ", 3],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \("Jac "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0", \(1\/3\)},
+            {\(-1\), \(-\(2\/3\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-2\), "3"},
+            {\(-1\), "0"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G "\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\), \(-2\), "3"},
+            {"1", \(-1\), "0"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"u3"},
+            {"u1"},
+            {\(1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    \("iJt.G.VV"\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-u1\) + u2\)},
+            {\(\(-u1\) + u3\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(u1 - u3\)},
+            {\(\(-u3\) + 1\/3\ \((u1 + u2 + u3)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Print"]
+}, Open  ]],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"J", "=", 
+        RowBox[{"(", GridBox[{
+              {\(Extract[v2, {1, 1}] - 
+                  Extract[v1, {1, 1}]\), \(Extract[centroid, {1, 1}] - 
+                  Extract[v1, {1, 1}]\)},
+              {\(Extract[v2, {2, 1}] - 
+                  Extract[v1, {2, 1}]\), \(Extract[centroid, {2, 1}] - 
+                  Extract[v1, {2, 1}]\)}
+              }], ")"}]}], 
+      ";"}], "\[IndentingNewLine]", \(iJt = 
+        Inverse[Transpose[J]];\), "\[IndentingNewLine]", \(\(iJt // 
+      MatrixForm\)\(,\)\)}], "Input"]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 683}},
+WindowSize->{1008, 629},
+WindowMargins->{{0, Automatic}, {Automatic, -3}},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 3811, 89, 1056, "Input"],
+Cell[5590, 144, 42, 1, 29, "Output"],
+Cell[5635, 147, 243, 7, 55, "Output"],
+Cell[5881, 156, 133, 3, 25, "Print"],
+Cell[6017, 161, 39, 1, 25, "Print"],
+Cell[6059, 164, 236, 7, 55, "Print"],
+Cell[6298, 173, 39, 1, 25, "Print"],
+Cell[6340, 176, 229, 7, 37, "Print"],
+Cell[6572, 185, 41, 1, 25, "Print"],
+Cell[6616, 188, 245, 7, 37, "Print"],
+Cell[6864, 197, 37, 1, 25, "Print"],
+Cell[6904, 200, 262, 8, 61, "Print"],
+Cell[7169, 210, 43, 1, 25, "Print"],
+Cell[7215, 213, 242, 7, 37, "Print"],
+Cell[7460, 222, 264, 7, 46, "Print"],
+Cell[7727, 231, 133, 3, 25, "Print"],
+Cell[7863, 236, 39, 1, 25, "Print"],
+Cell[7905, 239, 244, 7, 55, "Print"],
+Cell[8152, 248, 39, 1, 25, "Print"],
+Cell[8194, 251, 232, 7, 37, "Print"],
+Cell[8429, 260, 41, 1, 25, "Print"],
+Cell[8473, 263, 242, 7, 37, "Print"],
+Cell[8718, 272, 37, 1, 25, "Print"],
+Cell[8758, 275, 262, 8, 61, "Print"],
+Cell[9023, 285, 43, 1, 25, "Print"],
+Cell[9069, 288, 242, 7, 37, "Print"],
+Cell[9314, 297, 264, 7, 46, "Print"],
+Cell[9581, 306, 133, 3, 25, "Print"],
+Cell[9717, 311, 39, 1, 25, "Print"],
+Cell[9759, 314, 244, 7, 55, "Print"],
+Cell[10006, 323, 39, 1, 25, "Print"],
+Cell[10048, 326, 232, 7, 37, "Print"],
+Cell[10283, 335, 41, 1, 25, "Print"],
+Cell[10327, 338, 245, 7, 37, "Print"],
+Cell[10575, 347, 37, 1, 25, "Print"],
+Cell[10615, 350, 262, 8, 61, "Print"],
+Cell[10880, 360, 43, 1, 25, "Print"],
+Cell[10926, 363, 242, 7, 37, "Print"],
+Cell[11171, 372, 259, 7, 46, "Print"]
+}, Open  ]],
+Cell[11445, 382, 570, 13, 82, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

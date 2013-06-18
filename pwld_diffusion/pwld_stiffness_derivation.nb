@@ -1,0 +1,1056 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     33055,        943]*)
+(*NotebookOutlinePosition[     33717,        966]*)
+(*  CellTagsIndexPosition[     33673,        962]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+  "ClearAll", "\[IndentingNewLine]", \(b\_1[s_, t_] = 
+        1 - s - t;\), "\[IndentingNewLine]", \(b\_2[s_, t_] = 
+        s;\), "\[IndentingNewLine]", \(b\_3[s_, t_] = 
+        t;\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"TT1", "=", 
+        RowBox[{"(", GridBox[{
+              {\(2*r\_2\), \(r\_1 - r\_2 - r\_3\)},
+              {\(r\_1 - r\_2 - r\_3\), \(2*r\_3\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"TT", "=", 
+        RowBox[{"(", GridBox[{
+              {\(2*r\_3\), \(\(-r\_1\) + r\_2 - r\_3\)},
+              {\(\(-r\_1\) + r\_2 - r\_3\), \(2*r\_1\)}
+              }], ")"}]}], ";", \(TT // MatrixForm\)}], "\[IndentingNewLine]",
+   
+    RowBox[{
+      RowBox[{\(gb\_1[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_1]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_1]\)[s, t]\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(gb\_2[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_2]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_2]\)[s, t]\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{\(gb\_3[s_, t_]\), "=", 
+        RowBox[{"(", GridBox[{
+              {\(\(\(Derivative[1, 0]\)[b\_3]\)[s, t]\)},
+              {\(\(\(Derivative[0, 1]\)[b\_3]\)[s, t]\)}
+              }], ")"}]}], 
+      ";"}], "\[IndentingNewLine]", \(K = 
+        Table[0. , {i, 3}, {j, 
+            3}];\), "\[IndentingNewLine]", \(Do[\[IndentingNewLine]\(Do[\
+\[IndentingNewLine]\(K[\([i, 
+                    j]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - \
+s\)Transpose[gb\_i[s, t]] . TT . 
+                            gb\_j[s, 
+                              t] \[DifferentialD]t)\) \[DifferentialD]s;\)\
+\[IndentingNewLine], {i, 1, 3}];\)\[IndentingNewLine], {j, 1, 
+          3}];\), "\[IndentingNewLine]", \(K // 
+      MatrixForm\), "\[IndentingNewLine]", \(L\_1 = 1; L\_2 = Sqrt[2]; 
+    L\_3 = 1; 
+    A = 0.5;\), "\[IndentingNewLine]", \(Do[\[IndentingNewLine]r\_i = \
+\((L\_i)\)^2/\((4*A)\); \[IndentingNewLine]Print[
+          r\_i];\[IndentingNewLine], {i, 1, 
+          3}\[IndentingNewLine]];\), "\[IndentingNewLine]", \(TT1 // 
+      MatrixForm\), "\[IndentingNewLine]", \(TT // 
+      MatrixForm\), "\[IndentingNewLine]", \(K // 
+      MatrixForm\), "\[IndentingNewLine]", \(Unset[
+      r\_1]\), "\[IndentingNewLine]", \(Unset[
+      r\_2]\), "\[IndentingNewLine]", \(Unset[
+      r\_3]\), "\[IndentingNewLine]", \(Clear[\[Alpha]];\)}], "Input"],
+
+Cell[BoxData[
+    \(ClearAll\)], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(2\ r\_3\), \(\(-r\_1\) + r\_2 - r\_3\)},
+            {\(\(-r\_1\) + r\_2 - r\_3\), \(2\ r\_1\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(r\_2\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((r\_1 - r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\(-r\_1\) - r\_2 + r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((r\_1 - r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(r\_3\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\(-r\_1\) + r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\(-r\_1\) - r\_2 + r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\(-r\_1\) + r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(r\_1\)}
+                    }], "\[NoBreak]", ")"}]}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {{{{
+        Subscript[ r, 2]}}, {{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Subscript[ r, 1], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ -1, 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Subscript[ r, 3]]]}}}, {{{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Subscript[ r, 1], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Subscript[ r, 3]}}, {{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ -1, 
+              Subscript[ r, 1]], 
+            Subscript[ r, 2], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}}, {{{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ -1, 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Subscript[ r, 3]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ -1, 
+              Subscript[ r, 1]], 
+            Subscript[ r, 2], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Subscript[ r, 1]}}}}]]], "Output"],
+
+Cell[BoxData[
+    \(0.5`\)], "Print"],
+
+Cell[BoxData[
+    \(1.`\)], "Print"],
+
+Cell[BoxData[
+    \(0.5`\)], "Print"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"2.`", \(-1.`\)},
+            {\(-1.`\), "1.`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1.`", "0.`"},
+            {"0.`", "1.`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"1.`"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.5`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.5`\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.5`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.5`"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.`"}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.5`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.`"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.5`"}
+                    }], "\[NoBreak]", ")"}]}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {{{{1.0}}, {{-.5}}, {{-.5}}}, {{{-.5}}, {{.5}}, {{
+        0.0}}}, {{{-.5}}, {{0.0}}, {{.5}}}}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(KK = Table[0. , {i, 3}, {j, 3}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(Do[\[IndentingNewLine]\(KK[\([i, 
+                    j]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - \
+s\)\((Transpose[gb\_i[s, t] + \[Alpha]*gb\_3[s, t]])\) . 
+                            TT . \((gb\_j[s, t] + \[Alpha]*
+                                  gb\_3[s, 
+                                    t])\) \[DifferentialD]t)\) \
+\[DifferentialD]s;\)\[IndentingNewLine], {i, 1, 
+              2}];\)\[IndentingNewLine], {j, 1, 
+          2}];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]KK[\([i, 
+              3]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - \
+s\)\((Transpose[gb\_i[s, t] + \[Alpha]*gb\_3[s, t]])\) . 
+                      TT . \((\[Alpha]*
+                          gb\_3[s, 
+                            t])\) \[DifferentialD]t)\) \[DifferentialD]s; \
+\[IndentingNewLine]KK[\([3, i]\)] = KK[\([i, 3]\)];\[IndentingNewLine], {i, 
+          1, 2}];\)\), "\[IndentingNewLine]", 
+    \(\(KK[\([3, 
+            3]\)] = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - \
+s\)\((Transpose[\[Alpha]*gb\_3[s, t]])\) . 
+                    TT . \((\[Alpha]*
+                        gb\_3[s, 
+                          t])\) \[DifferentialD]t)\) \[DifferentialD]s;\)\), \
+"\[IndentingNewLine]", 
+    \(Simplify[KK] // MatrixForm\), "\[IndentingNewLine]", 
+    \(FortranForm[KK]\), "\[IndentingNewLine]", 
+    \(\(\[Alpha] = 1/3. ;\)\), "\[IndentingNewLine]", 
+    \(L\_1 = 1; L\_2 = Sqrt[\((1 - 1/3)\)^2 + \((1/3)\)^2]; 
+    L\_3 = Sqrt[2*\((1/3)\)^2]; A = 0.5/3;\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]r\_i = \((L\_i)\)^2/\((4*
+                A)\); \[IndentingNewLine]Print[r\_i];\[IndentingNewLine], {i, 
+          1, 3}\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(Simplify[KK] // MatrixForm\), "\[IndentingNewLine]", 
+    \(TT // MatrixForm\), "\[IndentingNewLine]", 
+    \(Unset[r\_1]\), "\[IndentingNewLine]", 
+    \(Unset[r\_2]\), "\[IndentingNewLine]", 
+    \(Unset[r\_3]\), "\[IndentingNewLine]", 
+    \(Clear[\[Alpha]]\), "\[IndentingNewLine]", 
+    \(Simplify[2*\((KK - K)\)] // MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((\(-1\) + \[Alpha])\)\ \[Alpha]\ r\_1 - \((\(-1\) + \
+\[Alpha])\)\ r\_2 + \[Alpha]\ r\_3\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\((1 - 2\ \[Alpha] + 
+                                  2\ \[Alpha]\^2)\)\ r\_1 - r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \[Alpha]\ \((\((\(-1\) + 2\ \[Alpha])\)\ r\_1 - 
+                            r\_2 + r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \((\((1 - 2\ \[Alpha] + 
+                                  2\ \[Alpha]\^2)\)\ r\_1 - r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((\(-1\) + \[Alpha])\)\ \[Alpha]\ r\_1 + \[Alpha]\ \
+r\_2 - \((\(-1\) + \[Alpha])\)\ r\_3\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \[Alpha]\ \((\((\(-1\) + 2\ \[Alpha])\)\ r\_1 + 
+                            r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \[Alpha]\ \((\((\(-1\) + 2\ \[Alpha])\)\ r\_1 - 
+                            r\_2 + r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(1\/2\ \[Alpha]\ \((\((\(-1\) + 2\ \[Alpha])\)\ r\_1 + 
+                            r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\[Alpha]\^2\ r\_1\)}
+                    }], "\[NoBreak]", ")"}]}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {{{{
+        Plus[ 
+          Times[ 
+            Plus[ -1, \[Alpha]], \[Alpha], 
+            Subscript[ r, 1]], 
+          Times[ -1, 
+            Plus[ -1, \[Alpha]], 
+            Subscript[ r, 2]], 
+          Times[ \[Alpha], 
+            Subscript[ r, 3]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ 
+              Plus[ 1, 
+                Times[ -2, \[Alpha]], 
+                Times[ 2, 
+                  Power[ \[Alpha], 2]]], 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, 
+                Times[ 2, \[Alpha]]], 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Subscript[ r, 3]]]}}}, {{{
+        Times[ 
+          Rational[ 1, 2], 
+          Plus[ 
+            Times[ 
+              Plus[ 1, 
+                Times[ -2, \[Alpha]], 
+                Times[ 2, 
+                  Power[ \[Alpha], 2]]], 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Plus[ 
+          Times[ 
+            Plus[ -1, \[Alpha]], \[Alpha], 
+            Subscript[ r, 1]], 
+          Times[ \[Alpha], 
+            Subscript[ r, 2]], 
+          Times[ -1, 
+            Plus[ -1, \[Alpha]], 
+            Subscript[ r, 3]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, 
+                Times[ 2, \[Alpha]]], 
+              Subscript[ r, 1]], 
+            Subscript[ r, 2], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}}, {{{
+        Times[ 
+          Rational[ 1, 2], \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, 
+                Times[ 2, \[Alpha]]], 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Subscript[ r, 3]]]}}, {{
+        Times[ 
+          Rational[ 1, 2], \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, 
+                Times[ 2, \[Alpha]]], 
+              Subscript[ r, 1]], 
+            Subscript[ r, 2], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Times[ 
+          Power[ \[Alpha], 2], 
+          Subscript[ r, 1]]}}}}]]], "Output"],
+
+Cell[BoxData[
+    \(1.5`\)], "Print"],
+
+Cell[BoxData[
+    \(0.8333333333333334`\)], "Print"],
+
+Cell[BoxData[
+    \(0.3333333333333333`\)], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.3333333333333335`"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.16666666666666666`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.16666666666666669`\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.16666666666666666`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.1666666666666667`"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"9.25185853854297`*^-18"}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(-0.16666666666666669`\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"9.25185853854297`*^-18"}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {"0.16666666666666666`"}
+                    }], "\[NoBreak]", ")"}]}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {{{{.33333333333333348}}, {{-.16666666666666666}}, \
+{{-.16666666666666669}}}, {{{-.16666666666666666}}, {{.16666666666666671}}, \
+{{.92518585385429707*^-17}}}, {{{-.16666666666666669}}, \
+{{.92518585385429707*^-17}}, {{.16666666666666666}}}}]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0.6666666666666666`", \(-1.`\)},
+            {\(-1.`\), "3.`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(2\ \[Alpha]\ \((\((\(-1\) + \[Alpha])\)\ r\_1 - r\_2 + 
+                            r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(2\ \((\(-1\) + \[Alpha])\)\ \[Alpha]\ r\_1\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((1 - \[Alpha] + 
+                              2\ \[Alpha]\^2)\)\ r\_1 - \((\(-1\) + \[Alpha])\
+\)\ \((r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(2\ \((\(-1\) + \[Alpha])\)\ \[Alpha]\ r\_1\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(2\ \[Alpha]\ \((\((\(-1\) + \[Alpha])\)\ r\_1 + r\_2 - 
+                            r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((1 - \[Alpha] + 
+                              2\ \[Alpha]\^2)\)\ r\_1 + \((\(-1\) + \[Alpha])\
+\)\ \((r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}]},
+            {
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((1 - \[Alpha] + 
+                              2\ \[Alpha]\^2)\)\ r\_1 - \((\(-1\) + \[Alpha])\
+\)\ \((r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(\((1 - \[Alpha] + 
+                              2\ \[Alpha]\^2)\)\ r\_1 + \((\(-1\) + \[Alpha])\
+\)\ \((r\_2 - r\_3)\)\)}
+                    }], "\[NoBreak]", ")"}], 
+              RowBox[{"(", "\[NoBreak]", GridBox[{
+                    {\(2\ \((\(-1\) + \[Alpha]\^2)\)\ r\_1\)}
+                    }], "\[NoBreak]", ")"}]}
+            }], "\[NoBreak]", ")"}],
+      MatrixForm[ {{{{
+        Times[ 2, \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, \[Alpha]], 
+              Subscript[ r, 1]], 
+            Times[ -1, 
+              Subscript[ r, 2]], 
+            Subscript[ r, 3]]]}}, {{
+        Times[ 2, 
+          Plus[ -1, \[Alpha]], \[Alpha], 
+          Subscript[ r, 1]]}}, {{
+        Plus[ 
+          Times[ 
+            Plus[ 1, 
+              Times[ -1, \[Alpha]], 
+              Times[ 2, 
+                Power[ \[Alpha], 2]]], 
+            Subscript[ r, 1]], 
+          Times[ -1, 
+            Plus[ -1, \[Alpha]], 
+            Plus[ 
+              Subscript[ r, 2], 
+              Times[ -1, 
+                Subscript[ r, 3]]]]]}}}, {{{
+        Times[ 2, 
+          Plus[ -1, \[Alpha]], \[Alpha], 
+          Subscript[ r, 1]]}}, {{
+        Times[ 2, \[Alpha], 
+          Plus[ 
+            Times[ 
+              Plus[ -1, \[Alpha]], 
+              Subscript[ r, 1]], 
+            Subscript[ r, 2], 
+            Times[ -1, 
+              Subscript[ r, 3]]]]}}, {{
+        Plus[ 
+          Times[ 
+            Plus[ 1, 
+              Times[ -1, \[Alpha]], 
+              Times[ 2, 
+                Power[ \[Alpha], 2]]], 
+            Subscript[ r, 1]], 
+          Times[ 
+            Plus[ -1, \[Alpha]], 
+            Plus[ 
+              Subscript[ r, 2], 
+              Times[ -1, 
+                Subscript[ r, 3]]]]]}}}, {{{
+        Plus[ 
+          Times[ 
+            Plus[ 1, 
+              Times[ -1, \[Alpha]], 
+              Times[ 2, 
+                Power[ \[Alpha], 2]]], 
+            Subscript[ r, 1]], 
+          Times[ -1, 
+            Plus[ -1, \[Alpha]], 
+            Plus[ 
+              Subscript[ r, 2], 
+              Times[ -1, 
+                Subscript[ r, 3]]]]]}}, {{
+        Plus[ 
+          Times[ 
+            Plus[ 1, 
+              Times[ -1, \[Alpha]], 
+              Times[ 2, 
+                Power[ \[Alpha], 2]]], 
+            Subscript[ r, 1]], 
+          Times[ 
+            Plus[ -1, \[Alpha]], 
+            Plus[ 
+              Subscript[ r, 2], 
+              Times[ -1, 
+                Subscript[ r, 3]]]]]}}, {{
+        Times[ 2, 
+          Plus[ -1, 
+            Power[ \[Alpha], 2]], 
+          Subscript[ r, 1]]}}}}]]], "Output"],
+
+Cell["\<\
+        List(List(List(List((-1 + \[Alpha])*\[Alpha]*Subscript(r,1) - (-1 + \
+\[Alpha])*Subscript(r,2) + \[Alpha]*Subscript(r,3))),
+     -   List(List(((1 - 2*\[Alpha] + 2*\[Alpha]**2)*Subscript(r,1) - \
+Subscript(r,2) - Subscript(r,3))/2.)),
+     -   List(List((\[Alpha]*((-1 + 2*\[Alpha])*Subscript(r,1) - \
+Subscript(r,2) + Subscript(r,3)))/2.))),
+     -  List(List(List(((1 - 2*\[Alpha] + 2*\[Alpha]**2)*Subscript(r,1) - \
+Subscript(r,2) - Subscript(r,3))/2.)),
+     -   List(List((-1 + \[Alpha])*\[Alpha]*Subscript(r,1) + \
+\[Alpha]*Subscript(r,2) - (-1 + \[Alpha])*Subscript(r,3))),
+     -   List(List((\[Alpha]*((-1 + 2*\[Alpha])*Subscript(r,1) + \
+Subscript(r,2) - Subscript(r,3)))/2.))),
+     -  List(List(List((\[Alpha]*((-1 + 2*\[Alpha])*Subscript(r,1) - \
+Subscript(r,2) + Subscript(r,3)))/2.)),
+     -   List(List((\[Alpha]*((-1 + 2*\[Alpha])*Subscript(r,1) + \
+Subscript(r,2) - \
+Subscript(r,3)))/2.)),List(List(\[Alpha]**2*Subscript(r,1)))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(x1 = 0; y1 = 0; z1 = 0;\), "\[IndentingNewLine]", \(x2 = 1; 
+    y2 = 0; z2 = 0;\), "\[IndentingNewLine]", \(x3 = 0; y3 = 1; 
+    z3 = 0;\), "\[IndentingNewLine]", \(xc = 1/3; yc = 1/3; 
+    zc = 0;\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"q", "=", 
+        RowBox[{"(", GridBox[{
+              {\(x - x1\), \(y - y1\), \(z - 1\)},
+              {\(x - x2\), \(y - y2\), \(z - z2\)},
+              {\(x - xc\), \(y - yc\), \(z - zc\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", \(Det[
+      q]\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"q", "=", 
+        RowBox[{"(", GridBox[{
+              {\(x - x1\), \(y - y1\), \(z - 1\)},
+              {\(x - x3\), \(y - y3\), \(z - z3\)},
+              {\(x - xc\), \(y - yc\), \(z - zc\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", \(Det[
+      q]\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"q", "=", 
+        RowBox[{"(", GridBox[{
+              {\(x - x1\), \(y - y1\), \(z - z1\)},
+              {\(x - x2\), \(y - y2\), \(z - z2\)},
+              {\(x - xc\), \(y - yc\), \(z - 1\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", \(Det[
+      q]\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"q", "=", 
+        RowBox[{"(", GridBox[{
+              {\(x - x3\), \(y - y3\), \(z - z3\)},
+              {\(x - x2\), \(y - y2\), \(z - z2\)},
+              {\(x - xc\), \(y - yc\), \(z - 1\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", \(Det[
+      q]\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"q", "=", 
+        RowBox[{"(", GridBox[{
+              {\(x - x3\), \(y - y3\), \(z - z3\)},
+              {\(x - x1\), \(y - y1\), \(z - z1\)},
+              {\(x - xc\), \(y - yc\), \(z - 1\)}
+              }], ")"}]}], ";"}], "\[IndentingNewLine]", \(Det[q]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(-\(1\/3\)\) + x\/3 + \(2\ y\)\/3 + z\/3\)], "Output"],
+
+Cell[BoxData[
+    \(1\/3 - \(2\ x\)\/3 - y\/3 - z\/3\)], "Output"],
+
+Cell[BoxData[
+    \(\(-y\) + z\/3\)], "Output"],
+
+Cell[BoxData[
+    \(1 - x - y - z\/3\)], "Output"],
+
+Cell[BoxData[
+    \(\(-x\) + z\/3\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(i = 1; j = 1;\), "\[IndentingNewLine]", 
+    \(\(\(gb\_i[s, t] + \[Alpha]*gb\_3[s, t] // 
+      MatrixForm\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(s1 = \[Integral]\_0\%1\((\[Integral]\_0\%\(1 - s\)\((Transpose[
+                      gb\_i[s, t] + \[Alpha]*gb\_3[s, t]])\) . 
+                  TT . \((gb\_j[s, t] + \[Alpha]*
+                        gb\_3[s, 
+                          t])\) \[DifferentialD]t)\) \[DifferentialD]s\)}], \
+"Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\)},
+            {\(\(-1\) + \[Alpha]\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    \({{\((\(-1\) + \[Alpha])\)\ \[Alpha]\ r\_1 - \((\(-1\) + \[Alpha])\)\ \
+r\_2 + \[Alpha]\ r\_3}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(\[Alpha] = 1/3;\)\), "\[IndentingNewLine]", 
+    \(L\_1 = 1; L\_2 = Sqrt[\((1 - 1/3)\)^2 + \((1/3)\)^2]; 
+    L\_3 = Sqrt[2*\((1/3)\)^2]; A = 0.5/3;\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]r\_i = \((L\_i)\)^2/\((4*
+                A)\); \[IndentingNewLine]Print[r\_i];\[IndentingNewLine], {i, 
+          1, 3}\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(r\_1\), "\[IndentingNewLine]", 
+    \(r\_2\), "\[IndentingNewLine]", 
+    \(r\_3\), "\[IndentingNewLine]", 
+    \(s1\), "\[IndentingNewLine]", 
+    \(gb\_i[s, t] + \[Alpha]*gb\_3[s, t] // 
+      MatrixForm\), "\[IndentingNewLine]", 
+    \(TT // MatrixForm\), "\[IndentingNewLine]", 
+    \(\(Clear[\[Alpha]];\)\), "\[IndentingNewLine]", 
+    \(\(Do[\[IndentingNewLine]\(Unset[r\_i];\)\[IndentingNewLine], {i, 1, 
+          3}];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(1.5`\)], "Print"],
+
+Cell[BoxData[
+    \(0.8333333333333334`\)], "Print"],
+
+Cell[BoxData[
+    \(0.3333333333333333`\)], "Print"],
+
+Cell[BoxData[
+    \(1.5`\)], "Output"],
+
+Cell[BoxData[
+    \(0.8333333333333334`\)], "Output"],
+
+Cell[BoxData[
+    \(0.3333333333333333`\)], "Output"],
+
+Cell[BoxData[
+    \({{0.33333333333333337`}}\)], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-1\)},
+            {\(-\(2\/3\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0.6666666666666666`", \(-1.`\)},
+            {\(-1.`\), "3.`"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"Transpose", "[", 
+          RowBox[{"(", GridBox[{
+                {\(-1. \)},
+                {\(\(-2\)/3\)}
+                }], ")"}], "]"}], ".", 
+        RowBox[{"(", GridBox[{
+              {\(2/3\), \(-1\)},
+              {\(-1\), "3"}
+              }], ")"}], ".", 
+        RowBox[{"(", GridBox[{
+              {\(-1\)},
+              {\(\(-2\)/3\)}
+              }], ")"}]}], "/", "2"}]], "Input"],
+
+Cell[BoxData[
+    \({{0.33333333333333326`}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(Clear[xc, yc];\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"Jac", "=", 
+        RowBox[{"(", GridBox[{
+              {\(xb - xa\), \(xc - xa\)},
+              {\(yb - ya\), \(yc - ya\)}
+              }], ")"}]}], 
+      ";", \(Jac // MatrixForm\)}], "\[IndentingNewLine]", \(tt = 
+        Inverse[Jac] . Inverse[Transpose[Jac]]*
+          Det[Jac];\), "\[IndentingNewLine]", \(Simplify[tt] // 
+      MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(-xa\) + xb\), \(\(-xa\) + xc\)},
+            {\(\(-ya\) + yb\), \(\(-ya\) + yc\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(xa\^2 - 2\ xa\ xc + 
+                    xc\^2 + \((ya - yc)\)\^2\)\/\(xc\ \((ya - yb)\) + 
+                    xa\ \((yb - yc)\) + 
+                    xb\ \((\(-ya\) + yc)\)\)\), \(-\(\(xa\^2 + xb\ xc - 
+                      xa\ \((xb + xc)\) + \((ya - yb)\)\ \((ya - 
+                            yc)\)\)\/\(xc\ \((ya - yb)\) + 
+                      xa\ \((yb - yc)\) + xb\ \((\(-ya\) + yc)\)\)\)\)},
+            {\(-\(\(xa\^2 + xb\ xc - 
+                      xa\ \((xb + xc)\) + \((ya - yb)\)\ \((ya - 
+                            yc)\)\)\/\(xc\ \((ya - yb)\) + 
+                      xa\ \((yb - yc)\) + 
+                      xb\ \((\(-ya\) + yc)\)\)\)\), \(\(xa\^2 - 2\ xa\ xb + 
+                    xb\^2 + \((ya - yb)\)\^2\)\/\(xc\ \((ya - yb)\) + 
+                    xa\ \((yb - yc)\) + xb\ \((\(-ya\) + yc)\)\)\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"Jac", "=", 
+        RowBox[{"(", GridBox[{
+              {"X1", "X3"},
+              {"Y1", "Y3"}
+              }], ")"}]}], 
+      ";", \(Jac // 
+        MatrixForm\)}], "\[IndentingNewLine]", \(Inverse[Transpose[Jac]]*
+        Det[Jac] // 
+      MatrixForm\), "\[IndentingNewLine]", \(Inverse[Jac]*Det[Jac] // 
+      MatrixForm\), "\[IndentingNewLine]", \(Det[
+      Jac]\), "\[IndentingNewLine]", 
+  "1", "\[IndentingNewLine]", \(tt = 
+        Inverse[Jac] . Inverse[Transpose[Jac]]*Det[Jac]*
+          Det[Jac];\), "\[IndentingNewLine]", \(Simplify[tt] // 
+      MatrixForm\)}], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"X1", "X3"},
+            {"Y1", "Y3"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"Y3", \(-Y1\)},
+            {\(-X3\), "X1"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"Y3", \(-X3\)},
+            {\(-Y1\), "X1"}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"],
+
+Cell[BoxData[
+    \(\(-X3\)\ Y1 + X1\ Y3\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(X3\^2 + Y3\^2\), \(\(-X1\)\ X3 - Y1\ Y3\)},
+            {\(\(-X1\)\ X3 - Y1\ Y3\), \(X1\^2 + Y1\^2\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[\((a + b + c)\)^2]\)], "Input"],
+
+Cell[BoxData[
+    \(a\^2 + 2\ a\ b + b\^2 + 2\ a\ c + 2\ b\ c + c\^2\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 696}},
+WindowSize->{717, 618},
+WindowMargins->{{0, Automatic}, {Automatic, 13}},
+Magnification->1
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 2616, 57, 674, "Input"],
+Cell[4395, 112, 42, 1, 29, "Output"],
+Cell[4440, 115, 291, 7, 55, "Output"],
+Cell[4734, 124, 2901, 85, 97, "Output"],
+Cell[7638, 211, 37, 1, 25, "Print"],
+Cell[7678, 214, 36, 1, 25, "Print"],
+Cell[7717, 217, 37, 1, 25, "Print"],
+Cell[7757, 220, 241, 7, 55, "Output"],
+Cell[8001, 229, 235, 7, 55, "Output"],
+Cell[8239, 238, 1427, 35, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9703, 278, 2181, 40, 619, "Input"],
+Cell[11887, 320, 4587, 129, 97, "Output"],
+Cell[16477, 451, 37, 1, 25, "Print"],
+Cell[16517, 454, 52, 1, 25, "Print"],
+Cell[16572, 457, 52, 1, 25, "Print"],
+Cell[16627, 460, 1724, 37, 77, "Output"],
+Cell[18354, 499, 257, 7, 55, "Output"],
+Cell[18614, 508, 4306, 122, 79, "Output"],
+Cell[22923, 632, 982, 18, 148, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23942, 655, 1836, 42, 455, "Input"],
+Cell[25781, 699, 75, 1, 42, "Output"],
+Cell[25859, 702, 66, 1, 42, "Output"],
+Cell[25928, 705, 47, 1, 40, "Output"],
+Cell[25978, 708, 50, 1, 40, "Output"],
+Cell[26031, 711, 47, 1, 40, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[26115, 717, 491, 10, 103, "Input"],
+Cell[26609, 729, 238, 7, 55, "Output"],
+Cell[26850, 738, 128, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27015, 745, 848, 16, 350, "Input"],
+Cell[27866, 763, 37, 1, 25, "Print"],
+Cell[27906, 766, 52, 1, 25, "Print"],
+Cell[27961, 769, 52, 1, 25, "Print"],
+Cell[28016, 772, 38, 1, 29, "Output"],
+Cell[28057, 775, 53, 1, 29, "Output"],
+Cell[28113, 778, 53, 1, 29, "Output"],
+Cell[28169, 781, 58, 1, 29, "Output"],
+Cell[28230, 784, 230, 7, 64, "Output"],
+Cell[28463, 793, 257, 7, 55, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28757, 805, 464, 15, 41, "Input"],
+Cell[29224, 822, 58, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29319, 828, 450, 10, 103, "Input"],
+Cell[29772, 840, 279, 7, 41, "Output"],
+Cell[30054, 849, 1025, 19, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31116, 873, 634, 16, 162, "Input"],
+Cell[31753, 891, 231, 7, 55, "Output"],
+Cell[31987, 900, 237, 7, 55, "Output"],
+Cell[32227, 909, 237, 7, 55, "Output"],
+Cell[32467, 918, 54, 1, 29, "Output"],
+Cell[32524, 921, 35, 1, 29, "Output"],
+Cell[32562, 924, 297, 7, 61, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32896, 936, 58, 1, 30, "Input"],
+Cell[32957, 939, 82, 1, 29, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
