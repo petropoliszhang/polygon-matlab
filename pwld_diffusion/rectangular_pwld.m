@@ -4,14 +4,16 @@ clc; close all;
 %
 % data
 %
-Lx=1; D=1; S=0; Q=0; Ly=1;
+Lx=1; c_diff=1; sigma_a=0; S_ext=0; Ly=1;
 %
 % numerical parameters
 %
 nx=3; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
+i_mat=ones(nel,1);
 ndof = 4*nel;
+C_pen=2;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -86,11 +88,12 @@ A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
 for iel=1:nel
     g=connectivity(iel,:);
     v=vert(g,:);
+    mat = i_mat(iel);
     [M,K,f,grad{iel}]=build_pwld_local_matrices(g,v);
-    A(g(:),g(:)) = A(g(:),g(:)) + D*K +S*M;
-    b(g(:)) = b(g(:)) + Q*f;
+    A(g(:),g(:)) = A(g(:),g(:)) + c_diff(mat)*K +sigma_a(mat)*M;
+    b(g(:)) = b(g(:)) + S_ext(mat)*f;
 end
-spy(A)
+% spy(A)
 % DG assemble edge terms
 %              
 %           v2 ^  w1
@@ -100,13 +103,15 @@ spy(A)
 %              |
 %              |
 %           v1 .  w2
-%           
+%
+m1d=[2 1 ; 1 2]/6;
+m1d_mod=[1 2; 2 1]/6;
 for ied=1:n_edge
     % get K-,K+ and their connectivities
     Kp = edg2poly(ied,2);
     Km = edg2poly(ied,1);
     % we want to loop only on INTERIOR edges
-    if(Kp<0 | Km<0), continue; end
+    if(Kp<0 || Km<0), continue; end
     % get the polygons' connectivities
     gp = connectivity(Kp,:);
     gm = connectivity(Km,:);
@@ -138,25 +143,81 @@ for ied=1:n_edge
     % skipping indices
     skip_p = [(indp:nvp) (1:indp-1)];
     skip_m = [(indm:nvm) (1:indm-1)];
+    skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
+    skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
 
-    % half-length current edge
-    L=norm( diff(vert(V,:)) )/2;
+    % length current edge
+    Le = norm( diff(vert(V,:)) );
+    % material properties
+    Dp = c_diff(i_mat(Kp));
+    Dm = c_diff(i_mat(Km));
+    % penalty term
+    h_perp=Le; % temporary!
+    pen = C_pen * (Dp/h_perp + Dm/h_perp) /2;
     
     % build the local edge gradient matrices
     % [[phi]],{{D.grad(b).ne}} 
     %      = (phi+ - phi-)(D+ grad(b+).ne + D- grad(b-).ne)/2
-    %      =  phi+ D+ grad(b+).ne/2 
-    %       + phi+ D- grad(b-).ne/2
-    %       - phi- D+ grad(b+).ne/2
-    %       - phi- D- grad(b-).ne/2
-    % compute row vector: n' * G (my_n is already retrieved as a 1x2 row
-    % vector)
+    %      =  (phi+) D+ grad(b+).ne/2 
+    %       + (phi+) D- grad(b-).ne/2
+    %       - (phi-) D+ grad(b+).ne/2
+    %       - (phi-) D- grad(b-).ne/2
+    % [[b]],{{D.grad(phi).ne}} 
+    %      = (b+ - b-)(D+ grad(phi+).ne + D- grad(phi-).ne)/2
+    %      =  (b+) D+ grad(phi+).ne/2 
+    %       + (b+) D- grad(phi-).ne/2
+    %       - (b-) D+ grad(phi+).ne/2
+    %       - (b-) D- grad(phi-).ne/2
+    % compute row vector: n' * G (ne is already stored as a 1x2 row vector)
     % -/-
-    rv_mm = ne * grad{Km}(:,:,indm);
+    row_grad_m = ne * grad{Km}(:,:,indm);
     % edge matrix for this side
-    cv=zeros(nv,1); cv(list_vert(1:2))=1;
-    edgmat_mm = cv * rv_mm
-    
+    col_b_m = zeros(nvm,1); col_b_m(1:2) = Le/2;
+    aux = -Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+    aux(1:2,1:2) = aux(1:2,1:2) + pen * Le * m1d;
+    for i=1:nvm
+        for j=1:nvm
+            edgmat_mm(skip_m(i),skip_m(j)) = aux(i,j);
+        end
+    end
+    A(gm(:),gm(:)) = A(gm(:),gm(:)) + edgmat_mm;
+
+    % +/+
+    row_grad_p = ne * grad{Kp}(:,:,indp);
+    % edge matrix for this side
+    col_b_p = zeros(nvp,1); col_b_p(1:2) = Le/2;
+    aux = +Dp/2 * (col_b_p * row_grad_p + row_grad_p' * col_b_p');
+    aux(1:2,1:2) = aux(1:2,1:2) + pen * Le * m1d;
+    for i=1:nvp
+        for j=1:nvp
+            edgmat_pp(skip_p(i),skip_p(j)) = aux(i,j);
+        end
+    end
+    A(gp(:),gp(:)) = A(gp(:),gp(:)) + edgmat_pp;
+
+%     Dp=0;Dm=0;pen=-1;
+%     A(:,:)=0;Le=6;
+    pen=0;
+    A(:,:)=0;
+    % -(test)/+(solution)
+    aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p');
+    aux(1:2,1:2) = aux(1:2,1:2) - pen * Le * m1d_mod;
+    for i=1:nvm
+        for j=1:nvp
+            edgmat_mp(skip_m(i),skip_p(j)) = aux(i,j);
+        end
+    end
+    A(gm(:),gp(:)) = A(gm(:),gp(:)) + edgmat_mp;
+
+    % +(test)/-(solution)
+    aux = ( col_b_p * Dm/2*row_grad_m + Dp/2*row_grad_p' * col_b_m');
+    aux(1:2,1:2) = aux(1:2,1:2) - pen * Le * m1d_mod;
+    for i=1:nvp
+        for j=1:nvm
+            edgmat_pm(skip_p(i),skip_m(j)) = aux(i,j);
+        end
+    end
+    A(gp(:),gm(:)) = A(gp(:),gm(:)) + edgmat_pm;
 
     
 end

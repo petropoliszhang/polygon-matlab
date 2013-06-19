@@ -36,11 +36,12 @@ for iside=1:nv
     iJt=inv(Jac');
     % gradient
     g_side=[-1 1 0; (alpha-1) alpha alpha];
-    aux=iJt*g_side;
+    aux=iJt*g_side
     g(:,list_vert(1:2),iside) = aux(1:2,1:2);
     for k=3:nv
         g(:,list_vert(k),iside) = aux(1:2,3);
     end
+    g(:,:,iside) 
     % pick normal
     my_n=normal(iside,:);
     % compute row vector: n' * G (my_n is already retrieved as a 1x2 row
@@ -50,9 +51,9 @@ for iside=1:nv
     L=norm(B-A)/2;
     % edge matrix for this side
     cv=zeros(nv,1); cv(list_vert(1:2))=1;
-    edg = cv * rv
+    edg = cv * rv;
     % shift vertex IDs
     list_vert=[list_vert list_vert(1)];
     list_vert(1)=[];
 end
-g
+% g
