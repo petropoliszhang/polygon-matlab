@@ -72,6 +72,7 @@ for iel=1:nel
             ed,edg2poly,edg2vert,iel,vert_link,n_edge);
     end
 end
+clear vert_link; % not needed any longer
 % compute edge normals
 for ied=1:n_edge
     v1=vert(edg2vert(ied,1),:);
@@ -102,10 +103,13 @@ spy(A)
 %           
 for ied=1:n_edge
     % get K-,K+ and their connectivities
-    Km = edg2poly(ied,1);
-    gm = connectivity(Km,:);
     Kp = edg2poly(ied,2);
+    Km = edg2poly(ied,1);
+    % we want to loop only on INTERIOR edges
+    if(Kp<0 | Km<0), continue; end
+    % get the polygons' connectivities
     gp = connectivity(Kp,:);
+    gm = connectivity(Km,:);
     % nbr of vertices in each poly
     nvp = length(gp);
     nvm = length(gm);
@@ -116,7 +120,7 @@ for ied=1:n_edge
     % get edge vertices of K- side
     V = edg2vert(ied,1:2);
     % get the local ID of the edge's first vertex in K+
-    indp = find( gp == V(1) );
+    indp = find( gp == W(1) );
     if(length(indp) ~= 1), error('length(IDp) ~= 1'); end
     if(indp ~= nvp)
         IDp = [indp (indp+1) ];
@@ -124,7 +128,7 @@ for ied=1:n_edge
         IDp = [indp 1 ];
     end        
     % get the local ID of the edge's first vertex in K-
-    indm = find( gm == W(1) );
+    indm = find( gm == V(1) );
     if(length(indm) ~= 1), error('length(IDm) ~= 1'); end
     if(indm ~= nvm)
         IDm = [indm (indm+1) ];
@@ -134,6 +138,25 @@ for ied=1:n_edge
     % skipping indices
     skip_p = [(indp:nvp) (1:indp-1)];
     skip_m = [(indm:nvm) (1:indm-1)];
+
+    % half-length current edge
+    L=norm( diff(vert(V,:)) )/2;
+    
+    % build the local edge gradient matrices
+    % [[phi]],{{D.grad(b).ne}} 
+    %      = (phi+ - phi-)(D+ grad(b+).ne + D- grad(b-).ne)/2
+    %      =  phi+ D+ grad(b+).ne/2 
+    %       + phi+ D- grad(b-).ne/2
+    %       - phi- D+ grad(b+).ne/2
+    %       - phi- D- grad(b-).ne/2
+    % compute row vector: n' * G (my_n is already retrieved as a 1x2 row
+    % vector)
+    % -/-
+    rv_mm = ne * grad{Km}(:,:,indm);
+    % edge matrix for this side
+    cv=zeros(nv,1); cv(list_vert(1:2))=1;
+    edgmat_mm = cv * rv_mm
+    
 
     
 end

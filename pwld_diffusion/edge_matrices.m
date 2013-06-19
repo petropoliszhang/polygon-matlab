@@ -9,7 +9,7 @@ if(tri)
 else
     poly=[1 2 3 4]
     vert=[0 0; 1 0; 1 1; 0 1]
-    normal=[1 1; 1 1; 1 1; 1 1];
+    normal=[0 -1; 1 0; 0 1; -1 0];
 end
 
 % centroid
@@ -43,7 +43,7 @@ for iside=1:nv
     end
     % pick normal
     my_n=normal(iside,:);
-    % compute row vector: n' * G (my_n is already retrieved as a 1xnv row
+    % compute row vector: n' * G (my_n is already retrieved as a 1x2 row
     % vector)
     rv= my_n * g(:,:,iside);
     % half-length current edge
