@@ -1,10 +1,10 @@
 function rectangular_pwld()
-clc; close all;
+
 % clear all; close all; clc
 %
 % data
 %
-Lx=1; c_diff=1; sigma_a=0; S_ext=0; Ly=1;
+Lx=1; c_diff=1; sigma_a=100; S_ext=10; Ly=Lx;
 %
 % numerical parameters
 %
@@ -14,6 +14,7 @@ nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
 C_pen=2;
+C_pen_bd=2*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -75,6 +76,20 @@ for iel=1:nel
     end
 end
 clear vert_link; % not needed any longer
+% assign bc markers: LRBT = -( 1234 )
+for ied=1:n_edge
+    % get K-,K+ and their connectivities
+    Kp = edg2poly(ied,2);
+    % we want to loop only on BOUNDARY edges
+    if(Kp>0), continue; end
+    P=edg2vert(ied,1:2);
+    v=vert(P,:);
+    v
+    v;
+    
+
+end
+
 % compute edge normals
 for ied=1:n_edge
     v1=vert(edg2vert(ied,1),:);
@@ -106,12 +121,14 @@ end
 %
 m1d=[2 1 ; 1 2]/6;
 m1d_mod=[1 2; 2 1]/6;
+
 for ied=1:n_edge
     % get K-,K+ and their connectivities
     Kp = edg2poly(ied,2);
     Km = edg2poly(ied,1);
     % we want to loop only on INTERIOR edges
-    if(Kp<0 || Km<0), continue; end
+    if(Km<=0 || Kp==0), error('Km<=0 or Kp==0'); end
+    if(Kp<0), continue; end
     % get the polygons' connectivities
     gp = connectivity(Kp,:);
     gm = connectivity(Km,:);
@@ -140,11 +157,11 @@ for ied=1:n_edge
     else
         IDm = [indm 1 ];
     end
-    % skipping indices
-    skip_p = [(indp:nvp) (1:indp-1)];
-    skip_m = [(indm:nvm) (1:indm-1)];
-    skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
-    skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
+%     % skipping indices
+%     skip_p = [(indp:nvp) (1:indp-1)];
+%     skip_m = [(indm:nvm) (1:indm-1)];
+%     skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
+%     skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
 
     % length current edge
     Le = norm( diff(vert(V,:)) );
@@ -170,84 +187,101 @@ for ied=1:n_edge
     %       - (b-) D- grad(phi-).ne/2
     % compute row vector: n' * G (ne is already stored as a 1x2 row vector)
     % -/-
+%     A(:,:)=0;
+% %     pen=0;
+%     Dp=0;Dm=0;pen=6/Le;
+    
     row_grad_m = ne * grad{Km}(:,:,indm);
     % edge matrix for this side
-    col_b_m = zeros(nvm,1); col_b_m(1:2) = Le/2;
+    col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
     aux = -Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
-    aux(1:2,1:2) = aux(1:2,1:2) + pen * Le * m1d;
-    for i=1:nvm
-        for j=1:nvm
-            edgmat_mm(skip_m(i),skip_m(j)) = aux(i,j);
-        end
-    end
-    A(gm(:),gm(:)) = A(gm(:),gm(:)) + edgmat_mm;
+    aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
+    A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
 
     % +/+
     row_grad_p = ne * grad{Kp}(:,:,indp);
     % edge matrix for this side
-    col_b_p = zeros(nvp,1); col_b_p(1:2) = Le/2;
+    col_b_p = zeros(nvp,1); col_b_p(IDp) = Le/2;
     aux = +Dp/2 * (col_b_p * row_grad_p + row_grad_p' * col_b_p');
-    aux(1:2,1:2) = aux(1:2,1:2) + pen * Le * m1d;
-    for i=1:nvp
-        for j=1:nvp
-            edgmat_pp(skip_p(i),skip_p(j)) = aux(i,j);
-        end
-    end
-    A(gp(:),gp(:)) = A(gp(:),gp(:)) + edgmat_pp;
+    aux(IDp,IDp) = aux(IDp,IDp) + pen * Le * m1d;
+    A(gp(:),gp(:)) = A(gp(:),gp(:)) + aux;
 
 %     Dp=0;Dm=0;pen=-1;
 %     A(:,:)=0;Le=6;
-    pen=0;
-    A(:,:)=0;
+%     pen=0;
+%     A(:,:)=0;
     % -(test)/+(solution)
     aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p');
-    aux(1:2,1:2) = aux(1:2,1:2) - pen * Le * m1d_mod;
-    for i=1:nvm
-        for j=1:nvp
-            edgmat_mp(skip_m(i),skip_p(j)) = aux(i,j);
-        end
-    end
-    A(gm(:),gp(:)) = A(gm(:),gp(:)) + edgmat_mp;
+    aux(IDm,IDp) = aux(IDm,IDp) - pen * Le * m1d_mod;
+    A(gm(:),gp(:)) = A(gm(:),gp(:)) + aux;
 
     % +(test)/-(solution)
-    aux = ( col_b_p * Dm/2*row_grad_m + Dp/2*row_grad_p' * col_b_m');
-    aux(1:2,1:2) = aux(1:2,1:2) - pen * Le * m1d_mod;
-    for i=1:nvp
-        for j=1:nvm
-            edgmat_pm(skip_p(i),skip_m(j)) = aux(i,j);
-        end
-    end
-    A(gp(:),gm(:)) = A(gp(:),gm(:)) + edgmat_pm;
+    aux = ( col_b_p * Dm/2*row_grad_m - Dp/2*row_grad_p' * col_b_m');
+    aux(IDp,IDm) = aux(IDp,IDm) - pen * Le * m1d_mod;
+    A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux;
 
     
 end
 
-spy(A)
-% apply bc
-bcnodes=1:nx+1;
-bcval(1:length(bcnodes))=1;
-bcnodes=[bcnodes (ny*(nx+1)+1:ndof)];
-bcval(length(bcval)+1:length(bcnodes))=0;
-% bcnodes=[bcnodes  (nx+2:nx+1:(ny-1)*(nx+1)+1)    ];
-% bcnodes=[bcnodes ((nx+2:nx+1:(ny-1)*(nx+1)+1)+nx)];
-for i=1:length(bcnodes)
-    bd=bcnodes(i);
-    A(bd,:)=0;
-    b=b-A(:,bd)*bcval(i);
-    A(:,bd)=0;
-    A(bd,bd)=1;
-    b(bd)=bcval(i);
+% boundary conditions
+for ied=1:n_edge
+    % get K-,K+ and their connectivities
+    Kp = edg2poly(ied,2);
+    Km = edg2poly(ied,1);
+    % we want to loop only on BOUNDARY edges
+    if(Kp>0), continue; end
+    [ied Kp Km]
+    % get the polygons' connectivities
+    gm = connectivity(Km,:);
+    % nbr of vertices in each poly
+    nvm = length(gm);
+    % get normal
+    ne = edg_normal(ied,1:2);
+    % get edge vertices of K- side
+    V = edg2vert(ied,1:2);
+    % get the local ID of the edge's first vertex in K-
+    indm = find( gm == V(1) );
+    if(length(indm) ~= 1), error('length(IDm) ~= 1'); end
+    if(indm ~= nvm)
+        IDm = [indm (indm+1) ];
+    else
+        IDm = [indm 1 ];
+    end
+
+    sgn=-1;
+    
+    % length current edge
+    Le = norm( diff(vert(V,:)) );
+    % material properties
+    Dm = c_diff(i_mat(Km));
+    % penalty term
+    h_perp=Le; % temporary!
+    pen = C_pen_bd * Dm/h_perp;
+    
+    row_grad_m = ne * grad{Km}(:,:,indm);
+    % edge matrix for this side
+    col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
+    aux = - sgn * Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+    aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
+    A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
+    
 end
+
+
+% spy(A)
+
 
 %solve
 z=A\b;
-
+[ min(z) max(z)]
 % plot
+figure(11);clf
 for iel=1:nel
     g=connectivity(iel,:);
     patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
 end
-figure(2)
+view(-135,25);
+figure(12);clf
 % plot on finer mesh
 % 4---3   vertex anti-clockwise ordering,
 % | c |
@@ -268,6 +302,7 @@ for iel=1:nel
         patch(xx,yy,zz,zz,'LineStyle','none');
     end
 end
+view(-135,25);
 
 return
 end

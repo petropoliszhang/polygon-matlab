@@ -1,8 +1,9 @@
-clear all; close all; clc
+clear all; close all; 
+clc
 % data
-Lx=1; D=1; S=0; Q=0; Ly=1
+Lx=1; D=1; S=100; Q=10; Ly=Lx;
 % geometry
-nx=10; ny=nx;
+nx=30; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 ndof = (nx+1)*(ny+1);
@@ -40,11 +41,17 @@ for iel=1:nel
 end
 % apply bc
 bcnodes=1:nx+1;
-bcval(1:length(bcnodes))=1;
+bcval(1:length(bcnodes))=0;
+
 bcnodes=[bcnodes (ny*(nx+1)+1:ndof)];
 bcval(length(bcval)+1:length(bcnodes))=0;
-% bcnodes=[bcnodes  (nx+2:nx+1:(ny-1)*(nx+1)+1)    ];
-% bcnodes=[bcnodes ((nx+2:nx+1:(ny-1)*(nx+1)+1)+nx)];
+
+bcnodes=[bcnodes  (nx+2:nx+1:(ny-1)*(nx+1)+1)    ];
+bcval(length(bcval)+1:length(bcnodes))=0;
+
+bcnodes=[bcnodes ((nx+2:nx+1:(ny-1)*(nx+1)+1)+nx)];
+bcval(length(bcval)+1:length(bcnodes))=0;
+
 for i=1:length(bcnodes)
     bd=bcnodes(i);
     A(bd,:)=0;
@@ -56,12 +63,14 @@ end
 
 %solve
 z=A\b;
-
+max(z)
 % plot
 for iel=1:nel
     g=connectivity(iel,:);
     patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
 end
+view(-135,25);
+
 figure(2)
 % plot on finer mesh
 % 4---3   vertex anti-clockwise ordering,
@@ -83,4 +92,4 @@ for iel=1:nel
         patch(xx,yy,zz,zz,'LineStyle','none');
     end
 end
-
+view(-135,25);
