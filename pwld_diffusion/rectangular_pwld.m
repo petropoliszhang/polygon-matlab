@@ -8,12 +8,12 @@ Lx=1; c_diff=1; sigma_a=100; S_ext=10; Ly=Lx;
 %
 % numerical parameters
 %
-nx=3; ny=nx;
+nx=10; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
-C_pen=2;
+C_pen=20;
 C_pen_bd=2*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
@@ -76,7 +76,7 @@ for iel=1:nel
     end
 end
 clear vert_link; % not needed any longer
-% assign bc markers: LRBT = -( 1234 )
+% assign bc markers: LRBT = -( 10 20 30 40 )
 for ied=1:n_edge
     % get K-,K+ and their connectivities
     Kp = edg2poly(ied,2);
@@ -84,10 +84,20 @@ for ied=1:n_edge
     if(Kp>0), continue; end
     P=edg2vert(ied,1:2);
     v=vert(P,:);
-    v
-    v;
-    
-
+    x1=v(1,1); y1=v(1,2);
+    x2=v(2,1); y2=v(2,2);
+    if(abs(x1)<1e-14 && abs(x2)<1e-14),
+        edg2poly(ied,2)=-10; % left
+    end
+    if(abs(x1-Lx)<1e-14 && abs(x2-Lx)<1e-14),
+        edg2poly(ied,2)=-20; % right
+    end
+    if(abs(y1)<1e-14 && abs(y2)<1e-14),
+        edg2poly(ied,2)=-30; % bottom
+    end
+    if(abs(y1-Ly)<1e-14 && abs(y2-Ly)<1e-14),
+        edg2poly(ied,2)=-40; % top
+    end
 end
 
 % compute edge normals
@@ -230,6 +240,7 @@ for ied=1:n_edge
     Km = edg2poly(ied,1);
     % we want to loop only on BOUNDARY edges
     if(Kp>0), continue; end
+    if(Kp==-30 || Kp==-40), continue; end
     [ied Kp Km]
     % get the polygons' connectivities
     gm = connectivity(Km,:);
