@@ -5,6 +5,10 @@ function rectangular_pwld()
 % data
 %
 Lx=1; c_diff=1; sigma_a=100; S_ext=10; Ly=Lx;
+% bc type: 0= Dirichlet, homogeneous
+%          1= Neumann, homogeneous
+% values entered as LRBT
+bc_type=[0 1 0 1];
 %
 % numerical parameters
 %
@@ -78,14 +82,16 @@ end
 clear vert_link; % not needed any longer
 % assign bc markers: LRBT = -( 10 20 30 40 )
 for ied=1:n_edge
-    % get K-,K+ and their connectivities
+    % get K+ for that edge
     Kp = edg2poly(ied,2);
     % we want to loop only on BOUNDARY edges
     if(Kp>0), continue; end
+    % get the 2 vertices associated with that edge
     P=edg2vert(ied,1:2);
     v=vert(P,:);
     x1=v(1,1); y1=v(1,2);
     x2=v(2,1); y2=v(2,2);
+    % assign BC markers
     if(abs(x1)<1e-14 && abs(x2)<1e-14),
         edg2poly(ied,2)=-10; % left
     end
@@ -235,12 +241,22 @@ end
 
 % boundary conditions
 for ied=1:n_edge
-    % get K-,K+ and their connectivities
+    % get K-,K+ for that edge
     Kp = edg2poly(ied,2);
     Km = edg2poly(ied,1);
+
     % we want to loop only on BOUNDARY edges
     if(Kp>0), continue; end
-    if(Kp==-30 || Kp==-40), continue; end
+
+    % Neumann on the left:
+    if(Kp==-10 && bc_type(1)==1), continue; end
+    % Neumann on the right:
+    if(Kp==-20 && bc_type(2)==1), continue; end
+    % Neumann on the bottom:
+    if(Kp==-30 && bc_type(3)==1), continue; end
+    % Neumann on the left:
+    if(Kp==-40 && bc_type(4)==1), continue; end
+
     [ied Kp Km]
     % get the polygons' connectivities
     gm = connectivity(Km,:);
