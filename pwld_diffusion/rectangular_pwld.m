@@ -7,8 +7,10 @@ function rectangular_pwld()
 Lx=1; c_diff=1; sigma_a=100; S_ext=10; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Neumann, homogeneous
+%          2= Neumann, inhomogeneous
 % values entered as LRBT
-bc_type=[0 1 0 1];
+bc_type=[1 1 2 1];
+bc_val.bottom=-10;
 %
 % numerical parameters
 %
@@ -17,7 +19,7 @@ x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
-C_pen=20;
+C_pen=2;
 C_pen_bd=2*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
@@ -37,7 +39,7 @@ vert=zeros(ndof,2);
 for iel=1:nel
     j = floor((iel-1)/nx) + 1;
     i = iel - (j-1)*nx;
-%     [iel i j]
+    %     [iel i j]
     vert(ind+1,1:2)=[x(i)   y(j)  ];
     vert(ind+2,1:2)=[x(i+1) y(j)  ];
     vert(ind+3,1:2)=[x(i+1) y(j+1)];
@@ -126,10 +128,10 @@ for iel=1:nel
 end
 % spy(A)
 % DG assemble edge terms
-%              
+%
 %           v2 ^  w1
 %              |
-%              |  n_ed  
+%              |  n_ed
 %  Minus side  | --->    Plus side
 %              |
 %              |
@@ -164,7 +166,7 @@ for ied=1:n_edge
         IDp = [indp (indp+1) ];
     else
         IDp = [indp 1 ];
-    end        
+    end
     % get the local ID of the edge's first vertex in K-
     indm = find( gm == V(1) );
     if(length(indm) ~= 1), error('length(IDm) ~= 1'); end
@@ -173,11 +175,11 @@ for ied=1:n_edge
     else
         IDm = [indm 1 ];
     end
-%     % skipping indices
-%     skip_p = [(indp:nvp) (1:indp-1)];
-%     skip_m = [(indm:nvm) (1:indm-1)];
-%     skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
-%     skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
+    %     % skipping indices
+    %     skip_p = [(indp:nvp) (1:indp-1)];
+    %     skip_m = [(indm:nvm) (1:indm-1)];
+    %     skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
+    %     skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
 
     % length current edge
     Le = norm( diff(vert(V,:)) );
@@ -187,26 +189,26 @@ for ied=1:n_edge
     % penalty term
     h_perp=Le; % temporary!
     pen = C_pen * (Dp/h_perp + Dm/h_perp) /2;
-    
+
     % build the local edge gradient matrices
-    % [[phi]],{{D.grad(b).ne}} 
+    % [[phi]],{{D.grad(b).ne}}
     %      = (phi+ - phi-)(D+ grad(b+).ne + D- grad(b-).ne)/2
-    %      =  (phi+) D+ grad(b+).ne/2 
+    %      =  (phi+) D+ grad(b+).ne/2
     %       + (phi+) D- grad(b-).ne/2
     %       - (phi-) D+ grad(b+).ne/2
     %       - (phi-) D- grad(b-).ne/2
-    % [[b]],{{D.grad(phi).ne}} 
+    % [[b]],{{D.grad(phi).ne}}
     %      = (b+ - b-)(D+ grad(phi+).ne + D- grad(phi-).ne)/2
-    %      =  (b+) D+ grad(phi+).ne/2 
+    %      =  (b+) D+ grad(phi+).ne/2
     %       + (b+) D- grad(phi-).ne/2
     %       - (b-) D+ grad(phi+).ne/2
     %       - (b-) D- grad(phi-).ne/2
     % compute row vector: n' * G (ne is already stored as a 1x2 row vector)
     % -/-
-%     A(:,:)=0;
-% %     pen=0;
-%     Dp=0;Dm=0;pen=6/Le;
-    
+    %     A(:,:)=0;
+    % %     pen=0;
+    %     Dp=0;Dm=0;pen=6/Le;
+
     row_grad_m = ne * grad{Km}(:,:,indm);
     % edge matrix for this side
     col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
@@ -222,10 +224,10 @@ for ied=1:n_edge
     aux(IDp,IDp) = aux(IDp,IDp) + pen * Le * m1d;
     A(gp(:),gp(:)) = A(gp(:),gp(:)) + aux;
 
-%     Dp=0;Dm=0;pen=-1;
-%     A(:,:)=0;Le=6;
-%     pen=0;
-%     A(:,:)=0;
+    %     Dp=0;Dm=0;pen=-1;
+    %     A(:,:)=0;Le=6;
+    %     pen=0;
+    %     A(:,:)=0;
     % -(test)/+(solution)
     aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p');
     aux(IDm,IDp) = aux(IDm,IDp) - pen * Le * m1d_mod;
@@ -236,7 +238,7 @@ for ied=1:n_edge
     aux(IDp,IDm) = aux(IDp,IDm) - pen * Le * m1d_mod;
     A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux;
 
-    
+
 end
 
 % boundary conditions
@@ -275,25 +277,53 @@ for ied=1:n_edge
         IDm = [indm 1 ];
     end
 
-    sgn=-1;
-    
-    % length current edge
-    Le = norm( diff(vert(V,:)) );
-    % material properties
-    Dm = c_diff(i_mat(Km));
-    % penalty term
-    h_perp=Le; % temporary!
-    pen = C_pen_bd * Dm/h_perp;
-    
-    row_grad_m = ne * grad{Km}(:,:,indm);
-    % edge matrix for this side
-    col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
-    aux = - sgn * Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
-    aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
-    A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
-    
-end
+    % homogeneous Dirichlet
+    if(     (Kp==-10 && bc_type(1)==0) || ...
+            (Kp==-20 && bc_type(2)==0) || ...
+            (Kp==-30 && bc_type(3)==0) || ...
+            (Kp==-40 && bc_type(4)==0) )
 
+        sgn=-1;
+
+        % length current edge
+        Le = norm( diff(vert(V,:)) );
+        % material properties
+        Dm = c_diff(i_mat(Km));
+        % penalty term
+        h_perp=Le; % temporary!
+        pen = C_pen_bd * Dm/h_perp;
+
+        row_grad_m = ne * grad{Km}(:,:,indm);
+        % edge matrix for this side
+        col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
+        aux = - sgn * Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+        aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
+        A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
+    end
+
+    % inhomogeneous Neumann
+    if(     (Kp==-10 && bc_type(1)==2) || ...
+            (Kp==-20 && bc_type(2)==2) || ...
+            (Kp==-30 && bc_type(3)==2) || ...
+            (Kp==-40 && bc_type(4)==2) )
+
+        switch(Kp)
+            case{-10}
+                val=bc_val.left;
+            case{-20}
+                val=bc_val.right;
+            case{-30}
+                val=bc_val.bottom;
+            case{-40}
+                val=bc_val.top;
+            otherwise
+                error('inhomogeneous Neumann');
+        end
+        b(gm(:)) = b(gm(:)) + val*Le/2;
+
+    end
+
+end
 
 % spy(A)
 
