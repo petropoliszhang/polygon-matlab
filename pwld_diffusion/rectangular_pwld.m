@@ -1,20 +1,23 @@
 function rectangular_pwld()
 
+close all; clc;
+
 % clear all; close all; clc
 %
 % data
 %
-Lx=1; c_diff=1; sigma_a=100; S_ext=10; Ly=Lx;
+tot=2;sca=0.5;
+Lx=1; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=10; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Neumann, homogeneous
 %          2= Neumann, inhomogeneous
 % values entered as LRBT
-bc_type=[1 1 2 1];
+bc_type=[0 0 0 0];
 bc_val.bottom=-10;
 %
 % numerical parameters
 %
-nx=10; ny=nx;
+nx=3; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
@@ -126,6 +129,23 @@ for iel=1:nel
     A(g(:),g(:)) = A(g(:),g(:)) + c_diff(mat)*K +sigma_a(mat)*M;
     b(g(:)) = b(g(:)) + S_ext(mat)*f;
 end
+qq=load('..\a_vol.txt');
+for k=1:length(qq(:,1))
+    i =qq(k,1)+1;
+    j =qq(k,2)+1;
+    va=qq(k,3);
+    aa_vol(i,j)=va;
+end
+discrepancy_vol=A-aa_vol;
+figure;
+surf(discrepancy_vol);
+disp('check')
+A_vol=A;
+
+C_pen=0;
+KK=0;
+warning('C_pen=0 ... must remove after debugging');
+
 % spy(A)
 % DG assemble edge terms
 %
@@ -140,6 +160,11 @@ end
 m1d=[2 1 ; 1 2]/6;
 m1d_mod=[1 2; 2 1]/6;
 
+for iii=1:4
+    KK=zeros(4,1);
+    KK(iii)=1;
+    A=A_vol;
+    
 for ied=1:n_edge
     % get K-,K+ and their connectivities
     Kp = edg2poly(ied,2);
@@ -208,13 +233,12 @@ for ied=1:n_edge
     %     A(:,:)=0;
     % %     pen=0;
     %     Dp=0;Dm=0;pen=6/Le;
-
     row_grad_m = ne * grad{Km}(:,:,indm);
     % edge matrix for this side
     col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
     aux = -Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
     aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
-    A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
+    A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux*KK(iii);
 
     % +/+
     row_grad_p = ne * grad{Kp}(:,:,indp);
@@ -222,7 +246,7 @@ for ied=1:n_edge
     col_b_p = zeros(nvp,1); col_b_p(IDp) = Le/2;
     aux = +Dp/2 * (col_b_p * row_grad_p + row_grad_p' * col_b_p');
     aux(IDp,IDp) = aux(IDp,IDp) + pen * Le * m1d;
-    A(gp(:),gp(:)) = A(gp(:),gp(:)) + aux;
+    A(gp(:),gp(:)) = A(gp(:),gp(:)) + aux*KK(iii);
 
     %     Dp=0;Dm=0;pen=-1;
     %     A(:,:)=0;Le=6;
@@ -231,15 +255,68 @@ for ied=1:n_edge
     % -(test)/+(solution)
     aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p');
     aux(IDm,IDp) = aux(IDm,IDp) - pen * Le * m1d_mod;
-    A(gm(:),gp(:)) = A(gm(:),gp(:)) + aux;
+    A(gm(:),gp(:)) = A(gm(:),gp(:)) + aux*KK(iii);
 
     % +(test)/-(solution)
     aux = ( col_b_p * Dm/2*row_grad_m - Dp/2*row_grad_p' * col_b_m');
     aux(IDp,IDm) = aux(IDp,IDm) - pen * Le * m1d_mod;
-    A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux;
+    A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux*KK(iii);
 
 
 end
+   MM{iii}=A;
+end
+
+if(C_pen<eps)
+    qq_pp=load('..\a_vol_intedg_pp_nopen.txt');
+    qq_pm=load('..\a_vol_intedg_pm_nopen.txt');
+    qq_mp=load('..\a_vol_intedg_mp_nopen.txt');
+    qq_mm=load('..\a_vol_intedg_mm_nopen.txt');
+else
+    qq=load('..\a_vol_intedg.txt');
+end
+
+for k=1:length(qq_pp(:,1))
+    i =qq_pp(k,1)+1;
+    j =qq_pp(k,2)+1;
+    va=qq_pp(k,3);
+    aa_vol_intedg_pp(i,j)=va;
+end
+for k=1:length(qq_mm(:,1))
+    i =qq_mm(k,1)+1;
+    j =qq_mm(k,2)+1;
+    va=qq_mm(k,3);
+    aa_vol_intedg_mm(i,j)=va;
+end
+for k=1:length(qq_pm(:,1))
+    i =qq_pm(k,1)+1;
+    j =qq_pm(k,2)+1;
+    va=qq_pm(k,3);
+    aa_vol_intedg_pm(i,j)=va;
+end
+for k=1:length(qq_mp(:,1))
+    i =qq_mp(k,1)+1;
+    j =qq_mp(k,2)+1;
+    va=qq_mp(k,3);
+    aa_vol_intedg_mp(i,j)=va;
+end
+
+% discrepancy=A-aa_vol_intedg;
+% figure;
+% surf(discrepancy);
+disp('check')
+figure;
+for iii=1:4
+    subplot(2,2,iii); surf(MM{iii}-A_vol);
+end
+figure;
+subplot(2,2,1); surf(aa_vol_intedg_pp-aa_vol);
+subplot(2,2,2); surf(aa_vol_intedg_mm-aa_vol);
+subplot(2,2,3); surf(aa_vol_intedg_pm-aa_vol);
+subplot(2,2,4); surf(aa_vol_intedg_mp-aa_vol);
+
+C_pen_bd=0;
+warning('C_pen_bd=0 ... must remove after debugging');
 
 % boundary conditions
 for ied=1:n_edge
@@ -326,6 +403,18 @@ for ied=1:n_edge
 end
 
 % spy(A)
+
+qq=load('..\a_vol_alledg_nobc_pen.txt');
+for k=1:length(qq(:,1))
+    i =qq(k,1)+1;
+    j =qq(k,2)+1;
+    va=qq(k,3);
+    aa_vol_alledg(i,j)=va;
+end
+discrepancy=A-aa_vol_alledg;
+figure;
+surf(discrepancy);
+disp('check')
 
 
 %solve
