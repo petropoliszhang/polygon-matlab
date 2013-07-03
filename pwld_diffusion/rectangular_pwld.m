@@ -7,22 +7,22 @@ close all; clc;clear A; clear MM;
 % data
 %
 tot=1/3;sca=1/3;
-Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; Ly=Lx;
+Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.0; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[0 0 4 4 ];
-bc_val.left  = 10;
-bc_val.right = 10;
-bc_val.bottom= 0;
+bc_type=[2 2 4 4 ];
+bc_val.left  = 0;
+bc_val.right = 0;
+bc_val.bottom= 10;
 bc_val.top   = 0;
 %
 % numerical parameters
 %
-nx=2^5; ny=nx;
+nx=2^1; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
