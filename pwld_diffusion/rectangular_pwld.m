@@ -12,12 +12,13 @@ Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; Ly=Lx;
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
+%          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[2 2 1 1];
-bc_val.left=100;
-bc_val.right=100;
-bc_val.bottom=100;
-bc_val.top=100;
+bc_type=[0 0 4 4 ];
+bc_val.left  = 10;
+bc_val.right = 10;
+bc_val.bottom= 0;
+bc_val.top   = 0;
 %
 % numerical parameters
 %
@@ -261,7 +262,7 @@ end
 % % % qq_mp=load('..\a_vol_mp_epetra.txt');
 % % % qq_pen=load('..\a_vol_pen_epetra.txt');
 % % qq=load('..\a_vol_interior_full_epetra.txt');
-% % 
+% %
 % % % for k=1:length(qq_mm(:,1))
 % % %     i =qq_mm(k,2)+1;
 % % %     j =qq_mm(k,3)+1;
@@ -269,7 +270,7 @@ end
 % % %     aa_vol_intedg_mm(i,j)=va;
 % % % end
 % % % aa_vol_intedg_mm=aa_vol_intedg_mm-aa_vol;
-% % % 
+% % %
 % % % for k=1:length(qq_pp(:,1))
 % % %     i =qq_pp(k,2)+1;
 % % %     j =qq_pp(k,3)+1;
@@ -277,7 +278,7 @@ end
 % % %     aa_vol_intedg_pp(i,j)=va;
 % % % end
 % % % aa_vol_intedg_pp=aa_vol_intedg_pp-aa_vol;
-% % % 
+% % %
 % % % for k=1:length(qq_pm(:,1))
 % % %     i =qq_pm(k,2)+1;
 % % %     j =qq_pm(k,3)+1;
@@ -285,7 +286,7 @@ end
 % % %     aa_vol_intedg_pm(i,j)=va;
 % % % end
 % % % aa_vol_intedg_pm=aa_vol_intedg_pm-aa_vol;
-% % % 
+% % %
 % % % for k=1:length(qq_mp(:,1))
 % % %     i =qq_mp(k,2)+1;
 % % %     j =qq_mp(k,3)+1;
@@ -293,7 +294,7 @@ end
 % % %     aa_vol_intedg_mp(i,j)=va;
 % % % end
 % % % aa_vol_intedg_mp=aa_vol_intedg_mp-aa_vol;
-% % % 
+% % %
 % % % for k=1:length(qq_pen(:,1))
 % % %     i =qq_pen(k,2)+1;
 % % %     j =qq_pen(k,3)+1;
@@ -301,25 +302,25 @@ end
 % % %     aa_vol_intedg_pen(i,j)=va;
 % % % end
 % % % aa_vol_intedg_pen=aa_vol_intedg_pen-aa_vol;
-% % 
+% %
 % % for k=1:length(qq(:,1))
 % %     i =qq(k,2)+1;
 % %     j =qq(k,3)+1;
 % %     va=qq(k,4);
 % %     aa_vol_intedg(i,j)=va;
 % % end
-% % 
-% % 
+% %
+% %
 % % disp('check')
 % % % figure;
 % % % subplot(2,2,1); surf(MM{1}-aa_vol_intedg_mm);
 % % % subplot(2,2,2); surf(MM{2}-aa_vol_intedg_pp);
 % % % subplot(2,2,3); surf(MM{3}-aa_vol_intedg_pm);
 % % % subplot(2,2,4); surf(MM{4}-aa_vol_intedg_mp);
-% % 
+% %
 % % figure;
 % % surf(A-aa_vol_intedg);
-% % 
+% %
 % % C_pen_bd=4;
 % % warning('C_pen_bd=0 ... must remove after debugging');
 
@@ -341,7 +342,7 @@ for ied=1:n_edge
     % homogeneous Neumann on the left:
     if(Kp==-40 && bc_type(4)==2), continue; end
 
-%     [ied Kp Km]
+    %     [ied Kp Km]
     % get the polygons' connectivities
     gm = connectivity(Km,:);
     % nbr of vertices in each poly
@@ -410,7 +411,7 @@ for ied=1:n_edge
         aux = - Dm * (val*Le) * row_grad_m' ;
         b(gm(:)) = b(gm(:)) + aux;
     end
-    
+
     % inhomogeneous Neumann
     if(     (Kp==-10 && bc_type(1)==3) || ...
             (Kp==-20 && bc_type(2)==3) || ...
@@ -437,6 +438,38 @@ for ied=1:n_edge
 
     end
 
+    % Robin
+    if(     (Kp==-10 && bc_type(1)==4) || ...
+            (Kp==-20 && bc_type(2)==4) || ...
+            (Kp==-30 && bc_type(3)==4) || ...
+            (Kp==-40 && bc_type(4)==4) )
+
+        switch(Kp)
+            case{-10}
+                val=bc_val.left;
+                gm_=[gm(1) gm(4)];
+            case{-20}
+                val=bc_val.right;
+                gm_=[gm(2) gm(3)];
+            case{-30}
+                val=bc_val.bottom;
+                gm_=[gm(1) gm(2)];
+            case{-40}
+                val=bc_val.top;
+                gm_=[gm(3) gm(4)];
+            otherwise
+                error('Robin');
+        end
+
+        % add 0.5 (phi,v) to the lhs
+        aux=zeros(nvm,nvm);
+        aux(IDm,IDm) = aux(IDm,IDm) + 0.5 * Le * m1d;
+        A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
+        % add 2(Jinc,v) to the rhs
+        b(gm_(:)) = b(gm_(:)) + 2*val*Le/2;
+
+    end
+
 end
 
 % spy(A)
@@ -444,14 +477,14 @@ end
 % % qq=load('..\a_vol_pen_bd_epetra.txt');
 % % qq=load('..\a_vol_edg_bd_epetra.txt');
 % % qq=load('..\a_full_epetra.txt');
-% % 
+% %
 % % for k=1:length(qq(:,1))
 % %     i =qq(k,2)+1;
 % %     j =qq(k,3)+1;
 % %     va=qq(k,4);
 % %     aa_vol_pen_bd(i,j)=va;
 % % end
-% % 
+% %
 % % discrepancy=A-aa_vol_pen_bd;
 % % figure;
 % % surf(discrepancy);
