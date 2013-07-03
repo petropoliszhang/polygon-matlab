@@ -9,21 +9,25 @@ close all; clc;clear A; clear MM;
 tot=1/3;sca=1/3;
 Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
-%          1= Neumann, homogeneous
-%          2= Neumann, inhomogeneous
+%          1= Dirichlet, inhomogeneous
+%          2= Neumann, homogeneous
+%          3= Neumann, inhomogeneous
 % values entered as LRBT
-bc_type=[0 0 0 0];
-bc_val.bottom=-10;
+bc_type=[2 2 1 1];
+bc_val.left=100;
+bc_val.right=100;
+bc_val.bottom=100;
+bc_val.top=100;
 %
 % numerical parameters
 %
-nx=2^7; ny=nx;
+nx=2^5; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
 C_pen=4;
-C_pen_bd=1*C_pen;
+C_pen_bd=2*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -85,6 +89,7 @@ for iel=1:nel
     end
 end
 clear vert_link; % not needed any longer
+
 % assign bc markers: LRBT = -( 10 20 30 40 )
 for ied=1:n_edge
     % get K+ for that edge
@@ -119,6 +124,7 @@ for ied=1:n_edge
     vec=vec/norm(vec);
     edg_normal(ied,1:2)=[vec(2) -vec(1)];
 end
+
 % DG assemble volumetric terms
 A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
 for iel=1:nel
@@ -326,14 +332,14 @@ for ied=1:n_edge
     % we want to loop only on BOUNDARY edges
     if(Kp>0), continue; end
 
-    % Neumann on the left:
-    if(Kp==-10 && bc_type(1)==1), continue; end
-    % Neumann on the right:
-    if(Kp==-20 && bc_type(2)==1), continue; end
-    % Neumann on the bottom:
-    if(Kp==-30 && bc_type(3)==1), continue; end
-    % Neumann on the left:
-    if(Kp==-40 && bc_type(4)==1), continue; end
+    % homogeneous Neumann on the left:
+    if(Kp==-10 && bc_type(1)==2), continue; end
+    % homogeneous Neumann on the right:
+    if(Kp==-20 && bc_type(2)==2), continue; end
+    % homogeneous Neumann on the bottom:
+    if(Kp==-30 && bc_type(3)==2), continue; end
+    % homogeneous Neumann on the left:
+    if(Kp==-40 && bc_type(4)==2), continue; end
 
 %     [ied Kp Km]
     % get the polygons' connectivities
@@ -352,50 +358,82 @@ for ied=1:n_edge
     else
         IDm = [indm 1 ];
     end
+    % length current edge
+    Le = norm( diff(vert(V,:)) );
+    % material properties
+    Dm = c_diff(i_mat(Km));
+    % penalty term
+    h_perp=Le; % temporary!
+    pen = C_pen_bd * Dm/h_perp;
 
-    % homogeneous Dirichlet
-    if(     (Kp==-10 && bc_type(1)==0) || ...
-            (Kp==-20 && bc_type(2)==0) || ...
-            (Kp==-30 && bc_type(3)==0) || ...
-            (Kp==-40 && bc_type(4)==0) )
 
-        sgn=+1;
-
-        % length current edge
-        Le = norm( diff(vert(V,:)) );
-        % material properties
-        Dm = c_diff(i_mat(Km));
-        % penalty term
-        h_perp=Le; % temporary!
-        pen = C_pen_bd * Dm/h_perp;
+    % in/homogeneous Dirichlet
+    if(     (Kp==-10 && (bc_type(1)==0||bc_type(1)==1)) || ...
+            (Kp==-20 && (bc_type(2)==0||bc_type(2)==1)) || ...
+            (Kp==-30 && (bc_type(3)==0||bc_type(3)==1)) || ...
+            (Kp==-40 && (bc_type(4)==0||bc_type(4)==1)) )
 
         row_grad_m = ne * grad{Km}(:,:,indm);
         % edge matrix for this side
         col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
-        aux = - sgn * Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+        aux = - Dm * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
         aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
         A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
     end
 
-    % inhomogeneous Neumann
-    if(     (Kp==-10 && bc_type(1)==2) || ...
-            (Kp==-20 && bc_type(2)==2) || ...
-            (Kp==-30 && bc_type(3)==2) || ...
-            (Kp==-40 && bc_type(4)==2) )
+    % inhomogeneous Dirichlet
+    if(     (Kp==-10 && bc_type(1)==1) || ...
+            (Kp==-20 && bc_type(2)==1) || ...
+            (Kp==-30 && bc_type(3)==1) || ...
+            (Kp==-40 && bc_type(4)==1) )
 
         switch(Kp)
             case{-10}
                 val=bc_val.left;
+                gm_=[gm(1) gm(4)];
             case{-20}
                 val=bc_val.right;
+                gm_=[gm(2) gm(3)];
             case{-30}
                 val=bc_val.bottom;
+                gm_=[gm(1) gm(2)];
             case{-40}
                 val=bc_val.top;
+                gm_=[gm(3) gm(4)];
             otherwise
                 error('inhomogeneous Neumann');
         end
-        b(gm(:)) = b(gm(:)) + val*Le/2;
+        b(gm_(:)) = b(gm_(:)) + pen*val*Le/2;
+
+        row_grad_m = ne * grad{Km}(:,:,indm);
+        % edge matrix for this side
+        aux = - Dm * (val*Le) * row_grad_m' ;
+        b(gm(:)) = b(gm(:)) + aux;
+    end
+    
+    % inhomogeneous Neumann
+    if(     (Kp==-10 && bc_type(1)==3) || ...
+            (Kp==-20 && bc_type(2)==3) || ...
+            (Kp==-30 && bc_type(3)==3) || ...
+            (Kp==-40 && bc_type(4)==3) )
+
+        switch(Kp)
+            case{-10}
+                val=bc_val.left;
+                gm_=[gm(1) gm(4)];
+            case{-20}
+                val=bc_val.right;
+                gm_=[gm(2) gm(3)];
+            case{-30}
+                val=bc_val.bottom;
+                gm_=[gm(1) gm(2)];
+            case{-40}
+                val=bc_val.top;
+                gm_=[gm(3) gm(4)];
+            otherwise
+                error('inhomogeneous Neumann');
+        end
+        b(gm_(:)) = b(gm_(:)) + val*Le/2;
 
     end
 
