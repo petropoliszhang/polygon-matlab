@@ -526,3 +526,21 @@ view(-135,25);
 
 return
 end
+
+
+% linear 1d solution with robin on the left and right with no volumetric
+% source and absorption=0
+%
+% phi(x) = a.x + b
+%
+% bc left : phi/4(0) - D/2 dphi/dx|_0 = J
+% bc right: phi/4(L) + D/2 dphi/dx|_L = 0
+%
+% a = -4J/(L+4D)
+% b =  4J(L+2D)/(L+4D)
+%
+% phi(0) = b
+% phi(L) = a.L + b = 8JD/(L+4D)
+%
+
+
