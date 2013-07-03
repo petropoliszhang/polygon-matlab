@@ -7,7 +7,7 @@ close all; clc;clear A; clear MM;
 % data
 %
 tot=1/3;sca=1/3;
-Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; Ly=Lx;
+Lx=1; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=10; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Neumann, homogeneous
 %          2= Neumann, inhomogeneous
@@ -17,13 +17,13 @@ bc_val.bottom=-10;
 %
 % numerical parameters
 %
-nx=2^7; ny=nx;
+nx=3; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
 C_pen=4;
-C_pen_bd=1*C_pen;
+C_pen_bd=2*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -129,18 +129,19 @@ for iel=1:nel
     A(g(:),g(:)) = A(g(:),g(:)) + c_diff(mat)*K +sigma_a(mat)*M;
     b(g(:)) = b(g(:)) + S_ext(mat)*f;
 end
+qq=load('..\a_vol_epetra.txt');
+for k=1:length(qq(:,1))
+    i =qq(k,2)+1;
+    j =qq(k,3)+1;
+    va=qq(k,4);
+    aa_vol(i,j)=va;
+end
 
-% % qq=load('..\a_vol_epetra.txt');
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol(i,j)=va;
-% % end
-% % discrepancy_vol=A-aa_vol;
-% % figure;
-% % surf(discrepancy_vol);
-% % disp('check')
+
+% discrepancy_vol=A-aa_vol;
+% figure;
+% surf(discrepancy_vol);
+% disp('check')
 
 % spy(A)
 % DG assemble edge terms
@@ -155,6 +156,9 @@ end
 %
 m1d=[2 1 ; 1 2]/6;
 m1d_mod=[1 2; 2 1]/6;
+
+C_pen=4;KK=1;
+warning('C_pen=0 ... must remove after debugging');
 
 for ied=1:n_edge
     % get K-,K+ and their connectivities
@@ -225,7 +229,7 @@ for ied=1:n_edge
     row_grad_m = ne * grad{Km}(:,:,indm);
     % edge matrix for this side
     col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
-    aux = -Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+    aux = -Dm/2 * (col_b_m * row_grad_m + row_grad_m' * col_b_m')*KK;
     aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
     A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
 
@@ -233,89 +237,89 @@ for ied=1:n_edge
     row_grad_p = ne * grad{Kp}(:,:,indp);
     % edge matrix for this side
     col_b_p = zeros(nvp,1); col_b_p(IDp) = Le/2;
-    aux = +Dp/2 * (col_b_p * row_grad_p + row_grad_p' * col_b_p');
+    aux = +Dp/2 * (col_b_p * row_grad_p + row_grad_p' * col_b_p')*KK;
     aux(IDp,IDp) = aux(IDp,IDp) + pen * Le * m1d;
     A(gp(:),gp(:)) = A(gp(:),gp(:)) + aux;
 
     % -(test)/+(solution)
-    aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p');
+    aux = ( -col_b_m * Dp/2*row_grad_p + Dm/2*row_grad_m' * col_b_p')*KK;
     aux(IDm,IDp) = aux(IDm,IDp) - pen * Le * m1d_mod;
     A(gm(:),gp(:)) = A(gm(:),gp(:)) + aux;
 
     % +(test)/-(solution)
-    aux = ( col_b_p * Dm/2*row_grad_m - Dp/2*row_grad_p' * col_b_m');
+    aux = ( col_b_p * Dm/2*row_grad_m - Dp/2*row_grad_p' * col_b_m')*KK;
     aux(IDp,IDm) = aux(IDp,IDm) - pen * Le * m1d_mod;
     A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux;
 
 end
 
-% % % qq_mm=load('..\a_vol_mm_epetra.txt');
-% % % qq_pp=load('..\a_vol_pp_epetra.txt');
-% % % qq_pm=load('..\a_vol_pm_epetra.txt');
-% % % qq_mp=load('..\a_vol_mp_epetra.txt');
-% % % qq_pen=load('..\a_vol_pen_epetra.txt');
-% % qq=load('..\a_vol_interior_full_epetra.txt');
-% % 
-% % % for k=1:length(qq_mm(:,1))
-% % %     i =qq_mm(k,2)+1;
-% % %     j =qq_mm(k,3)+1;
-% % %     va=qq_mm(k,4);
-% % %     aa_vol_intedg_mm(i,j)=va;
-% % % end
-% % % aa_vol_intedg_mm=aa_vol_intedg_mm-aa_vol;
-% % % 
-% % % for k=1:length(qq_pp(:,1))
-% % %     i =qq_pp(k,2)+1;
-% % %     j =qq_pp(k,3)+1;
-% % %     va=qq_pp(k,4);
-% % %     aa_vol_intedg_pp(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pp=aa_vol_intedg_pp-aa_vol;
-% % % 
-% % % for k=1:length(qq_pm(:,1))
-% % %     i =qq_pm(k,2)+1;
-% % %     j =qq_pm(k,3)+1;
-% % %     va=qq_pm(k,4);
-% % %     aa_vol_intedg_pm(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pm=aa_vol_intedg_pm-aa_vol;
-% % % 
-% % % for k=1:length(qq_mp(:,1))
-% % %     i =qq_mp(k,2)+1;
-% % %     j =qq_mp(k,3)+1;
-% % %     va=qq_mp(k,4);
-% % %     aa_vol_intedg_mp(i,j)=va;
-% % % end
-% % % aa_vol_intedg_mp=aa_vol_intedg_mp-aa_vol;
-% % % 
-% % % for k=1:length(qq_pen(:,1))
-% % %     i =qq_pen(k,2)+1;
-% % %     j =qq_pen(k,3)+1;
-% % %     va=qq_pen(k,4);
-% % %     aa_vol_intedg_pen(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pen=aa_vol_intedg_pen-aa_vol;
-% % 
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol_intedg(i,j)=va;
-% % end
-% % 
-% % 
-% % disp('check')
-% % % figure;
-% % % subplot(2,2,1); surf(MM{1}-aa_vol_intedg_mm);
-% % % subplot(2,2,2); surf(MM{2}-aa_vol_intedg_pp);
-% % % subplot(2,2,3); surf(MM{3}-aa_vol_intedg_pm);
-% % % subplot(2,2,4); surf(MM{4}-aa_vol_intedg_mp);
-% % 
-% % figure;
-% % surf(A-aa_vol_intedg);
-% % 
-% % C_pen_bd=4;
-% % warning('C_pen_bd=0 ... must remove after debugging');
+% qq_mm=load('..\a_vol_mm_epetra.txt');
+% qq_pp=load('..\a_vol_pp_epetra.txt');
+% qq_pm=load('..\a_vol_pm_epetra.txt');
+% qq_mp=load('..\a_vol_mp_epetra.txt');
+% qq_pen=load('..\a_vol_pen_epetra.txt');
+qq=load('..\a_vol_interior_full_epetra.txt');
+
+% for k=1:length(qq_mm(:,1))
+%     i =qq_mm(k,2)+1;
+%     j =qq_mm(k,3)+1;
+%     va=qq_mm(k,4);
+%     aa_vol_intedg_mm(i,j)=va;
+% end
+% aa_vol_intedg_mm=aa_vol_intedg_mm-aa_vol;
+% 
+% for k=1:length(qq_pp(:,1))
+%     i =qq_pp(k,2)+1;
+%     j =qq_pp(k,3)+1;
+%     va=qq_pp(k,4);
+%     aa_vol_intedg_pp(i,j)=va;
+% end
+% aa_vol_intedg_pp=aa_vol_intedg_pp-aa_vol;
+% 
+% for k=1:length(qq_pm(:,1))
+%     i =qq_pm(k,2)+1;
+%     j =qq_pm(k,3)+1;
+%     va=qq_pm(k,4);
+%     aa_vol_intedg_pm(i,j)=va;
+% end
+% aa_vol_intedg_pm=aa_vol_intedg_pm-aa_vol;
+% 
+% for k=1:length(qq_mp(:,1))
+%     i =qq_mp(k,2)+1;
+%     j =qq_mp(k,3)+1;
+%     va=qq_mp(k,4);
+%     aa_vol_intedg_mp(i,j)=va;
+% end
+% aa_vol_intedg_mp=aa_vol_intedg_mp-aa_vol;
+% 
+% for k=1:length(qq_pen(:,1))
+%     i =qq_pen(k,2)+1;
+%     j =qq_pen(k,3)+1;
+%     va=qq_pen(k,4);
+%     aa_vol_intedg_pen(i,j)=va;
+% end
+% aa_vol_intedg_pen=aa_vol_intedg_pen-aa_vol;
+
+for k=1:length(qq(:,1))
+    i =qq(k,2)+1;
+    j =qq(k,3)+1;
+    va=qq(k,4);
+    aa_vol_intedg(i,j)=va;
+end
+
+
+disp('check')
+% figure;
+% subplot(2,2,1); surf(MM{1}-aa_vol_intedg_mm);
+% subplot(2,2,2); surf(MM{2}-aa_vol_intedg_pp);
+% subplot(2,2,3); surf(MM{3}-aa_vol_intedg_pm);
+% subplot(2,2,4); surf(MM{4}-aa_vol_intedg_mp);
+
+figure;
+surf(A-aa_vol_intedg);
+
+C_pen_bd=4;
+warning('C_pen_bd=0 ... must remove after debugging');
 
 % boundary conditions
 for ied=1:n_edge
@@ -335,7 +339,7 @@ for ied=1:n_edge
     % Neumann on the left:
     if(Kp==-40 && bc_type(4)==1), continue; end
 
-%     [ied Kp Km]
+    [ied Kp Km]
     % get the polygons' connectivities
     gm = connectivity(Km,:);
     % nbr of vertices in each poly
@@ -367,7 +371,7 @@ for ied=1:n_edge
         Dm = c_diff(i_mat(Km));
         % penalty term
         h_perp=Le; % temporary!
-        pen = C_pen_bd * Dm/h_perp;
+        pen = C_pen_bd * Dm/h_perp
 
         row_grad_m = ne * grad{Km}(:,:,indm);
         % edge matrix for this side
@@ -403,21 +407,21 @@ end
 
 % spy(A)
 
-% % qq=load('..\a_vol_pen_bd_epetra.txt');
-% % qq=load('..\a_vol_edg_bd_epetra.txt');
-% % qq=load('..\a_full_epetra.txt');
-% % 
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol_pen_bd(i,j)=va;
-% % end
-% % 
-% % discrepancy=A-aa_vol_pen_bd;
-% % figure;
-% % surf(discrepancy);
-% % disp('check')
+qq=load('..\a_vol_pen_bd_epetra.txt');
+qq=load('..\a_vol_edg_bd_epetra.txt');
+qq=load('..\a_full_epetra.txt');
+
+for k=1:length(qq(:,1))
+    i =qq(k,2)+1;
+    j =qq(k,3)+1;
+    va=qq(k,4);
+    aa_vol_pen_bd(i,j)=va;
+end
+
+discrepancy=A-aa_vol_pen_bd;
+figure;
+surf(discrepancy);
+disp('check')
 
 
 %solve
