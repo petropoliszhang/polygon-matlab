@@ -21,3 +21,20 @@ for i=1:8,
     Q=Wx'*feval(g,X,Y)*Wy;
     [Q Q-test]
 end
+
+%%%%%
+fprintf('\n \n now the other test \n');
+for i=1:8,
+    [X,Y,Wx,Wy]=triquad(i,vert);
+    Q=Wx'*(feval(g,X,Y)-feval(f,X,Y))*Wy;
+    [Q Q-(test-test_area)]
+end
+
+%%%%%
+fprintf('\n \n now the other test \n');
+test=2.61709518928211;
+for i=1:8,
+    [X,Y,Wx,Wy]=triquad(i,vert);
+    Q=Wx'*(feval(g,X,Y)-feval(f,X,Y)).^2*Wy;
+    [Q Q-test]
+end

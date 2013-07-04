@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5260,        161]*)
-(*NotebookOutlinePosition[      5909,        183]*)
-(*  CellTagsIndexPosition[      5865,        179]*)
+(*NotebookOptionsPosition[      8448,        252]*)
+(*NotebookOutlinePosition[      9097,        274]*)
+(*  CellTagsIndexPosition[      9053,        270]*)
 (*WindowFrame->Normal*)
 
 
@@ -67,6 +67,20 @@ Cell[BoxData[{
     \(Area = SetPrecision[Norm[Cross[vecAB, vecAC]/2], 15]\)}], "Input"],
 
 Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(slopeAB\\)\\\" is similar to existing symbol \
+\\\"\\!\\(slopeAC\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(slopeCB\\)\\\" is similar to existing symbol \
+\\\"\\!\\(slopeAB\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
     \(\(\(3.141592653589793`\)\(\[InvisibleSpace]\)\) + 
       0.5471018366025517`\ \((\(-1\) + x)\)\)], "Output"],
 
@@ -80,6 +94,13 @@ Cell[BoxData[
 
 Cell[BoxData[
     \({4, 2.188407346410207`, 0}\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(vecAC\\)\\\" is similar to existing symbol \
+\\\"\\!\\(vecAB\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
 
 Cell[BoxData[
     \({1.718281828459045`, 7.001264489267349`, 0}\)], "Output"],
@@ -157,12 +178,82 @@ Cell[BoxData[
 Cell[BoxData[
     \(6.6508837603084698386624040722`15.15051499783199 + 
       0``14.327635640239572\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[x, y] = Cos[x/10]*Sin[y/10] - 1\)], "Input"],
+
+Cell[BoxData[
+    \(\(-1\) + Cos[x\/10]\ Sin[y\/10]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(I1 = 
+      SetPrecision[\[Integral]\_xA\%xD\((\[Integral]\_\(AB[x]\)\%\(AC[x]\)f[
+                    x, y] \[DifferentialD]y)\) \[DifferentialD]x, 
+        15]\), "\[IndentingNewLine]", 
+    \(I2 = 
+      SetPrecision[\[Integral]\_xD\%xB\((\[Integral]\_\(AB[x]\)\%\(CB[x]\)f[
+                    x, y] \[DifferentialD]y)\) \[DifferentialD]x, 
+        15]\), "\[IndentingNewLine]", 
+    \(I1 + I2\)}], "Input"],
+
+Cell[BoxData[
+    \(\(-2.4640896063283603822924305859`15.15051499783199\) + 
+      0``14.758858500984749\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-3.0074053235963944530340086203`15.15051499783199\) + 
+      0``14.672323033669437\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-5.4714949299247548353264392063`15.15051499783199\) + 
+      0``14.412408996705883\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[x, y] = \((Cos[x/10]*Sin[y/10] - 1)\)^2\)], "Input"],
+
+Cell[BoxData[
+    \(\((\(-1\) + Cos[x\/10]\ Sin[y\/10])\)\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(I1 = 
+      SetPrecision[\[Integral]\_xA\%xD\((\[Integral]\_\(AB[x]\)\%\(AC[x]\)f[
+                    x, y] \[DifferentialD]y)\) \[DifferentialD]x, 
+        15]\), "\[IndentingNewLine]", 
+    \(I2 = 
+      SetPrecision[\[Integral]\_xD\%xB\((\[Integral]\_\(AB[x]\)\%\(CB[x]\)f[
+                    x, y] \[DifferentialD]y)\) \[DifferentialD]x, 
+        15]\), "\[IndentingNewLine]", 
+    \(I1 + I2\)}], "Input"],
+
+Cell[BoxData[
+    \(1.2405662774626398103805513529`15.15051499783199 + 
+      0``15.056895026347993\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(1.3765289118194745654477628705`15.15051499783199 + 
+      0``15.01172966033599\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(2.6170951892821143758283142233`15.15051499783199 + 
+      0``14.732695478696833\ \[ImaginaryI]\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.0 for Microsoft Windows",
 ScreenRectangle->{{0, 2560}, {0, 1503}},
 WindowSize->{873, 1179},
-WindowMargins->{{162, Automatic}, {Automatic, -19}}
+WindowMargins->{{257, Automatic}, {Automatic, -15}}
 ]
 
 (*******************************************************************
@@ -185,37 +276,64 @@ Notebook[{
 
 Cell[CellGroupData[{
 Cell[1776, 53, 875, 13, 270, "Input"],
-Cell[2654, 68, 128, 2, 29, "Output"],
-Cell[2785, 72, 127, 2, 29, "Output"],
-Cell[2915, 76, 145, 2, 29, "Output"],
-Cell[3063, 80, 60, 1, 29, "Output"],
-Cell[3126, 83, 77, 1, 29, "Output"],
-Cell[3206, 86, 70, 1, 29, "Output"]
+Cell[2654, 68, 362, 5, 22, "Message"],
+Cell[3019, 75, 362, 5, 22, "Message"],
+Cell[3384, 82, 128, 2, 29, "Output"],
+Cell[3515, 86, 127, 2, 29, "Output"],
+Cell[3645, 90, 145, 2, 29, "Output"],
+Cell[3793, 94, 60, 1, 29, "Output"],
+Cell[3856, 97, 358, 5, 22, "Message"],
+Cell[4217, 104, 77, 1, 29, "Output"],
+Cell[4297, 107, 70, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3313, 92, 58, 1, 30, "Input"],
-Cell[3374, 95, 35, 1, 29, "Output"]
+Cell[4404, 113, 58, 1, 30, "Input"],
+Cell[4465, 116, 35, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3446, 101, 480, 10, 123, "Input"],
-Cell[3929, 113, 69, 1, 29, "Output"],
-Cell[4001, 116, 69, 1, 29, "Output"],
-Cell[4073, 119, 70, 1, 29, "Output"],
-Cell[4146, 122, 79, 1, 29, "Output"]
+Cell[4537, 122, 480, 10, 123, "Input"],
+Cell[5020, 134, 69, 1, 29, "Output"],
+Cell[5092, 137, 69, 1, 29, "Output"],
+Cell[5164, 140, 70, 1, 29, "Output"],
+Cell[5237, 143, 79, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4262, 128, 62, 1, 30, "Input"],
-Cell[4327, 131, 56, 1, 40, "Output"]
+Cell[5353, 149, 62, 1, 30, "Input"],
+Cell[5418, 152, 56, 1, 40, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4420, 137, 432, 9, 103, "Input"],
-Cell[4855, 148, 128, 2, 29, "Output"],
-Cell[4986, 152, 127, 2, 29, "Output"],
-Cell[5116, 156, 128, 2, 29, "Output"]
+Cell[5511, 158, 432, 9, 103, "Input"],
+Cell[5946, 169, 128, 2, 29, "Output"],
+Cell[6077, 173, 127, 2, 29, "Output"],
+Cell[6207, 177, 128, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6372, 184, 66, 1, 30, "Input"],
+Cell[6441, 187, 65, 1, 40, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6543, 193, 432, 9, 103, "Input"],
+Cell[6978, 204, 133, 2, 29, "Output"],
+Cell[7114, 208, 133, 2, 29, "Output"],
+Cell[7250, 212, 133, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7420, 219, 74, 1, 30, "Input"],
+Cell[7497, 222, 74, 1, 41, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7608, 228, 432, 9, 103, "Input"],
+Cell[8043, 239, 128, 2, 29, "Output"],
+Cell[8174, 243, 127, 2, 29, "Output"],
+Cell[8304, 247, 128, 2, 29, "Output"]
 }, Open  ]]
 }
 ]
