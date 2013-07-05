@@ -38,3 +38,19 @@ for i=1:8,
     Q=Wx'*(feval(g,X,Y)-feval(f,X,Y)).^2*Wy;
     [Q Q-test]
 end
+
+%%%%%
+fprintf('\n \n now the other test \n');
+test=1.50235399555205;
+g2=@(x,y) cos(x/10).*sin(y/10).*sin(x/10).*cos(y/10);
+for i=1:8,
+    [X,Y,Wx,Wy]=triquad(i,vert);
+    Q=Wx'*(feval(g,X,Y).*feval(g,Y,X))*Wy;
+    [Q Q-test]
+end
+
+[X,Y,Wx,Wy]=triquad(5,vert);
+size(X)
+size(Y)
+a=feval(g,X,Y); size(a)
+

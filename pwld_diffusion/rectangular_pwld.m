@@ -7,28 +7,41 @@ close all; clc;clear A; clear MM;
 % data
 %
 tot=1/3;sca=1/3;
-Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.0; Ly=Lx;
+Lx=100; c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; Ly=Lx;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[2 2 4 4 ];
+bc_type=[0 0 0 0];
 bc_val.left  = 0;
 bc_val.right = 0;
 bc_val.bottom= 10;
 bc_val.top   = 0;
 %
+%
+logi_mms=true;
+if(logi_mms)
+    bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
+    % exact solution
+    exact=@(x,y) sin(pi*x/Lx).*sin(pi*y/Ly);
+    % forcing rhs
+    mms=@(x,y) (c_diff*pi^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(pi*x/Lx).*sin(pi*y/Ly);
+    % mms=@(x,y)  S_ext+0*(x.*y);
+    % select quadrature order
+    n_quad = 8;
+end
+%
 % numerical parameters
 %
-nx=2^1; ny=nx;
+nx=2^5; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
 C_pen=4;
-C_pen_bd=2*C_pen;
+C_pen_bd=1*C_pen;
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -134,7 +147,65 @@ for iel=1:nel
     mat = i_mat(iel);
     [M,K,f,grad{iel}]=build_pwld_local_matrices(g,v);
     A(g(:),g(:)) = A(g(:),g(:)) + c_diff(mat)*K +sigma_a(mat)*M;
-    b(g(:)) = b(g(:)) + S_ext(mat)*f;
+    % rhs contribution
+    if(logi_mms)
+        % centroid
+        vC=mean(v);
+        % size of array to store local integral
+        nv=length(g);
+        Q=zeros(nv,3);
+        
+        % loop over sides
+        for iside=1:nv
+            % pick 1st vertex
+            irow1=iside;
+            % pick 2ndt vertex
+            irow2=irow1+1; if(irow2>nv), irow2=1; end
+            % assign A and B 
+            vA=v(irow1,:); vB=v(irow2,:);
+            % create triangle vertex list
+            triangle_vert=[vA; vB; vC];
+            % get quadrature on that triangle
+            [X,Y,Wx,Wy]=triquad(n_quad,triangle_vert);
+            % create the 3 basis functions
+            tf1=@(x,y) ( vC(1)*(y-vB(2)) + x*(vB(2)-vC(2)) + vB(1)*(-y+vC(2)) ) / ...
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+            tf2=@(x,y) ( vC(1)*(-y+vA(2)) + vA(1)*(y-vC(2)) + x*(-vA(2)+vC(2)) ) / ... 
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+	        tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+            % evaluate each integral per triangle for the 3 basis functions
+            Q(iside,1)=Wx'*(feval(mms,X,Y).*feval(tf1,X,Y))*Wy;
+            Q(iside,2)=Wx'*(feval(mms,X,Y).*feval(tf2,X,Y))*Wy;
+            Q(iside,3)=Wx'*(feval(mms,X,Y).*feval(tf3,X,Y))*Wy;
+%             t1=feval(tf1,X,Y);
+%             t2=feval(tf2,X,Y);
+%             t3=feval(tf3,X,Y);
+%             m =feval(mms,X,Y);
+%             e =feval(exact,X,Y);
+%             h=1;
+%             figure(h);clf;surf(X,Y,t1);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,t2);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,t3);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,m);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,e);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,t3*e);h=h+1;view(0,90);
+%             figure(h);clf;surf(X,Y,t3.*e);h=h+1;view(0,90);
+%             disp(' ');
+        end
+        % compute contribution to global rhs
+        local_rhs=zeros(nv,1);
+        alpha=1/nv;
+        common = alpha*sum(Q(:,3));
+        for iside=1:nv
+            iside_m1 = iside-1;
+            if(iside_m1==0), iside_m1=nv; end
+            local_rhs(iside) = Q(iside,1) + Q(iside_m1,2) + common;
+        end        
+        b(g(:)) = b(g(:)) + local_rhs;
+    else
+        b(g(:)) = b(g(:)) + S_ext(mat)*f;
+    end
 end
 
 % % qq=load('..\a_vol_epetra.txt');
@@ -377,7 +448,7 @@ for ied=1:n_edge
         row_grad_m = ne * grad{Km}(:,:,indm);
         % edge matrix for this side
         col_b_m = zeros(nvm,1); col_b_m(IDm) = Le/2;
-        aux = - Dm * (col_b_m * row_grad_m + row_grad_m' * col_b_m');
+        aux = - Dm * (col_b_m * row_grad_m + row_grad_m' * col_b_m'); % do not divide by 2 here!!!!
         aux(IDm,IDm) = aux(IDm,IDm) + pen * Le * m1d;
         A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
     end
