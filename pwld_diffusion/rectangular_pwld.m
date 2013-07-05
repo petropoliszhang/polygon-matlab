@@ -35,7 +35,7 @@ end
 %
 % numerical parameters
 %
-nx=2^5; ny=nx;
+nx=2^6; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
@@ -154,14 +154,14 @@ for iel=1:nel
         % size of array to store local integral
         nv=length(g);
         Q=zeros(nv,3);
-        
+
         % loop over sides
         for iside=1:nv
             % pick 1st vertex
             irow1=iside;
             % pick 2ndt vertex
             irow2=irow1+1; if(irow2>nv), irow2=1; end
-            % assign A and B 
+            % assign A and B
             vA=v(irow1,:); vB=v(irow2,:);
             % create triangle vertex list
             triangle_vert=[vA; vB; vC];
@@ -170,28 +170,14 @@ for iel=1:nel
             % create the 3 basis functions
             tf1=@(x,y) ( vC(1)*(y-vB(2)) + x*(vB(2)-vC(2)) + vB(1)*(-y+vC(2)) ) / ...
                 ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
-            tf2=@(x,y) ( vC(1)*(-y+vA(2)) + vA(1)*(y-vC(2)) + x*(-vA(2)+vC(2)) ) / ... 
+            tf2=@(x,y) ( vC(1)*(-y+vA(2)) + vA(1)*(y-vC(2)) + x*(-vA(2)+vC(2)) ) / ...
                 ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
-	        tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
+            tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
                 ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
             % evaluate each integral per triangle for the 3 basis functions
             Q(iside,1)=Wx'*(feval(mms,X,Y).*feval(tf1,X,Y))*Wy;
             Q(iside,2)=Wx'*(feval(mms,X,Y).*feval(tf2,X,Y))*Wy;
             Q(iside,3)=Wx'*(feval(mms,X,Y).*feval(tf3,X,Y))*Wy;
-%             t1=feval(tf1,X,Y);
-%             t2=feval(tf2,X,Y);
-%             t3=feval(tf3,X,Y);
-%             m =feval(mms,X,Y);
-%             e =feval(exact,X,Y);
-%             h=1;
-%             figure(h);clf;surf(X,Y,t1);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,t2);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,t3);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,m);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,e);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,t3*e);h=h+1;view(0,90);
-%             figure(h);clf;surf(X,Y,t3.*e);h=h+1;view(0,90);
-%             disp(' ');
         end
         % compute contribution to global rhs
         local_rhs=zeros(nv,1);
@@ -201,26 +187,13 @@ for iel=1:nel
             iside_m1 = iside-1;
             if(iside_m1==0), iside_m1=nv; end
             local_rhs(iside) = Q(iside,1) + Q(iside_m1,2) + common;
-        end        
+        end
         b(g(:)) = b(g(:)) + local_rhs;
     else
         b(g(:)) = b(g(:)) + S_ext(mat)*f;
     end
 end
 
-% % qq=load('..\a_vol_epetra.txt');
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol(i,j)=va;
-% % end
-% % discrepancy_vol=A-aa_vol;
-% % figure;
-% % surf(discrepancy_vol);
-% % disp('check')
-
-% spy(A)
 % DG assemble edge terms
 %
 %           v2 ^  w1
@@ -326,74 +299,6 @@ for ied=1:n_edge
     A(gp(:),gm(:)) = A(gp(:),gm(:)) + aux;
 
 end
-
-% % % qq_mm=load('..\a_vol_mm_epetra.txt');
-% % % qq_pp=load('..\a_vol_pp_epetra.txt');
-% % % qq_pm=load('..\a_vol_pm_epetra.txt');
-% % % qq_mp=load('..\a_vol_mp_epetra.txt');
-% % % qq_pen=load('..\a_vol_pen_epetra.txt');
-% % qq=load('..\a_vol_interior_full_epetra.txt');
-% %
-% % % for k=1:length(qq_mm(:,1))
-% % %     i =qq_mm(k,2)+1;
-% % %     j =qq_mm(k,3)+1;
-% % %     va=qq_mm(k,4);
-% % %     aa_vol_intedg_mm(i,j)=va;
-% % % end
-% % % aa_vol_intedg_mm=aa_vol_intedg_mm-aa_vol;
-% % %
-% % % for k=1:length(qq_pp(:,1))
-% % %     i =qq_pp(k,2)+1;
-% % %     j =qq_pp(k,3)+1;
-% % %     va=qq_pp(k,4);
-% % %     aa_vol_intedg_pp(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pp=aa_vol_intedg_pp-aa_vol;
-% % %
-% % % for k=1:length(qq_pm(:,1))
-% % %     i =qq_pm(k,2)+1;
-% % %     j =qq_pm(k,3)+1;
-% % %     va=qq_pm(k,4);
-% % %     aa_vol_intedg_pm(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pm=aa_vol_intedg_pm-aa_vol;
-% % %
-% % % for k=1:length(qq_mp(:,1))
-% % %     i =qq_mp(k,2)+1;
-% % %     j =qq_mp(k,3)+1;
-% % %     va=qq_mp(k,4);
-% % %     aa_vol_intedg_mp(i,j)=va;
-% % % end
-% % % aa_vol_intedg_mp=aa_vol_intedg_mp-aa_vol;
-% % %
-% % % for k=1:length(qq_pen(:,1))
-% % %     i =qq_pen(k,2)+1;
-% % %     j =qq_pen(k,3)+1;
-% % %     va=qq_pen(k,4);
-% % %     aa_vol_intedg_pen(i,j)=va;
-% % % end
-% % % aa_vol_intedg_pen=aa_vol_intedg_pen-aa_vol;
-% %
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol_intedg(i,j)=va;
-% % end
-% %
-% %
-% % disp('check')
-% % % figure;
-% % % subplot(2,2,1); surf(MM{1}-aa_vol_intedg_mm);
-% % % subplot(2,2,2); surf(MM{2}-aa_vol_intedg_pp);
-% % % subplot(2,2,3); surf(MM{3}-aa_vol_intedg_pm);
-% % % subplot(2,2,4); surf(MM{4}-aa_vol_intedg_mp);
-% %
-% % figure;
-% % surf(A-aa_vol_intedg);
-% %
-% % C_pen_bd=4;
-% % warning('C_pen_bd=0 ... must remove after debugging');
 
 % boundary conditions
 for ied=1:n_edge
@@ -545,23 +450,6 @@ end
 
 % spy(A)
 
-% % qq=load('..\a_vol_pen_bd_epetra.txt');
-% % qq=load('..\a_vol_edg_bd_epetra.txt');
-% % qq=load('..\a_full_epetra.txt');
-% %
-% % for k=1:length(qq(:,1))
-% %     i =qq(k,2)+1;
-% %     j =qq(k,3)+1;
-% %     va=qq(k,4);
-% %     aa_vol_pen_bd(i,j)=va;
-% % end
-% %
-% % discrepancy=A-aa_vol_pen_bd;
-% % figure;
-% % surf(discrepancy);
-% % disp('check')
-
-
 %solve
 z=A\b;
 [ min(z) max(z)]
@@ -594,6 +482,72 @@ for iel=1:nel
     end
 end
 view(-135,25);
+
+% L-2 norm
+if(logi_mms)
+
+    % init L2-error
+    L2_error = 0;
+
+    % loop over elements
+    for iel=1:nel
+
+        % get connectivity and vertices
+        g=connectivity(iel,:);
+        v=vert(g,:);
+
+        % get the dofs
+        local_dof =  z(g);
+
+        % compute element's centroid
+        vC=mean(v);
+        zC=mean(local_dof);
+
+        % size of array to store local integral
+        nv=length(g);
+        Q=zeros(nv,3);
+
+        % loop over sides
+        for iside=1:nv
+            % pick 1st vertex
+            irow1=iside;
+            % pick 2ndt vertex
+            irow2=irow1+1; if(irow2>nv), irow2=1; end
+            % assign A and B
+            vA=v(irow1,:); vB=v(irow2,:);
+            % create triangle vertex list
+            triangle_vert=[vA; vB; vC];
+            % get quadrature on that triangle
+            [X,Y,Wx,Wy]=triquad(n_quad,triangle_vert);
+            % create the 3 basis functions
+            tf1=@(x,y) ( vC(1)*(y-vB(2)) + x*(vB(2)-vC(2)) + vB(1)*(-y+vC(2)) ) / ...
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+            tf2=@(x,y) ( vC(1)*(-y+vA(2)) + vA(1)*(y-vC(2)) + x*(-vA(2)+vC(2)) ) / ...
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+            tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
+                ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+
+            % compute the numerical solution on each side
+            local_num_solu = local_dof(irow1)*feval(tf1,X,Y) + ...
+                local_dof(irow2)*feval(tf2,X,Y) + ...
+                zC              *feval(tf3,X,Y) ;
+            % compute the EXACT solution on each side
+            local_exact = feval(exact,X,Y);
+
+            % compute the contribution of that side to the L2-error
+
+            % evaluate each integral per triangle for the 3 basis functions
+            L2_error = L2_error + Wx'*(local_num_solu-local_exact).^2*Wy;
+
+        end % end loop over sides
+    end % end loop over elements
+
+    fprintf(' ndof = %d, error = %g \n',ndof,L2_error);
+
+end % end logical test
+
+% vtk output
+
 
 return
 end
