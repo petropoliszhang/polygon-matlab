@@ -36,3 +36,5 @@
 *.zip
 *.spl
 *old*.m
+*epetra*
+*.cc*
