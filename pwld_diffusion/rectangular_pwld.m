@@ -1,7 +1,10 @@
 function rectangular_pwld()
 
+%------------------------------------------------
 close all; clc;clear A; clear MM;
+%------------------------------------------------
 
+%------------------------------------------------
 % clear all; close all; clc
 %
 % data
@@ -21,27 +24,32 @@ bc_val.bottom= 10;
 bc_val.top   = 0;
 %
 %
+%------------------------------------------------
 logi_mms=true;
 if(logi_mms)
     bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
     % exact solution
-    exact=@(x,y) sin(pi*x/Lx).*sin(pi*y/Ly);
+    freq=5;
+    exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
     % forcing rhs
-    mms=@(x,y) (c_diff*pi^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(pi*x/Lx).*sin(pi*y/Ly);
+    mms=@(x,y) (c_diff*(freq*pi)^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
     % mms=@(x,y)  S_ext+0*(x.*y);
     % select quadrature order
     n_quad = 8;
 end
+%------------------------------------------------
 %
 % numerical parameters
 %
-nx=2^6; ny=nx;
+nx=2^5; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
 ndof = 4*nel;
 C_pen=4;
 C_pen_bd=1*C_pen;
+
+%------------------------------------------------
 % 4---3   vertex anti-clockwise ordering,
 % |   |
 % 1---2
@@ -54,6 +62,7 @@ for iel=1:nel
     i4 = skip + 4;
     connectivity(iel,:)=[i1 i2 i3 i4];
 end
+%------------------------------------------------
 % DG vertex coordinates (they are duplicated for simplicity)
 ind=0;
 vert=zeros(ndof,2);
@@ -104,6 +113,7 @@ for iel=1:nel
 end
 clear vert_link; % not needed any longer
 
+%------------------------------------------------
 % assign bc markers: LRBT = -( 10 20 30 40 )
 for ied=1:n_edge
     % get K+ for that edge
@@ -130,6 +140,7 @@ for ied=1:n_edge
     end
 end
 
+%------------------------------------------------
 % compute edge normals
 for ied=1:n_edge
     v1=vert(edg2vert(ied,1),:);
@@ -139,6 +150,7 @@ for ied=1:n_edge
     edg_normal(ied,1:2)=[vec(2) -vec(1)];
 end
 
+%------------------------------------------------
 % DG assemble volumetric terms
 A = spalloc(ndof,ndof,9); b=zeros(ndof,1);
 for iel=1:nel
@@ -194,6 +206,7 @@ for iel=1:nel
     end
 end
 
+%------------------------------------------------
 % DG assemble edge terms
 %
 %           v2 ^  w1
@@ -300,6 +313,7 @@ for ied=1:n_edge
 
 end
 
+%------------------------------------------------
 % boundary conditions
 for ied=1:n_edge
     % get K-,K+ for that edge
@@ -450,9 +464,12 @@ end
 
 % spy(A)
 
+%------------------------------------------------
 %solve
 z=A\b;
 [ min(z) max(z)]
+
+%------------------------------------------------
 % plot
 figure(11);clf
 for iel=1:nel
@@ -483,6 +500,7 @@ for iel=1:nel
 end
 view(-135,25);
 
+%------------------------------------------------
 % L-2 norm
 if(logi_mms)
 
@@ -546,13 +564,139 @@ if(logi_mms)
 
 end % end logical test
 
-% vtk output
+%------------------------------------------------
+% vtk output for mesh
+%                ====
+fid = fopen('rectangular_mesh.vtk','w');
+fprintf(fid,'# vtk DataFile Version 3.0 \n');
 
+% date and time;
+[y, m, d, h, mi, s] = datevec(now);
+fprintf(fid,'Date: %d/%d/%d   Time: %d:%d\n', m, d, y, h, mi);
 
-return
+% the file format: ASCII or BINARY
+fprintf(fid,'ASCII \n');
+% dataset structure
+fprintf(fid,'DATASET UNSTRUCTURED_GRID \n');
+fprintf(fid,' \n');
+
+% all vertices
+fprintf(fid,'POINTS  %d  double \n',ndof); % nbr mesh vertices = ndof
+n_triangles=0;
+for iel=1:nel
+    % get vertices
+    g=connectivity(iel,:);
+    v=vert(g,:);
+    nv=length(g);
+    n_triangles = n_triangles + nv;
+    for k=1:nv
+        fprintf(fid,'  %E %E %E \n',v(k,1),v(k,2),0.);
+    end
+end
+fprintf(fid,' \n');
+
+% all cells
+fprintf(fid,'CELLS %d %d \n',nel,nel+ndof);
+for iel=1:nel
+    % get vertices
+    g=connectivity(iel,:);
+    nv=length(g);
+    fprintf(fid,' %d ',nv); % number of vertices/polygon
+    for k=1:nv
+        fprintf(fid,'%d ',g(k)-1); % vertex ID, numbering starts at 0!
+    end
+    fprintf(fid,' \n');
+end
+fprintf(fid,' \n');
+
+% cell types
+fprintf(fid,'CELL_TYPES %d \n',nel);
+for iel=1:nel
+    fprintf(fid,' %d \n',7); % polygon type=7
 end
 
+fclose(fid);
 
+%------------------------------------------------
+% vtk output for solution
+%                ========
+fid = fopen('rectangular_solution.vtk','w');
+fprintf(fid,'# vtk DataFile Version 3.0 \n');
+
+% date and time;
+fprintf(fid,'Date: %d/%d/%d   Time: %d:%d\n', m, d, y, h, mi);
+
+% the file format: ASCII or BINARY
+fprintf(fid,'ASCII \n');
+% dataset structure
+fprintf(fid,'DATASET UNSTRUCTURED_GRID \n');
+fprintf(fid,' \n');
+
+% all vertices (based on the triangular mesh)
+fprintf(fid,'POINTS  %d  double \n',n_triangles*3);
+for iel=1:nel
+    % get vertices
+    g=connectivity(iel,:);
+    v=vert(g,:);
+    % compute element's centroid
+    vC=mean(v);
+    
+    nv=length(g);
+    for k=1:nv
+        kp1=k+1;
+        if(kp1>nv), kp1=1; end
+        fprintf(fid,'  %E %E %E \n',v(k,1)  ,v(k,2)  ,0.);
+        fprintf(fid,'  %E %E %E \n',v(kp1,1),v(kp1,2),0.);
+        fprintf(fid,'  %E %E %E \n',vC(1)   ,vC(2)   ,0.);
+    end
+end
+fprintf(fid,' \n');
+
+% all cells
+fprintf(fid,'CELLS %d %d \n',n_triangles,n_triangles*(1+3)); 
+for iel=1:n_triangles
+    ind=(iel-1)*3;
+    fprintf(fid,' %d ',3); % number of vertices/triangle
+    fprintf(fid,'%d %d %d \n',ind,ind+1,ind+2); % vertex ID
+end
+fprintf(fid,' \n');
+
+% cell types
+fprintf(fid,'CELL_TYPES %d \n',n_triangles);
+for iel=1:n_triangles
+    fprintf(fid,' %d \n',5); % triangle type=5
+end
+fprintf(fid,' \n');
+
+% add solution data
+fprintf(fid,'POINT_DATA %d %d \n',n_triangles*3);
+fprintf(fid,'SCALARS flux_pwld double 1 \n');
+fprintf(fid,'LOOKUP_TABLE   default \n');
+for iel=1:nel
+    % get connectivity
+    g=connectivity(iel,:);
+    nv=length(g);
+    % get the dofs
+    local_dof =  z(g);
+    % compute center value
+    zC=mean(local_dof);
+    % loop over sides
+    for k=1:nv
+        kp1=k+1;
+        if(kp1>nv), kp1=1; end
+        fprintf(fid,'  %E %E %E \n',local_dof(k),local_dof(kp1),zC);
+    end
+end
+
+fclose(fid);
+
+%------------------------------------------------
+return
+end
+%------------------------------------------------
+
+
+%------------------------------------------------
 % linear 1d solution with robin on the left and right with no volumetric
 % source and absorption=0
 %
