@@ -3,7 +3,7 @@ function rectangular_pwld()
 %------------------------------------------------
 close all; clc; clear A; clear MM;
 %------------------------------------------------
-
+t_beg=cputime;
 %------------------------------------------------
 % clear all; close all; clc
 %
@@ -43,6 +43,10 @@ if(logi_mms)
     % mms=@(x,y)  S_ext+0*(x.*y);
     % select quadrature order
     n_quad = 8;
+else
+    exact='';
+    mms='';
+    n_quad=0;
 end
 %------------------------------------------------
 %
@@ -119,42 +123,9 @@ end
 clear vert_link; % not needed any longer
 
 %------------------------------------------------
-% assign bc markers: LRBT = -( 10 20 30 40 )
-for ied=1:n_edge
-    % get K+ for that edge
-    Kp = edg2poly(ied,2);
-    % we want to loop only on BOUNDARY edges
-    if(Kp>0), continue; end
-    % get the 2 vertices associated with that edge
-    P=edg2vert(ied,1:2);
-    v=vert(P,:);
-    x1=v(1,1); y1=v(1,2);
-    x2=v(2,1); y2=v(2,2);
-    % assign BC markers
-    if(abs(x1)<1e-14 && abs(x2)<1e-14),
-        edg2poly(ied,2)=-10; % left
-    end
-    if(abs(x1-Lx)<1e-14 && abs(x2-Lx)<1e-14),
-        edg2poly(ied,2)=-20; % right
-    end
-    if(abs(y1)<1e-14 && abs(y2)<1e-14),
-        edg2poly(ied,2)=-30; % bottom
-    end
-    if(abs(y1-Ly)<1e-14 && abs(y2-Ly)<1e-14),
-        edg2poly(ied,2)=-40; % top
-    end
-end
-
+edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
 %------------------------------------------------
-% compute edge normals
-for ied=1:n_edge
-    v1=vert(edg2vert(ied,1),:);
-    v2=vert(edg2vert(ied,2),:);
-    vec=v2-v1;
-    vec=vec/norm(vec);
-    edg_normal(ied,1:2)=[vec(2) -vec(1)];
-end
-
+edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
 
 %------------------------------------------------
 % assemble + solve
@@ -209,6 +180,9 @@ end % end logical test
 create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z)
 
 %------------------------------------------------
+t_end=cputime;
+fprintf('\n\n-----------------------------\nTotal time    = %g \n',t_end-t_beg);
+
 return
 end
 %------------------------------------------------
