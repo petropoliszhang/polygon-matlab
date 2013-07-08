@@ -1,5 +1,5 @@
 function z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,C_pen,C_pen_bd,...
-                                i_mat,c_diff,sigma_a,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
+                                i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
 
 
 t1=cputime;
@@ -8,7 +8,7 @@ t1=cputime;
 % DG assemble volumetric terms
 A = spalloc(ndof,ndof,18*ndof); b=zeros(ndof,1);
 for iel=1:nel
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     v=vert(g,:);
     mat = i_mat(iel);
     [M,K,f,grad{iel}]=build_pwld_local_matrices(g,v);
@@ -82,8 +82,8 @@ for ied=1:n_edge
     if(Km<=0 || Kp==0), error('Km<=0 or Kp==0'); end
     if(Kp<0), continue; end
     % get the polygons' connectivities
-    gp = connectivity(Kp,:);
-    gm = connectivity(Km,:);
+    gp = connectivity{Kp}(:);
+    gm = connectivity{Km}(:);
     % nbr of vertices in each poly
     nvp = length(gp);
     nvm = length(gm);
@@ -188,7 +188,7 @@ for ied=1:n_edge
 
     %     [ied Kp Km]
     % get the polygons' connectivities
-    gm = connectivity(Km,:);
+    gm = connectivity{Km}(:);
     % nbr of vertices in each poly
     nvm = length(gm);
     % get normal

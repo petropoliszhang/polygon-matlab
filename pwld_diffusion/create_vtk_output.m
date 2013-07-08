@@ -23,7 +23,7 @@ fprintf(fid,'POINTS  %d  double \n',ndof); % nbr mesh vertices = ndof
 n_triangles=0;
 for iel=1:nel
     % get vertices
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     v=vert(g,:);
     nv=length(g);
     n_triangles = n_triangles + nv;
@@ -37,7 +37,7 @@ fprintf(fid,' \n');
 fprintf(fid,'CELLS %d %d \n',nel,nel+ndof);
 for iel=1:nel
     % get vertices
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     nv=length(g);
     fprintf(fid,' %d ',nv); % number of vertices/polygon
     for k=1:nv
@@ -75,7 +75,7 @@ fprintf(fid,' \n');
 fprintf(fid,'POINTS  %d  double \n',n_triangles*3);
 for iel=1:nel
     % get vertices
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     v=vert(g,:);
     % compute element's centroid
     vC=mean(v);
@@ -113,7 +113,7 @@ fprintf(fid,'SCALARS flux_pwld double 1 \n');
 fprintf(fid,'LOOKUP_TABLE   default \n');
 for iel=1:nel
     % get connectivity
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     nv=length(g);
     % get the dofs
     local_dof =  z(g);

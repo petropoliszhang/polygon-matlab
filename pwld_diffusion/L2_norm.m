@@ -9,7 +9,7 @@ L2_error = 0;
 for iel=1:nel
 
     % get connectivity and vertices
-    g=connectivity(iel,:);
+    g=connectivity{iel}(:);
     v=vert(g,:);
 
     % get the dofs
