@@ -1,5 +1,8 @@
 function edg_normal = compute_edge_normals(n_edge,edg2vert,vert)
 
+% init array
+edg_normal = zeros(n_edge,2);
+
 % compute edge normals
 for ied=1:n_edge
     v1=vert(edg2vert(ied,1),:);

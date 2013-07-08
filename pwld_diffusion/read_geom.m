@@ -59,6 +59,8 @@ for i=1:n_grid_vert
     ind=ind+1;
 end
 
+% close geom data file
+fclose(fid);
 
 % find relationship between vert and vert_grid
 vert_link=zeros(ndof,1);

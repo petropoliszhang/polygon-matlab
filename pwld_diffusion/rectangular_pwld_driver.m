@@ -7,6 +7,8 @@ close all; clc; clear A; clear MM; clc
 %
 % data
 %
+geofile='..\geom_codes\figs\aa_random_quad_mesh_L100_n50_a0.txt';
+%
 logi_mms  = true;
 logi_plot = true;
 vtk_basename = 'rectangular';
@@ -38,14 +40,17 @@ C_pen_bd=1*C_pen;
 %
 % load mesh 
 %
-file='..\geom_codes\figs\aa_random_quad_mesh_L100_n50_a0.txt';
-[Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,i_mat,i_src] = read_geom(file);
-%------------------------------------------------
+[Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,i_mat,i_src] =...
+    read_geom(geofile);
+% assign bc markers
 edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
-%------------------------------------------------
-edg_normal=zeros(n_edge,2);
+% compute normal vectors
 edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
+%
 %------------------------------------------------
+%
+% mms
+% 
 if(logi_mms)
     bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
     % exact solution
@@ -62,12 +67,16 @@ else
     n_quad=0;
 end
 %------------------------------------------------
+%
 % assemble + solve
+%
 z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,C_pen,C_pen_bd,...
     i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val );
 
 %------------------------------------------------
+%
 % plot
+%
 if(logi_plot)
     
     figure(11);clf
@@ -102,7 +111,9 @@ if(logi_plot)
 end
 
 %------------------------------------------------
+%
 % L-2 norm
+%
 if(logi_mms)
 
     L2_norm(ndof,nel,connectivity,vert,n_quad,z,exact);
@@ -110,10 +121,13 @@ if(logi_mms)
 end % end logical test
 
 %------------------------------------------------
+%
 % vtk output 
+%
 create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z)
 
 %------------------------------------------------
+
 t_end=cputime;
 fprintf('\n\n-----------------------------\nTotal time    = %g \n',t_end-t_beg);
 
