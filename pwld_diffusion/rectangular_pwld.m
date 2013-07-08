@@ -1,5 +1,5 @@
 function rectangular_pwld()
-
+tic
 %------------------------------------------------
 close all; clc;clear A; clear MM;
 %------------------------------------------------
@@ -29,7 +29,7 @@ logi_mms=true;
 if(logi_mms)
     bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
     % exact solution
-    freq=5;
+    freq=1;
     exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
     % forcing rhs
     mms=@(x,y) (c_diff*(freq*pi)^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
@@ -41,7 +41,7 @@ end
 %
 % numerical parameters
 %
-nx=2^5; ny=nx;
+nx=2^5;nx=50; ny=nx;
 x=linspace(0,Lx,nx+1); y=linspace(0,Ly,ny+1);
 nel=nx*ny;
 i_mat=ones(nel,1);
@@ -690,6 +690,7 @@ end
 
 fclose(fid);
 
+toc
 %------------------------------------------------
 return
 end
