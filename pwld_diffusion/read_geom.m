@@ -72,7 +72,9 @@ for i=1:ndof
     aa=sqrt(aux(:,1).^2+aux(:,2).^2);
     ind=find(aa<1e-12);
     len=length(ind);
-    if(len==0 || len >1), error('vert_link'); end
+    if(len==0 || len >1), 
+        error('vert_link'); 
+    end
     vert_link(i)=ind(1);
 end
 
@@ -92,6 +94,36 @@ for iel=1:nel
     end
 end
 clear vert_link; % not needed any longer
+
+% check orientation, centroid
+tot_area=0;
+for iel=1:nel
+    g=connectivity{iel}(:);
+    xx=vert(g,1); yy=vert(g,2);
+    
+    % check orientation, verify area
+    [or,ar] = polyorient(xx,yy);
+    if(or~=1), warning('orientation problem'); end
+    tot_area=tot_area+ar;
+    
+    % check centroid
+    xc=mean(xx); yc=mean(yy);
+    [in on]=inpolygon(xc,yc,xx,yy);
+    % find in points
+    ind_in=find(in==1);
+    % find if these 'in' points are on the poly edge
+    in_and_on = on(ind_in);
+    ind_in_and_on=find(in_and_on==1);
+    if(~isempty(ind_in_and_on))
+        warning('centroid is on poly edge');
+    end
+    % find out points
+    ind_out=find(in==0);
+    if(~isempty(ind_out))
+        error('centroid is OUTSIDE of poly');
+    end
+end
+fprintf('tot_area = %g \n',tot_area);
 
 t2=cputime;
 fprintf('Mesh time     = %g \n',t2-t1);

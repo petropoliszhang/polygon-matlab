@@ -2,11 +2,11 @@ clear all; close all; clc
 % random mesh generated for quadrilaterals
 
 L=100;
-n=50;
+n=30;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.53*0;
+fraction=0.1;
 
 for i=1:n+1
     ax=1;   if(i==1|i==n+1),ax=0;end
@@ -20,7 +20,7 @@ end
 figure(1)
 surf(x,y,ones(n+1,n+1))
 view(0,90)
-output_file1=strcat('.\figs\aa_random_quad_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file1=strcat('.\figs\random_quad_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
 print('-dpdf',strcat(output_file1,'.pdf'));
 print('-dpng',strcat(output_file1,'.png'));
 saveas(gcf,strcat(output_file1,'.fig'),'fig');
@@ -34,7 +34,7 @@ if(mod(n,2)==0)
     surf(xx,y,ones(n+1,n+1))
     view(0,90)
 end
-output_file2=strcat('.\figs\aa_random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file2=strcat('.\figs\random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
 print('-dpdf',strcat(output_file2,'.pdf'));
 print('-dpng',strcat(output_file2,'.png'));
 saveas(gcf,strcat(output_file2,'.fig'),'fig');
@@ -48,7 +48,7 @@ if(mod(n,2)==0)
     surf(xx,yy,ones(n+1,n+1))
     view(0,90)
 end
-output_file3=strcat('.\figs\aa_random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file3=strcat('.\figs\random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
 print('-dpdf',strcat(output_file3,'.pdf'));
 print('-dpng',strcat(output_file3,'.png'));
 saveas(gcf,strcat(output_file3,'.fig'),'fig');
@@ -110,6 +110,9 @@ fid=fopen(output_file2,'w');
 
 fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
 
+fprintf(fid,'# dimensions \n');
+fprintf(fid,'%g %g \n',L,L);
+
 fprintf(fid,'# connectivity \n');
 fprintf(fid,'%d\n',ncells);
 for iel=1:ncells
@@ -146,6 +149,9 @@ output_file3=strcat(output_file3,'.txt')
 fid=fopen(output_file3,'w');
 
 fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
+
+fprintf(fid,'# dimensions \n');
+fprintf(fid,'%g %g \n',L,L);
 
 fprintf(fid,'# connectivity \n');
 fprintf(fid,'%d\n',ncells);

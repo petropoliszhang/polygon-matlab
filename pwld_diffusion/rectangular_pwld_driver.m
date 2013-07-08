@@ -1,15 +1,46 @@
 function rectangular_pwld()
 
 %------------------------------------------------
-% clear all; close all; clc
-close all; clc; clear A; clear MM; clc
+close all; clc
+% close all; clc; clear A; clear MM; clc
 %------------------------------------------------
 %
 % data
 %
-geofile='..\geom_codes\figs\aa_random_quad_mesh_L100_n50_a0.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.33.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.33.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.33.txt';
+
+geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.txt';
+
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.txt';
+% 
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.2.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.2.txt';
+% 
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.33.txt';
+% 
+geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.33.txt';
+
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.txt';
+% 
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.1.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.1.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.1.txt';
+
 %
-logi_mms  = true;
+logi_mms  = false;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
@@ -33,7 +64,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4;
+C_pen=4*500;
 C_pen_bd=1*C_pen;
 %
 %------------------------------------------------
