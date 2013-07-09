@@ -49,11 +49,21 @@ for iside=1:nv
     % compute |J|=2.Area for that side
     A=vert(irow1,:); B=vert(irow2,:);
     Jac_i = cross([B-A 0]',[C-A 0]'); % AB ^ AC
-    if(Jac_i(3)<0), error('not clockwise ordering in polygon'); end
+    if(Jac_i(3)<0), 
+        poly
+        vert
+        iside
+        warning('not clockwise ordering in polygon'); 
+    end
     det_J_i=norm(Jac_i,2);
     Jac_i=[(B-A)' (C-A)'];
+%     det_J_i=det(Jac_i); % safer
     iJt=inv(Jac_i');
-    if(abs(det(Jac_i)-det_J_i)>1e-12), error('2 versions of Jac do not yield same det ...'); end
+    if(abs(det(Jac_i)-det_J_i)>1e-12), 
+        abs(det(Jac_i)-det_J_i)
+        fprintf('Jac1= %E /= Jac2= %E \n',det(Jac_i),det_J_i); 
+        warning('2 versions of Jac do not yield same det ...'); 
+    end
     
     % add contribution from M_side
     M(list_vert,list_vert) = M(list_vert,list_vert) + det_J_i*M_side;
@@ -70,7 +80,7 @@ for iside=1:nv
     % [r1 r2 r3]
     % sanity check:
     test = 2*r1*(r2+r3)+2*r2*r3-(r1^2+r2^2+r3^2)-1;
-    if(abs(test)>1e-13), test, error('r_i error in stiffness matrix coefficients'); end
+    if(abs(test)>1e-12), test, error('r_i error in stiffness matrix coefficients'); end
     % stiffness matrix for side i
     kk_side=[ ...
         (-1 + a)*a*r1 - (-1 + a)*r2 + a*r3,  ((1 - 2*a + 2*a^2)*r1 - r2 - r3)/2,  (a*((-1 + 2*a)*r1 - r2 + r3))/2;
