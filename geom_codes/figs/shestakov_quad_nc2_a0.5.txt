@@ -1,4 +1,4 @@
-# Date: 7/9/2013   Time: 0:6
+# Date: 7/9/2013   Time: 16:4
 # dimensions 
 1 1 
 # connectivity 

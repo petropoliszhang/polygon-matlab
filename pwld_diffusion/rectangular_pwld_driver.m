@@ -51,20 +51,21 @@ geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
-%
+geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.3.txt';
+
 logi_mms  = false;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
 tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=100000.0; 
+c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.1; 
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[ 2 2 1 1 ];
+bc_type=[ 0 0 0 0 ];
 bc_val.left  = 100;
 bc_val.right = -50;
 bc_val.bottom= 50;
