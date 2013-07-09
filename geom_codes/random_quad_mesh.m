@@ -1,12 +1,12 @@
 clear all; close all; clc
 % random mesh generated for quadrilaterals
 
-L=100;
-n=3;
+L=1;
+n=2;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.25;
+fraction=0.;
 BT=true;
 
 for i=1:n+1
@@ -105,30 +105,6 @@ for i=1:n+1
 end
 
 fclose(fid)
-
-if(BT)
-    
-% for BT's code, not used anymore
-
-matID=0;
-srcID=0;
-%%%%%%%%%%%%%%%%%%%%%
-output_file1=strcat(output_file1,'_BT_','.txt')
-fid=fopen(output_file1,'w');
-fprintf(fid,'%s\n','polygon');
-n2=n*n;
-fprintf(fid,'%d\n',n2);
-for i=1:n
-    for j=1:n
-        fprintf(fid,'%d %g %g %g %g %g %g %g %g  %d %d \n',4,x(i,j)    ,y(i,j)    ,...
-                                                             x(i+1,j)  ,y(i+1,j)  ,...
-                                                             x(i+1,j+1),y(i+1,j+1),...
-                                                             x(i,j+1)  ,y(i,j+1)  ,matID,srcID);
-    end
-end
-fclose(fid)
-
-end
 
 %%%%%%%%%%%%%%%%%%%%%
 
