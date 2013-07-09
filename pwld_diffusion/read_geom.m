@@ -120,7 +120,9 @@ for iel=1:nel
     % find out points
     ind_out=find(in==0);
     if(~isempty(ind_out))
-        error('centroid is OUTSIDE of poly');
+        iel
+        g
+        warning('centroid is OUTSIDE of poly');
     end
 end
 fprintf('tot_area = %g \n',tot_area);

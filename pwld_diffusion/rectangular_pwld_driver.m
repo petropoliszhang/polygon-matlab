@@ -27,7 +27,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.33.txt';
 % 
-% geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.33.txt';
 
@@ -45,24 +45,30 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.33.txt';
 
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n3_a0.25.txt';
 
+geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
+% geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.35.txt';
+geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.25.txt';
+% geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
+% geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 %
 logi_mms  = false;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
 tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10; 
+c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=100000.0; 
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[0 0 0 0];
-bc_val.left  = 0;
-bc_val.right = 0;
-bc_val.bottom= 10;
-bc_val.top   = 0;
+bc_type=[ 2 2 1 1 ];
+bc_val.left  = 100;
+bc_val.right = -50;
+bc_val.bottom= 50;
+bc_val.top   = 10;
 %
 %------------------------------------------------
 t_beg=cputime;
@@ -71,7 +77,7 @@ t_beg=cputime;
 % numerical parameters
 %
 C_pen=4;
-C_pen_bd=1*C_pen;
+C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
 %
