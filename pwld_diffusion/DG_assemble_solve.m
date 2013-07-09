@@ -1,5 +1,5 @@
 function z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,C_pen,C_pen_bd,...
-                                i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
+    i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
 
 
 t1=cputime;
@@ -12,6 +12,121 @@ for iel=1:nel
     v=vert(g,:);
     mat = i_mat(iel);
     [M,K,f,grad{iel}]=build_pwld_local_matrices(g,v);
+
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     % check local matrices
+%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     n_quad=4;
+%     % centroid
+%     vC=mean(v);
+%     % size of array to store local integral
+%     nv=length(g);
+%     alpha=1/nv;
+%     MM=zeros(nv,3,3);
+%     KK=zeros(nv,3,3);
+% 
+%     % loop over sides
+%     for iside=1:nv
+%         % pick 1st vertex
+%         irow1=iside;
+%         % pick 2ndt vertex
+%         irow2=irow1+1; if(irow2>nv), irow2=1; end
+%         % assign A and B
+%         vA=v(irow1,:); vB=v(irow2,:);
+%         % create triangle vertex list
+%         triangle_vert=[vA; vB; vC];
+%         % get quadrature on that triangle
+%         [X,Y,Wx,Wy]=triquad(n_quad,triangle_vert);
+%         % create the 3 basis functions
+%         tf1=@(x,y) ( vC(1)*(y-vB(2)) + x*(vB(2)-vC(2)) + vB(1)*(-y+vC(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         tf2=@(x,y) ( vC(1)*(-y+vA(2)) + vA(1)*(y-vC(2)) + x*(-vA(2)+vC(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         % deriv wrt x
+%         tx1=@(x,y) 0*(x.*y)+( (vB(2)-vC(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         tx2=@(x,y) 0*(x.*y)+( (-vA(2)+vC(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         tx3=@(x,y) 0*(x.*y)+( (vA(2)-vB(2)) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         % deriv wrt y
+%         ty1=@(x,y) 0*(x.*y)+( vC(1) - vB(1) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         ty2=@(x,y) 0*(x.*y)+( -vC(1) + vA(1) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         ty3=@(x,y) 0*(x.*y)+( vB(1) - vA(1) ) / ...
+%             ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
+%         % evaluate each integral per triangle for the 3 basis functions
+%         MM(iside,1,1)=Wx'*(feval(tf1,X,Y).*feval(tf1,X,Y))*Wy;
+%         MM(iside,1,2)=Wx'*(feval(tf1,X,Y).*feval(tf2,X,Y))*Wy;
+%         MM(iside,1,3)=Wx'*(feval(tf1,X,Y).*feval(tf3,X,Y))*Wy*alpha;
+%         MM(iside,2,1)=Wx'*(feval(tf2,X,Y).*feval(tf1,X,Y))*Wy;
+%         MM(iside,2,2)=Wx'*(feval(tf2,X,Y).*feval(tf2,X,Y))*Wy;
+%         MM(iside,2,3)=Wx'*(feval(tf2,X,Y).*feval(tf3,X,Y))*Wy*alpha;
+%         MM(iside,3,1)=Wx'*(feval(tf3,X,Y).*feval(tf1,X,Y))*Wy*alpha;
+%         MM(iside,3,2)=Wx'*(feval(tf3,X,Y).*feval(tf2,X,Y))*Wy*alpha;
+%         MM(iside,3,3)=Wx'*(feval(tf3,X,Y).*feval(tf3,X,Y))*Wy*alpha^2;
+%         %
+%         KK(iside,1,1)=Wx'*(feval(tx1,X,Y).*feval(tx1,X,Y)+feval(ty1,X,Y).*feval(ty1,X,Y))*Wy;
+%         KK(iside,1,2)=Wx'*(feval(tx1,X,Y).*feval(tx2,X,Y)+feval(ty1,X,Y).*feval(ty2,X,Y))*Wy;
+%         KK(iside,1,3)=Wx'*(feval(tx1,X,Y).*feval(tx3,X,Y)+feval(ty1,X,Y).*feval(ty3,X,Y))*Wy*alpha;
+%         KK(iside,2,1)=Wx'*(feval(tx2,X,Y).*feval(tx1,X,Y)+feval(ty2,X,Y).*feval(ty1,X,Y))*Wy;
+%         KK(iside,2,2)=Wx'*(feval(tx2,X,Y).*feval(tx2,X,Y)+feval(ty2,X,Y).*feval(ty2,X,Y))*Wy;
+%         KK(iside,2,3)=Wx'*(feval(tx2,X,Y).*feval(tx3,X,Y)+feval(ty2,X,Y).*feval(ty3,X,Y))*Wy*alpha;
+%         KK(iside,3,1)=Wx'*(feval(tx3,X,Y).*feval(tx1,X,Y)+feval(ty3,X,Y).*feval(ty1,X,Y))*Wy*alpha;
+%         KK(iside,3,2)=Wx'*(feval(tx3,X,Y).*feval(tx2,X,Y)+feval(ty3,X,Y).*feval(ty2,X,Y))*Wy*alpha;
+%         KK(iside,3,3)=Wx'*(feval(tx3,X,Y).*feval(tx3,X,Y)+feval(ty3,X,Y).*feval(ty3,X,Y))*Wy*alpha^2;
+%         
+%     end
+%     % compute local mass
+%     local_mass=zeros(nv,nv);
+%     local_stif=zeros(nv,nv);
+%     for iside=1:nv
+%         iside_m1 = iside-1;
+%         if(iside_m1==0), iside_m1=nv; end
+%         for jside=1:nv
+%             jside_m1 = jside-1;
+%             if(jside_m1==0), jside_m1=nv; end
+%             for ktri=1:nv
+%                 if(ktri==iside)
+%                     ii=1;
+%                     fac_i=1;
+%                 elseif(ktri==iside_m1)
+%                     ii=2;
+%                     fac_i=1;
+%                 else
+%                     ii=3;
+%                     fac_i=0;
+%                 end
+%                 if(ktri==jside)
+%                     jj=1;
+%                     fac_j=1;
+%                 elseif(ktri==jside_m1)
+%                     jj=2;
+%                     fac_j=1;
+%                 else
+%                     jj=3;
+%                     fac_j=0;
+%                 end
+%                 local_mass(iside,jside) = local_mass(iside,jside) + (MM(ktri,3,3) + fac_i*MM(ktri,ii,3) + fac_j*MM(ktri,jj,3) + fac_i*fac_j*MM(ktri,ii,jj));
+%                 local_stif(iside,jside) = local_stif(iside,jside) + (KK(ktri,3,3) + fac_i*KK(ktri,ii,3) + fac_j*KK(ktri,jj,3) + fac_i*fac_j*KK(ktri,ii,jj));
+%             end
+%         end
+%     end
+
+%     local_mass-M
+%     local_stif
+%     K
+%     local_stif-K
+%     error('   ');
+% K=local_stif;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % check local matrices
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
     A(g(:),g(:)) = A(g(:),g(:)) + c_diff(mat)*K +sigma_a(mat)*M;
     % rhs contribution
     if(logi_mms)
@@ -59,6 +174,7 @@ for iel=1:nel
         b(g(:)) = b(g(:)) + S_ext(mat)*f;
     end
 end
+
 
 %------------------------------------------------
 % DG assemble edge terms
