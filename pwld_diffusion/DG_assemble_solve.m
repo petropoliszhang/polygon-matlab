@@ -115,7 +115,7 @@ for iel=1:nel
 %             end
 %         end
 %     end
-
+% 
 %     local_mass-M
 %     local_stif
 %     K
@@ -364,6 +364,7 @@ for ied=1:n_edge
             otherwise
                 error('inhomogeneous Neumann');
         end
+        gm_=edg2vert(ied,1:2); %safer
         b(gm_(:)) = b(gm_(:)) + pen*val*Le/2;
 
         row_grad_m = ne * grad{Km}(:,:,indm);
@@ -394,6 +395,7 @@ for ied=1:n_edge
             otherwise
                 error('inhomogeneous Neumann');
         end
+        gm_=edg2vert(ied,1:2); %safer
         b(gm_(:)) = b(gm_(:)) + val*Le/2;
 
     end
