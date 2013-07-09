@@ -78,8 +78,12 @@ for iside=1:nv
         (a*((-1 + 2*a)*r1 - r2 + r3))/2   ,  (a*((-1 + 2*a)*r1 + r2 - r3))/2,     a^2*r1
         ];
     K_side([1 2],[1 2]) = kk_side([1 2],[1 2]);
-    K_side([1 2],3:end) = kk_side(1,3);
-    K_side(3:end,[1 2]) = kk_side(1,3);
+%     K_side([1 2],3:end) = kk_side(1,3);
+%     K_side(3:end,[1 2]) = kk_side(1,3);
+    K_side(1,3:end) = kk_side(1,3);
+    K_side(2,3:end) = kk_side(2,3);
+    K_side(3:end,1) = kk_side(3,1);
+    K_side(3:end,2) = kk_side(3,2);
     K_side(3:end,3:end) = kk_side(3,3);
     % add contribution from K_side
     K(list_vert,list_vert) = K(list_vert,list_vert) + K_side;
