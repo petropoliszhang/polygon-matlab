@@ -8,12 +8,12 @@ close all; clc
 % data
 %
 geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.33.txt';
-geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.33.txt';
-geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.33.txt';
 
-geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.txt';
-geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.txt';
-geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n50_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n50_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.txt';
 
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.txt';
@@ -27,7 +27,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n50_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.33.txt';
 % 
-geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.33.txt';
 
@@ -38,6 +38,12 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.1.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n30_a0.1.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n30_a0.1.txt';
+
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n2_a0.1.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n2_a0.1.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n2_a0.1.txt';
+
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n3_a0.25.txt';
 
 %
 logi_mms  = false;
@@ -64,7 +70,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*500;
+C_pen=4;
 C_pen_bd=1*C_pen;
 %
 %------------------------------------------------
