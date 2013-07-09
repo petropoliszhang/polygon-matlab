@@ -19,7 +19,7 @@ clear all; close all; clc;
 
 
 % number of subdivisions of the original rectangle
-nc = 5;
+nc = 1;
 % random parameter
 a  = 0.25;
 % rectangle dimensions
@@ -149,27 +149,81 @@ print('-dpng',strcat(output_file1,'.png'));
 saveas(gcf,strcat(output_file1,'.fig'),'fig');
 
 
-%
-%
-%
-%%%%%%%%%%%%%%%%%%%%%
-matID=0;
-srcID=0;
+%---------------------------------------------
+% save txt file
+matID=1;
+srcID=1;
+
+% date and time;
+[yr, mo, da, hr, mi, s] = datevec(now);
+
 %%%%%%%%%%%%%%%%%%%%%
 output_file1=strcat(output_file1,'.txt')
 fid=fopen(output_file1,'w');
-fprintf(fid,'%s\n','polygon');
-n2=(nm-1)^2;
-fprintf(fid,'%d\n',n2);
-for i=1:nm-1
-    for j=1:nm-1
-        fprintf(fid,'%d %g %g %g %g %g %g %g %g  %d %d \n',4,r(i,j)    ,z(i,j)    ,...
-                                                             r(i,j+1)  ,z(i,j+1)  ,...
-                                                             r(i+1,j+1),z(i+1,j+1),...
-                                                             r(i+1,j)  ,z(i+1,j)  ,matID,srcID);
-    end
-end 
-fclose(fid)
-%%%%%%%%%%%%%%%%%%%%%
 
+fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
+
+fprintf(fid,'# dimensions \n');
+fprintf(fid,'%g %g \n',L,L);
+
+n = (nm-1);
+ncells = n*n;
+
+fprintf(fid,'# connectivity \n');
+fprintf(fid,'%d\n',ncells);
+for iel=1:ncells
+    skip = 4*(iel-1);
+    i1 = skip + 1;
+    i2 = skip + 2;
+    i3 = skip + 3;
+    i4 = skip + 4;
+    fprintf(fid,'%d %d %d %d %d %d %d \n',4,i1,i2,i3,i4,matID,srcID);
+end
+
+fprintf(fid,'# DG vertices (counter-clockwise) \n');
+fprintf(fid,'%d\n',4*ncells);
+for i=1:n
+    for j=1:n
+        fprintf(fid,' %g %g \n %g %g \n %g %g \n %g %g \n',...
+            r(i,j)    ,z(i,j)    ,...
+            r(i,j+1)  ,z(i,j+1)  ,...
+            r(i+1,j+1),z(i+1,j+1),...
+            r(i+1,j)  ,z(i+1,j)  );
+    end
+end
+
+fprintf(fid,'# grid vertices (counter-clockwise) \n');
+fprintf(fid,'%d\n',(n+1)^2);
+for i=1:n+1
+    for j=1:n+1
+        fprintf(fid,'%g %g \n',r(i,j),z(i,j) );
+    end
+end
+
+fclose(fid)
+
+%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% old mesh output
+% % % %%%%%%%%%%%%%%%%%%%%%
+% % % matID=0;
+% % % srcID=0;
+% % % %%%%%%%%%%%%%%%%%%%%%
+% % % output_file1=strcat(output_file1,'.txt')
+% % % fid=fopen(output_file1,'w');
+% % % fprintf(fid,'%s\n','polygon');
+% % % n2=(nm-1)^2;
+% % % fprintf(fid,'%d\n',n2);
+% % % for i=1:nm-1
+% % %     for j=1:nm-1
+% % %         fprintf(fid,'%d %g %g %g %g %g %g %g %g  %d %d \n',4,r(i,j)    ,z(i,j)    ,...
+% % %                                                              r(i,j+1)  ,z(i,j+1)  ,...
+% % %                                                              r(i+1,j+1),z(i+1,j+1),...
+% % %                                                              r(i+1,j)  ,z(i+1,j)  ,matID,srcID);
+% % %     end
+% % % end 
+% % % fclose(fid)
+% % % %%%%%%%%%%%%%%%%%%%%%
+% % % 
 
