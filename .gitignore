@@ -38,3 +38,5 @@
 *old*.m
 *epetra*
 *.cc*
+*_BT_*
+*ep.txt
