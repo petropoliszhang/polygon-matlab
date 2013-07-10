@@ -51,20 +51,25 @@ geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
+
+
+geofile='..\geom_codes\\figs\smooth_quad_mesh_L100_n30_a0.15.txt';
+geofile='..\geom_codes\\figs\smooth_quad_mesh_L100_n50_a0.15.txt';
+
 %
-logi_mms  = false;
+logi_mms  = true;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
 tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=100000.0; 
+c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=1.0; 
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[ 2 2 1 1 ];
+bc_type=[0 0 0 0 ];
 bc_val.left  = 100;
 bc_val.right = -50;
 bc_val.bottom= 50;
@@ -97,7 +102,7 @@ edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
 if(logi_mms)
     bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
     % exact solution
-    freq=1;
+    freq=3;
     exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
     % forcing rhs
     mms=@(x,y) (c_diff*(freq*pi)^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
