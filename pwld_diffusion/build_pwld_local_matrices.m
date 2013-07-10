@@ -50,10 +50,11 @@ for iside=1:nv
     A=vert(irow1,:); B=vert(irow2,:);
     Jac_i = cross([B-A 0]',[C-A 0]'); % AB ^ AC
     if(Jac_i(3)<0), 
+        [A B C]
         poly
         vert
         iside
-        warning('not clockwise ordering in polygon'); 
+        warning('negative jac, ordering of the side is not clockwise, indicative of centroid being outside of polygonal the mesh'); 
     end
     det_J_i=norm(Jac_i,2);
     Jac_i=[(B-A)' (C-A)'];

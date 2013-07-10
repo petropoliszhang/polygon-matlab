@@ -96,13 +96,15 @@ clear vert_link; % not needed any longer
 
 % check orientation, centroid
 tot_area=0;
+centroid_outside=0;
+centroid_on_edge=0;
 for iel=1:nel
     g=connectivity{iel}(:);
     xx=vert(g,1); yy=vert(g,2);
     
     % check orientation, verify area
     [or,ar] = polyorient(xx,yy);
-    if(or~=1), warning('orientation problem'); end
+    if(or~=1), error('orientation problem'); end
     tot_area=tot_area+ar;
     
     % check centroid
@@ -115,6 +117,7 @@ for iel=1:nel
     ind_in_and_on=find(in_and_on==1);
     if(~isempty(ind_in_and_on))
         warning('centroid is on poly edge');
+        centroid_on_edge = centroid_on_edge + 1;
     end
     % find out points
     ind_out=find(in==0);
@@ -122,10 +125,13 @@ for iel=1:nel
         iel
         g
         warning('centroid is OUTSIDE of poly');
+        centroid_outside = centroid_outside + 1;
     end
 
 end
 fprintf('total area read in geom = %g \n',tot_area);
+fprintf('fraction of centroids outside of polygon = %g \n',centroid_outside/nel);
+fprintf('fraction of centroids on edge of polygon = %g \n',centroid_on_edge/nel);
 
 % compute h_perp
 edg_perp=zeros(n_edge,2); % j=1 for Km, j=2 for Kp
