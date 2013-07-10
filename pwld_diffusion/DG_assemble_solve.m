@@ -1,4 +1,4 @@
-function z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,C_pen,C_pen_bd,...
+function z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,edg_perp,C_pen,C_pen_bd,...
     i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
 
 
@@ -225,20 +225,20 @@ for ied=1:n_edge
     else
         IDm = [indm 1 ];
     end
-    %     % skipping indices
-    %     skip_p = [(indp:nvp) (1:indp-1)];
-    %     skip_m = [(indm:nvm) (1:indm-1)];
-    %     skip_pr= [(indp:-1:1) (nvp:-1:indp+1)];
-    %     skip_mr= [(indm:-1:1) (nvm:-1:indm+1)];
 
     % length current edge
     Le = norm( diff(vert(V,:)) );
     % material properties
     Dp = c_diff(i_mat(Kp));
     Dm = c_diff(i_mat(Km));
-    % penalty term
+    % h perp
     h_perp=Le; % temporary!
-    pen = C_pen * (Dp/h_perp + Dm/h_perp) /2;
+    h_perp_m=edg_perp(ied,1);
+    h_perp_p=edg_perp(ied,2);
+    % penalty term
+    pen = C_pen * (Dp/h_perp_p + Dm/h_perp_m) /2;
+%     fprintf('edge %d, pen=%g \n',ied,pen);   
+%     pen=100;
 
     % build the local edge gradient matrices
     % [[phi]],{{D.grad(b).ne}}
@@ -323,10 +323,13 @@ for ied=1:n_edge
     Le = norm( diff(vert(V,:)) );
     % material properties
     Dm = c_diff(i_mat(Km));
-    % penalty term
+    % h perp
     h_perp=Le; % temporary!
-    pen = C_pen_bd * Dm/h_perp;
-
+    h_perp_m=edg_perp(ied,1);
+    % penalty term
+    pen = C_pen_bd * Dm/h_perp_m;
+%     fprintf('bd edge %d, pen=%g \n',ied,pen);
+%     pen=100;
 
     % in/homogeneous Dirichlet
     if(     (Kp==-10 && (bc_type(1)==0||bc_type(1)==1)) || ...
