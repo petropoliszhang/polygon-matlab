@@ -19,9 +19,9 @@ clear all; close all; clc;
 
 
 % number of subdivisions of the original rectangle
-nc = 5;
+nc = 6;
 % random parameter
-a  = 0.1;
+a  = 0.15;
 % rectangle dimensions
 L = 1;
 rm = L;
