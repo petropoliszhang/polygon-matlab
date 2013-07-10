@@ -1,4 +1,4 @@
-function [Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,i_mat,i_src] = read_geom(file);
+function [Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] = read_geom(file);
 
 t1=cputime;
 
@@ -81,7 +81,6 @@ end
 % edge data
 n_edge=0;
 edg2poly=zeros(0,2);
-edg_normal=zeros(0,2);
 edg2vert=zeros(0,4);
 for iel=1:nel
     elem=connectivity{iel}(:);
@@ -124,8 +123,70 @@ for iel=1:nel
         g
         warning('centroid is OUTSIDE of poly');
     end
+
 end
-fprintf('tot_area = %g \n',tot_area);
+fprintf('total area read in geom = %g \n',tot_area);
+
+% compute h_perp
+edg_perp=zeros(n_edge,2); % j=1 for Km, j=2 for Kp
+for ied=1:n_edge
+    % get K-,K+
+    Kp = edg2poly(ied,2);
+    Km = edg2poly(ied,1);
+    if(Km<=0 || Kp==0), error('Km<=0 or Kp==0'); end
+
+    % get the Km polygon connectivity and vertices
+    gm = connectivity{Km}(:);
+    xx=vert(gm,1); yy=vert(gm,2);
+    % get area
+    [or,poly_area] = polyorient(xx,yy);
+    % get perimeter
+    xx=[xx; xx(1)]; yy=[yy; yy(1)];
+    xx=diff(xx); yy=diff(yy);
+    perim=sum(sqrt( xx.^2 + yy.^2 ));
+    % get edge vertices of K- side
+    V = edg2vert(ied,1:2);
+    % length current edge
+    Le = norm( diff(vert(V,:)) );
+    % nbr of vertices in Km poly
+    nvm = length(gm);
+    if nvm <3
+        error('the # of vertices cannot be <3');
+    elseif nvm==3
+        edg_perp(ied,1) = 2*poly_area/Le;
+    elseif nvm==4
+        edg_perp(ied,1) = poly_area/Le;
+    elseif  mod(nvm,2)==0
+        edg_perp(ied,1) = 4*poly_area/perim;
+    else
+        edg_perp(ied,1) = 2*poly_area/perim + sqrt(2*poly_area/nvm/sin(2*pi/nvm));
+    end
+    
+    if(Kp>0)
+        gp = connectivity{Kp}(:);
+        xx=vert(gp,1); yy=vert(gp,2);
+        % get area
+        [or,poly_area] = polyorient(xx,yy);
+        % get perimeter
+        xx=[xx; xx(1)]; yy=[yy; yy(1)];
+        xx=diff(xx); yy=diff(yy);
+        perim=sum(sqrt( xx.^2 + yy.^2 ));
+        % nbr of vertices in Kp poly
+        nvp = length(gp);
+        if nvp <3
+            error('the # of vertices cannot be <3');
+        elseif nvp==3
+            edg_perp(ied,2) = 2*poly_area/Le;
+        elseif nvp==4
+            edg_perp(ied,2) = poly_area/Le;
+        elseif  mod(nvp,2)==0
+            edg_perp(ied,2) = 4*poly_area/perim;
+        else
+            edg_perp(ied,2) = 2*poly_area/perim + sqrt(2*poly_area/nvp/sin(2*pi/nvp));
+        end
+    end
+
+end
 
 t2=cputime;
 fprintf('Mesh time     = %g \n',t2-t1);
