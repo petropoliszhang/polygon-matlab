@@ -59,7 +59,7 @@ for iside=1:nv
     Jac_i=[(B-A)' (C-A)'];
 %     det_J_i=det(Jac_i); % safer
     iJt=inv(Jac_i');
-    if(abs(det(Jac_i)-det_J_i)>1e-12), 
+    if(abs(det(Jac_i)-det_J_i)>1e-11), 
         abs(det(Jac_i)-det_J_i)
         fprintf('Jac1= %E /= Jac2= %E \n',det(Jac_i),det_J_i); 
         warning('2 versions of Jac do not yield same det ...'); 
@@ -80,7 +80,7 @@ for iside=1:nv
     % [r1 r2 r3]
     % sanity check:
     test = 2*r1*(r2+r3)+2*r2*r3-(r1^2+r2^2+r3^2)-1;
-    if(abs(test)>1e-12), test, error('r_i error in stiffness matrix coefficients'); end
+    if(abs(test)>1e-10), test, warning('r_i error in stiffness matrix coefficients'); end
     % stiffness matrix for side i
     kk_side=[ ...
         (-1 + a)*a*r1 - (-1 + a)*r2 + a*r3,  ((1 - 2*a + 2*a^2)*r1 - r2 - r3)/2,  (a*((-1 + 2*a)*r1 - r2 + r3))/2;
