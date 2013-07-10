@@ -19,9 +19,9 @@ clear all; close all; clc;
 
 
 % number of subdivisions of the original rectangle
-nc = 1;
+nc = 5;
 % random parameter
-a  = 0.25;
+a  = 0.1;
 % rectangle dimensions
 L = 1;
 rm = L;
@@ -202,28 +202,33 @@ end
 
 fclose(fid)
 
+
+
 %%%%%%%%%%%%%%%%%%%%%
 %
 %
+BT=true;
 % old mesh output
 % % % %%%%%%%%%%%%%%%%%%%%%
-% % % matID=0;
-% % % srcID=0;
-% % % %%%%%%%%%%%%%%%%%%%%%
-% % % output_file1=strcat(output_file1,'.txt')
-% % % fid=fopen(output_file1,'w');
-% % % fprintf(fid,'%s\n','polygon');
-% % % n2=(nm-1)^2;
-% % % fprintf(fid,'%d\n',n2);
-% % % for i=1:nm-1
-% % %     for j=1:nm-1
-% % %         fprintf(fid,'%d %g %g %g %g %g %g %g %g  %d %d \n',4,r(i,j)    ,z(i,j)    ,...
-% % %                                                              r(i,j+1)  ,z(i,j+1)  ,...
-% % %                                                              r(i+1,j+1),z(i+1,j+1),...
-% % %                                                              r(i+1,j)  ,z(i+1,j)  ,matID,srcID);
-% % %     end
-% % % end 
-% % % fclose(fid)
+if BT
+matID=0;
+srcID=0;
+%%%%%%%%%%%%%%%%%%%%%
+output_file1=strcat(output_file1,'_BT_','.txt')
+fid=fopen(output_file1,'w');
+fprintf(fid,'%s\n','polygon');
+n2=(nm-1)^2;
+fprintf(fid,'%d\n',n2);
+for i=1:nm-1
+    for j=1:nm-1
+        fprintf(fid,'%d %g %g %g %g %g %g %g %g  %d %d \n',4,r(i,j)    ,z(i,j)    ,...
+                                                             r(i,j+1)  ,z(i,j+1)  ,...
+                                                             r(i+1,j+1),z(i+1,j+1),...
+                                                             r(i+1,j)  ,z(i+1,j)  ,matID,srcID);
+    end
+end 
+fclose(fid)
+end
 % % % %%%%%%%%%%%%%%%%%%%%%
 % % % 
 
