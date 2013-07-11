@@ -11,9 +11,15 @@ ind2 = find( vert_link(edg2vert(ind1,2))  == ID_v2 );
 ind1_= find( vert_link(edg2vert(:,1))     == ID_v2 );
 ind2_= find( vert_link(edg2vert(ind1_,2)) == ID_v1 );
 
-if(length(ind2)>1), error('duplicated edges!'); end
-if(length(ind2_)>1), error('duplicated edges!'); end
-if(length(ind2)==1 && length(ind2_)==1), error('duplicated edges!'); end
+if(length(ind2)>1), 
+    error('duplicated edges! error type 1'); 
+end
+if(length(ind2_)>1), 
+    error('duplicated edges! error type 2'); 
+end
+if(length(ind2)==1 && length(ind2_)==1), 
+    error('duplicated edges! error type 3'); 
+end
 
 if(isempty(ind2) && isempty(ind2_))
     new_edge=new_edge+1;

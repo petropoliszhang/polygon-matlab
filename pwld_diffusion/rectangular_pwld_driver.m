@@ -59,8 +59,10 @@ geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.15.txt';
 geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.5.txt';
 
-geofile='..\geom_codes\figs\\smooth_poly_mesh_L10_n50_a0.8.txt';
+geofile='..\geom_codes\figs\smooth_poly_mesh_L10_n50_a0.8.txt';
 
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n3_a0.5.txt';
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n2_a0.5.txt';
 
 logi_mms  = false;
 logi_plot = true;
