@@ -56,7 +56,13 @@ geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
 
-logi_mms  = true;
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.15.txt';
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.5.txt';
+
+geofile='..\geom_codes\figs\\smooth_poly_mesh_L10_n50_a0.8.txt';
+
+
+logi_mms  = false;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
@@ -80,7 +86,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4;
+C_pen=4*5;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------

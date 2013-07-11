@@ -39,6 +39,14 @@ end
 
 ndof=sum(n_vertices);
 
+min_vert=min(n_vertices);
+max_vert=max(n_vertices);
+for k=min_vert:max_vert
+    nnn=find(n_vertices==k);
+    fprintf('Number of polygons with %d vertices = %d \n',k,length(nnn));
+end
+fprintf('Total number of polygons  = %d \n',nel);
+
 % read DG vertices (counter-clockwise)
 n_vert=C(ind);
 ind=ind+1;

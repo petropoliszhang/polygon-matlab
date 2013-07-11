@@ -1,12 +1,13 @@
 clear all; close all; clc;
 
-L=1;
-n=100;
+logi_save = true;
+
+L=10;
+n=30;
 h=L/n;
 xi=linspace(-h,L+h,n+1);
 eta=xi;
-
-fraction=0.4;
+fraction=0.5;
 
 
 ind=0;
@@ -69,8 +70,8 @@ for ic = 1:length(c)
     end
 
     % re-order the inside vertices to be in the same order as in c{ic};
-%     inside
-%     c{ic}
+    %     inside
+    %     c{ic}
     ia=intersect_jcr(c{ic},inside,'sort');
     %     [C,ia,ib]=intersect(c{ic},inside)
     inside=c{ic}(ia); % same as inside(ib)
@@ -116,7 +117,7 @@ for ic = 1:length(c)
     [x,y]=find_intersect_with_square(interior_pt,exterior_pt,L);
     v2(c{ic}(ex),:)=[x y];
 
-%     fprintf('here -------------------------------------------\n\n');
+    %     fprintf('here -------------------------------------------\n\n');
 
 
 end
@@ -258,24 +259,52 @@ for i = 1:length(c)
     end
 end
 
+if(~logi_save), return; end;
+
 %%%%%%%%%%%%%
 output_file1=strcat('.\figs\random_poly_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
 print('-dpdf',strcat(output_file1,'.pdf'));
 print('-dpng',strcat(output_file1,'.png'));
 saveas(gcf,strcat(output_file1,'.fig'),'fig');
 %%%%%%%%%%
-matID=0;
-srcID=0;
-%%%%%%%%%%
+
+% save txt file
+matID=1;
+srcID=1;
+% date and time;
+[yr, mo, da, hr, mi, s] = datevec(now);
+%
 output_file1=strcat(output_file1,'.txt')
 fid=fopen(output_file1,'w');
-fprintf(fid,'%s\n','polygon');
-fprintf(fid,'%d\n',npoly);
+fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
+fprintf(fid,'# dimensions \n');
+fprintf(fid,'%g %g \n',L,L);
+
+ncells = npoly;
+
+fprintf(fid,'# connectivity \n');
+fprintf(fid,'%d\n',ncells);
+skip = 0 ;
 for i = 1:length(c)
     [ii,jj]=size(v2(c{i},:));
     if(ii>0)
         nvert=ii;
         fprintf(fid,'%d  ',nvert);
+        for k=1:nvert
+            fprintf(fid,'%d  ',skip+k);
+        end
+        fprintf(fid,'  %d %d \n',matID,srcID);
+        skip = skip + nvert;
+    end
+end
+
+nvert_total = skip;
+grid_vert=zeros(0,2);
+fprintf(fid,'# DG vertices (counter-clockwise) \n');
+fprintf(fid,'%d\n',nvert_total);
+for i = 1:length(c)
+    [ii,jj]=size(v2(c{i},:));
+    if(ii>0)
         % extract all coord
         aa=v2(c{i},:);
         x=aa(:,1);
@@ -292,11 +321,70 @@ for i = 1:length(c)
         y = y(order);
         aa(:,1)=x;
         aa(:,2)=y;
-        fprintf(fid,'%g  ',aa');
-        fprintf(fid,'  %d %d \n',matID,srcID);
+        fprintf(fid,'%g  %g  \n',aa');
+        % fill grid vert for next loop
+        if isempty(grid_vert)
+            grid_vert = aa;
+        else
+            % loop over points in aa to check if
+            % they are already in grid_vert
+            for k=1:length(aa(:,1))
+                vertex = aa(k,:);
+                n_gv = length(grid_vert(:,1));
+                dif = grid_vert - kron(ones(n_gv,1),vertex);
+                dist = sqrt(sum(dif.^2,2));
+                ind = find(dist<1e-10);
+                n_ind=length(ind);
+                if(n_ind>1), error('too many points'); end
+                if(n_ind==0)
+                    grid_vert = [grid_vert ; vertex];
+                end
+            end
+        end
     end
 end
-fclose(fid);
+
+fprintf(fid,'# grid vertices \n');
+fprintf(fid,'%d\n',length(grid_vert(:,1)));
+for k=1:length(grid_vert(:,1))
+    fprintf(fid,'%g %g \n',grid_vert(k,1),grid_vert(k,2) );
+end
+
+fclose(fid)
+
+% % matID=0;
+% % srcID=0;
+% % %%%%%%%%%%
+% % output_file1=strcat(output_file1,'.txt')
+% % fid=fopen(output_file1,'w');
+% % fprintf(fid,'%s\n','polygon');
+% % fprintf(fid,'%d\n',npoly);
+% % for i = 1:length(c)
+% %     [ii,jj]=size(v2(c{i},:));
+% %     if(ii>0)
+% %         nvert=ii;
+% %         fprintf(fid,'%d  ',nvert);
+% %         % extract all coord
+% %         aa=v2(c{i},:);
+% %         x=aa(:,1);
+% %         y=aa(:,2);
+% %         % Find the centroid:
+% %         cx = mean(x);
+% %         cy = mean(y);
+% %         % Step 2: Find the angles:
+% %         ang = atan2(y - cy, x - cx);
+% %         % Step 3: Find the correct sorted order:
+% %         [dummy, order] = sort(ang);
+% %         % Step 4: Reorder the coordinates:
+% %         x = x(order);
+% %         y = y(order);
+% %         aa(:,1)=x;
+% %         aa(:,2)=y;
+% %         fprintf(fid,'%g  ',aa');
+% %         fprintf(fid,'  %d %d \n',matID,srcID);
+% %     end
+% % end
+% % fclose(fid);
 %%%%%%%%%%%%%
 
 % clear all
