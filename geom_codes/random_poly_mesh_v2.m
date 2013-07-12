@@ -1,4 +1,4 @@
-% clear all; 
+% clear all;
 close all; clc;
 
 logi_save = true;
@@ -25,23 +25,23 @@ end
 
 %%%%%%%%%%%%%
 x=[            0
-            0
-            0
-       6.2601
-       1.5599
-       6.0209
-           10
-           10
-           10];
+    0
+    0
+    6.2601
+    1.5599
+    6.0209
+    10
+    10
+    10];
 y=[            0
-       9.2129
-           10
-            0
-       8.9765
-           10
-            0 
-       5.3712
-           10];
+    9.2129
+    10
+    0
+    8.9765
+    10
+    0
+    5.3712
+    10];
 [v,c]=VoronoiLimit(x,y,[0 L 0 L]);
 %%%%%%%%%%%%%
 % clean up duplicated vertices
@@ -56,11 +56,11 @@ for i=1:length(c)
         end
     end
     c{i} = new_ci;
-    % ccw
+    % re-order poly ccw
     g=c{i}(:);
     vv=v(g,:);
     [x2, y2] = poly2ccw(vv(:,1), vv(:,2));
-
+    % re-order connectivity so that the poly is actually ccw
     new_ci=[];
     for k=1:length(x2)
         vk=[x2(k) y2(k)];
@@ -73,7 +73,7 @@ for i=1:length(c)
         new_ci =[ new_ci c{i}(ind)];
     end
     c{i} = new_ci;
-    
+
 end
 
 tot_area=0;
@@ -83,13 +83,89 @@ for iel=1:length(c)
     % check orientation, verify area
     [or,ar] = polyorient(xx,yy);
     ar
-     if(or~=1), 
-         error('orientation problem'); 
-     end
+    if(or~=1),
+        error('orientation problem');
+    end
     tot_area=tot_area+ar;
-
 end
 fprintf('total area read in geom = %g \n',tot_area);
+
+% decide whether some polygons overlap
+del = [];
+for i=1:length(c)
+    gi = c{i};
+    for j=i+1:length(c)
+        gj = c{j};
+        % combine the vertex entries
+        combined =[gi gj];
+        uniq = unique(combined);
+        nc=length(combined);
+        nu=length(uniq);
+        if ( nu> nc )
+            error('nu cannot be > than nc');
+        end
+        if ( nu < nc-2)
+            % need to investigate
+            %reverse order for gj
+            n_gj=length(gj);
+            for k=1:n_gj
+                gjr(k)=gj(n_gj+1-k);
+            end
+            % find the intersection, but the result unfortunetaly comes out sorted
+            [inter,ia,ib]=intersect(gi,gjr)
+            n_gi=length(gi);
+            % determine the sweeping order (postive or negastive) of the common elements
+            val=inter(1);
+            posi=ia(1);
+            posj=ib(1);
+            nexti=posi+1; if(nexti>n_gi), nexti=1; end
+            previ=posi-1; if(previ<1), previ=n_gi; end
+            % sign should be the same if the common vertices belong to
+            % non-overlapping polygons
+            sign=0;
+            if(ia(2)==nexti), sign=+1; end
+            if(ia(2)==previ), sign=-1; end
+            if(sign==0)
+                error('sign i =0');
+            end
+            fprintf('sign = %d \n',sign);
+            % now, find the position of the first common element in gi
+            [dum,posi]=min(ia);
+            fprintf('posi = %d \n\n',posi);
+            flag=0;
+            gi
+            gjr
+            indj=ib(posi);
+            for k=1:length(ia)
+                indi=ia(posi);
+                vali=gi(indi);
+                fprintf('indi = %d vali = %g\n',indi,vali);
+                valj=gjr(indj);
+                fprintf('indj = %d valj = %g\n\n',indj,valj);
+                if(abs(vali-valj)>eps)
+                    flag=1;
+                    warning(' aaa ' );
+                end
+                posi=posi+1;if(posi>length(ia)), posi=1; end
+                indj=indj+sign;
+                if(indj>n_gj), indj=1; end
+                if(indj<1), indj=n_gi; end
+            end
+        end
+
+        if(flag==1)
+            % shortest poly scheduled for deletion
+            if(n_gi<n_gj)
+                del = [ del i ];
+            else
+                del = [ del j ];
+            end
+        end
+    end
+end
+del
+unique(del)
+
 return
 
 %     for k=1:nv
