@@ -191,6 +191,7 @@ plot(x,y,'.k')
 voronoi(x,y)
 for id=1:length(C)
     plot(V(C{id},1),V(C{id},2))
+%     pause
 end
 dx=(bnd(2)-bnd(1))/10;
 dy=(bnd(4)-bnd(3))/10;

@@ -4,7 +4,7 @@ close all; clc;
 logi_save = true;
 
 L=10;
-n=2;
+n=20;
 h=L/n;
 eps=h/10*0;
 xi=linspace(eps,L-eps,n+1);
@@ -24,24 +24,24 @@ for i=1:n+1
 end
 
 %%%%%%%%%%%%%
-x=[            0
-    0
-    0
-    6.2601
-    1.5599
-    6.0209
-    10
-    10
-    10];
-y=[            0
-    9.2129
-    10
-    0
-    8.9765
-    10
-    0
-    5.3712
-    10];
+% x=[            0
+%     0
+%     0
+%     6.2601
+%     1.5599
+%     6.0209
+%     10
+%     10
+%     10];
+% y=[            0
+%     9.2129
+%     10
+%     0
+%     8.9765
+%     10
+%     0
+%     5.3712
+%     10];
 [v,c]=VoronoiLimit(x,y,[0 L 0 L]);
 %%%%%%%%%%%%%
 % clean up duplicated vertices
@@ -76,13 +76,13 @@ for i=1:length(c)
 
 end
 
+clc
 tot_area=0;
 for iel=1:length(c)
     g=c{iel}(:);
     xx=v(g,1); yy=v(g,2);
     % check orientation, verify area
     [or,ar] = polyorient(xx,yy);
-    ar
     if(or~=1),
         error('orientation problem');
     end
@@ -104,6 +104,7 @@ for i=1:length(c)
         if ( nu> nc )
             error('nu cannot be > than nc');
         end
+        flag=0;
         if ( nu < nc-2)
             % need to investigate
             %reverse order for gj
@@ -112,7 +113,7 @@ for i=1:length(c)
                 gjr(k)=gj(n_gj+1-k);
             end
             % find the intersection, but the result unfortunetaly comes out sorted
-            [inter,ia,ib]=intersect(gi,gjr)
+            [inter,ia,ib]=intersect(gi,gjr);
             n_gi=length(gi);
             % determine the sweeping order (postive or negastive) of the common elements
             val=inter(1);
@@ -128,23 +129,22 @@ for i=1:length(c)
             if(sign==0)
                 error('sign i =0');
             end
-            fprintf('sign = %d \n',sign);
+%             fprintf('sign = %d \n',sign);
             % now, find the position of the first common element in gi
             [dum,posi]=min(ia);
-            fprintf('posi = %d \n\n',posi);
-            flag=0;
-            gi
-            gjr
+%             fprintf('posi = %d \n\n',posi);
+%             gi
+%             gjr
             indj=ib(posi);
             for k=1:length(ia)
                 indi=ia(posi);
                 vali=gi(indi);
-                fprintf('indi = %d vali = %g\n',indi,vali);
+%                 fprintf('indi = %d vali = %g\n',indi,vali);
                 valj=gjr(indj);
-                fprintf('indj = %d valj = %g\n\n',indj,valj);
+%                 fprintf('indj = %d valj = %g\n\n',indj,valj);
                 if(abs(vali-valj)>eps)
                     flag=1;
-                    warning(' aaa ' );
+%                     warning(' aaa ' );
                 end
                 posi=posi+1;if(posi>length(ia)), posi=1; end
                 indj=indj+sign;
@@ -165,6 +165,43 @@ for i=1:length(c)
 end
 del
 unique(del)
+length(c)
+for k=1:length(del)
+    c{del(k)}=[];
+end
+% either one is fine 
+% result = c(~cellfun('isempty',c))
+% cc(cellfun(@isempty,cc)) = []
+CC = c(~cellfun('isempty',c));
+length(CC)
+
+for id=1:length(CC)
+    figure(10)
+    hold all
+    vv= v(CC{id},:);
+    xc=mean(vv(:,1));
+    yc=mean(vv(:,2));
+    vv(end+1,:)=vv(1,:);
+    plot(vv(:,1),vv(:,2),'+-')
+    plot(xc,yc,'x');
+    %     pause
+    figure(11)
+    patch(v(CC{id},1),v(CC{id},2),id); % use color i.
+end
+
+
+tot_area=0;
+for iel=1:length(CC)
+    g=CC{iel}(:);
+    xx=v(g,1); yy=v(g,2);
+    % check orientation, verify area
+    [or,ar] = polyorient(xx,yy);
+    if(or~=1),
+        error('orientation problem');
+    end
+    tot_area=tot_area+ar;
+end
+fprintf('total area read in geom = %g \n',tot_area);
 
 return
 
