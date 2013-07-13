@@ -120,9 +120,6 @@ allVixinp=inpolygon(V(:,1),V(:,2),crs(:,1),crs(:,2)); %determine which points in
 
 %Addition-routine: addition of missing points (mvx,mvy) to individual vertice-polygons (C)
 for ij=1:length(C)
-    if(ij==6)
-        disp('here');
-    end
     if any(C{ij}==1)
         ixa=find(cpVixt==C{ij}(2));
         ixb=find(cpVixt==C{ij}(end));

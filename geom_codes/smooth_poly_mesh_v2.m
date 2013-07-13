@@ -1,27 +1,20 @@
-% clear all;
-close all; clc;
-
-logi_save = true;
+clear all; close all; clc;
 
 L=10;
-n=20;
+n=50;
 h=L/n;
-eps=h/10*0;
-xi=linspace(eps,L-eps,n+1);
+xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.95;
-
+fraction=0.8;
 
 ind=0;
 x=zeros((n+1)^2,1);
 y=x;
 for i=1:n+1
-    ax=1;   if(i==1||i==n+1),ax=0;end
     for j=1:n+1
-        ay=1;   if(j==1||j==n+1),ay=0;end
         ind=ind+1;
-        x(ind) = xi(i) + (2*rand(1,1)-1)*h*fraction*ax;
-        y(ind) = eta(j)+ (2*rand(1,1)-1)*h*fraction*ay;
+        x(ind) = xi(i) +fraction*sin(2*pi*xi(i)/L)*sin(2*pi*eta(j)/L);
+        y(ind) = eta(j)+fraction*sin(2*pi*xi(i)/L)*sin(2*pi*eta(j)/L);
     end
 end
 
@@ -200,10 +193,8 @@ for iel=1:length(c)
 end
 fprintf('total area read in geom = %g \n',tot_area);
 
-
-
 %%%%%%%%%%%%%
-output_file1=strcat('.\figs\random_poly_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file1=strcat('.\figs\smooth_poly_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
 %%%%%%%%%%%%%
 
 %%%%%%%%%%%%%
@@ -219,7 +210,8 @@ if save_matlab_plot
 end
 %%%%%%%%%%
 
-%%%%%%%%%%%%%
+
+%%%%%%%%%%
 % save txt file
 matID=1;
 srcID=1;
@@ -281,5 +273,3 @@ fclose(fid);
 
 
 return
-
-
