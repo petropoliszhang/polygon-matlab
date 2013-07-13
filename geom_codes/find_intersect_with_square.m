@@ -48,7 +48,7 @@ if(t(ind)<0),t(ind)=Inf;end
 
 %
 [tt,ind]=min(t);
-if(tt<0 |tt>1), error('tt<0 |tt>1');end
+if(tt<0 || tt>1), error('tt<0 || tt>1');end
 
 y = r(ind);
 x = s(ind);

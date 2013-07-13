@@ -31,7 +31,7 @@ rm = L;
 zm = L;
 
 % allocate memory
-nm = 2^nc + 1
+nm = 2^nc + 1;
 ind = nm-1;
 r=zeros(nm,nm);
 z=zeros(nm,nm);

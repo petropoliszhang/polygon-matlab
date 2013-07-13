@@ -11,10 +11,12 @@ eta=xi;
 fraction=0.;
 BT=false;
 
+x=zeros(n+1,n+1);
+y=x;
 for i=1:n+1
-    ax=1;   if(i==1|i==n+1),ax=0;end
+    ax=1;   if(i==1||i==n+1),ax=0;end
     for j=1:n+1
-        ay=1;   if(j==1|j==n+1),ay=0;end
+        ay=1;   if(j==1||j==n+1),ay=0;end
         x(i,j) = xi(i) + (2*rand(1,1)-1)*h*fraction*ax;
         y(i,j) = eta(j)+ (2*rand(1,1)-1)*h*fraction*ay;
     end
@@ -113,7 +115,7 @@ for i=1:n+1
     end
 end
 
-fclose(fid)
+fclose(fid);
 
 %%%%%%%%%%%%%%%%%%%%%
 
@@ -158,7 +160,7 @@ if(mod(n,2)==0)
         end
     end
 
-    fclose(fid)
+    fclose(fid);
     %%%%%%%%%%%%%%%%%%%%%
     output_file3=strcat(output_file3,'.txt')
     fid=fopen(output_file3,'w');
@@ -198,7 +200,7 @@ if(mod(n,2)==0)
         end
     end
 
-    fclose(fid)
+    fclose(fid);
     %%%%%%%%%%%%%%
 end
 %%%%%%%%%%%%%%

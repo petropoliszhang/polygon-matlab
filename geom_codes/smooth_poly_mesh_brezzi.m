@@ -47,7 +47,7 @@ for ic = 1:length(c)
     % loop over vertices of current voronoi cell
     for k=1:nc
         A=v(c{ic}(k),:);
-        if( A(1)<0 | A(1)>L | A(2)<0 | A(2)>L )
+        if( A(1)<0 || A(1)>L || A(2)<0 || A(2)>L )
             outside=[outside c{ic}(k)];
         else
             inside=[inside c{ic}(k)];
@@ -128,7 +128,7 @@ for ic = length(c):-1:1
     % loop over vertices of current voronoi cell
     for k=1:nc
         A=v(c{ic}(k),:);
-        if( A(1)<0 | A(1)>L | A(2)<0 | A(2)>L )
+        if( A(1)<0 || A(1)>L || A(2)<0 || A(2)>L )
             outside=[outside c{ic}(k)];
         else
             inside=[inside c{ic}(k)];
@@ -174,7 +174,7 @@ mean(v2(c{ID_BR}(:),:))
 % BL
 ind=find( abs(v2(c{ID_BL}(:)                          ,1)-0)<1e-10 ); %x
 if(       abs(v2(c{ID_BL}(mod(ind,length(c{ID_BL}))+1),2)-0)<1e-10 )  %y
-    skip=1
+    skip=1;
 else
     skip=0;
 end
@@ -188,7 +188,7 @@ v2(end+1,:)=[0 0];
 % TL
 ind=find( abs(v2(c{ID_TL}(:)                          ,1)-L)<1e-10 );
 if(       abs(v2(c{ID_TL}(mod(ind,length(c{ID_TL}))+1),2)-0)<1e-10 )
-    skip=1
+    skip=1;
 else
     skip=0;
 end
@@ -205,7 +205,7 @@ v2(end+1,:)=[L 0];
 % TR
 ind=find( abs(v2(c{ID_TR}(:)                          ,2)-L)<1e-10 );
 if(       abs(v2(c{ID_TR}(mod(ind,length(c{ID_TR}))+1),1)-L)<1e-10 )
-    skip=1
+    skip=1;
 else
     skip=0;
 end
@@ -219,7 +219,7 @@ v2(end+1,:)=[L L];
 % BR
 ind=find( abs(v2(c{ID_BR}(:)                          ,2)-L)<1e-10 );
 if(       abs(v2(c{ID_BR}(mod(ind,length(c{ID_BR}))+1),1)-0)<1e-10 )
-    skip=1
+    skip=1;
 else
     skip=0;
 end
@@ -344,7 +344,7 @@ for k=1:length(grid_vert(:,1))
     fprintf(fid,'%g %g \n',grid_vert(k,1),grid_vert(k,2) );
 end
 
-fclose(fid)
+fclose(fid);
 
 % % %%%%%%%%%%
 % % matID=0;

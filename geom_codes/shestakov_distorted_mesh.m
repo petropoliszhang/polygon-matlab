@@ -28,7 +28,7 @@ rm = L;
 zm = L;
 
 % allocate memory
-nm = 2^nc + 1
+nm = 2^nc + 1;
 ind = nm-1;
 r=zeros(nm,nm);
 z=zeros(nm,nm);
@@ -200,7 +200,7 @@ for i=1:n+1
     end
 end
 
-fclose(fid)
+fclose(fid);
 
 
 
@@ -227,7 +227,7 @@ for i=1:nm-1
                                                              r(i+1,j)  ,z(i+1,j)  ,matID,srcID);
     end
 end 
-fclose(fid)
+fclose(fid);
 end
 % % % %%%%%%%%%%%%%%%%%%%%%
 % % % 
