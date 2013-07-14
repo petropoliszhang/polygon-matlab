@@ -56,15 +56,16 @@ geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
 
-geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.15.txt';
-geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.5.txt';
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n20_a0.95.txt';
+geofile='..\geom_codes\figs\random_poly_mesh_L10_n30_a0.95.txt';
 
-geofile='..\geom_codes\figs\smooth_poly_mesh_L10_n50_a0.8.txt';
+geofile='..\geom_codes\figs\smooth_poly_mesh_L10_n10_a0.8.txt';
+geofile='..\geom_codes\figs\smooth_poly_mesh_L10_n30_a0.8.txt';
+geofile='..\geom_codes\figs\smooth_poly_mesh_L10_n50_a0.88.txt';
+geofile='..\geom_codes\figs\smooth_poly_mesh_L1_n30_a0.1.txt';
 
-geofile='..\geom_codes\figs\random_poly_mesh_L10_n3_a0.5.txt';
-geofile='..\geom_codes\figs\random_poly_mesh_L10_n2_a0.5.txt';
 
-logi_mms  = false;
+logi_mms  = true;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
@@ -88,7 +89,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*5;
+C_pen=4*1;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
@@ -109,7 +110,7 @@ edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
 if(logi_mms)
     bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
     % exact solution
-    freq=5;
+    freq=3;
     exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
     % forcing rhs
     mms=@(x,y) (c_diff*(freq*pi)^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
@@ -140,6 +141,7 @@ if(logi_plot)
         patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
     end
     view(-135,25);
+    view(0,90);
     figure(12);clf
     % plot on finer mesh
     % 4---3   vertex anti-clockwise ordering,
@@ -151,7 +153,7 @@ if(logi_plot)
         c=mean(v);
         zc=mean(z(g));
         % alpha coef
-        nv=length(g);
+        nv=length(g); 
         alpha=1/nv;
         for i=1:nv
             i2=i+1; if(i==nv), i2=1; end

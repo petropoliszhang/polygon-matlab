@@ -1,11 +1,12 @@
-clear all; close all; clc;
+% clear all; 
+close all; clc;
 
-L=10;
-n=50;
+L=1;
+n=30;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.8;
+fraction=0.1;
 
 ind=0;
 x=zeros((n+1)^2,1);
@@ -21,7 +22,8 @@ end
 %%%%%%%%%%%%%
 [v,c]=VoronoiLimit(x,y,[0 L 0 L]);
 %%%%%%%%%%%%%
-% clean up duplicated vertices
+c_ori=c;
+% clean up duplicated vertices in single polygon definition
 for i=1:length(c)
     nv=length(c{i});
     new_ci=c{i}(1);
@@ -39,8 +41,87 @@ for i=1:length(c)
     c{i} = new_connectivity;
 end
 
-clc
 
+%%%%%%%%%%%%%
+% find Inf and NaN
+nv=length(v(:,1));
+TF=isfinite(v);
+[ii,jj]=find(TF==0);
+inf_nan=unique(ii);
+% delete in descending order
+inf_nan=sort(inf_nan,'descend');
+for i=1:length(inf_nan)
+    if(i==1)
+        fprintf('the following point will be omitted b/c the are NOT finite \n');
+    end
+    fprintf(' vertex # %d, x-value=%g, y-value=%g \n',inf_nan(i),v(inf_nan(i),1),v(inf_nan(i),2) );
+%     v(del(i),:)=[];
+end
+%
+% find duplicated vertices in v
+del=[];
+keep=[];
+for k=1:nv
+    if( ~isempty(find(inf_nan==k)) )
+        fprintf('skipping inf_nan point %d \n',k);
+        continue
+    end
+    vk=v(k,1:2);
+    % get difference
+    aux = v - kron(ones(nv,1),vk);
+    % get vector of norm
+    aa=sqrt(aux(:,1).^2+aux(:,2).^2);
+    ind=find(aa<1e-12);
+    len=length(ind);
+    if(len==0), 
+        vk
+        error('vk not found ????'); 
+    end
+    if(len >1), 
+        warning('vk duplicated'); 
+        vk;
+        v(ind,:);
+        k;
+        ind;
+        ind2=find(ind>k);
+        ind(ind2);
+        del=[del ind(ind2)];
+        if(~isempty(ind2))
+            keep=[keep k];
+        end
+    end
+end
+% del=unique(del)
+% del
+% keep
+% delete in descending order
+[del,isort]=sort(del,'descend');
+keep=keep(isort);
+% del
+% keep
+
+% ID_to_look_for=[];
+
+for i=1:length(del)
+    if(i==1)
+        fprintf('the following point will be omitted b/c they are DUPLICATES \n');
+    end
+    fprintf(' vertex # %d, x-value=%g, y-value=%g \n',del(i),v(del(i),1),v(del(i),2) );
+%     v(del(i),:)=[];
+    % update connectivity
+    for id=1:length(c)
+        g=c{id};
+        ind=find(g==del(i));
+        if(~isempty(ind))
+            g(ind)=keep(i);
+%             ID_to_look_for=[ID_to_look_for id];
+        end
+        c{id}=g;
+    end
+end
+% ID_to_look_for
+
+%%%%%%%%%%%%%
 figure(9);
 hold all
 for id=1:length(c)
@@ -263,9 +344,18 @@ for i = 1:length(c)
     fprintf(fid,'%g  %g  \n',aa');
 end
 
+nv=length(v(:,1))-length(inf_nan)-length(del);
 fprintf(fid,'# grid vertices \n');
-fprintf(fid,'%d\n',length(v(:,1)));
+fprintf(fid,'%d\n',nv);
 for k=1:length(v(:,1))
+    if( ~isempty(find(inf_nan==k)) )
+        fprintf('skipping inf_nan point %d \n',k);
+        continue
+    end
+    if( ~isempty(find(del==k)) )
+        fprintf('skipping omitted point %d \n',k);
+        continue
+    end
     fprintf(fid,'%g %g \n',v(k,1),v(k,2) );
 end
 

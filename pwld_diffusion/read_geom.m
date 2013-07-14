@@ -70,17 +70,21 @@ end
 % close geom data file
 fclose(fid);
 
-% find relationship between vert and vert_grid
+% find relationship between vert (DG) and vert_grid
 vert_link=zeros(ndof,1);
 for i=1:ndof
     v=vert(i,1:2);
     % get difference
-    aux = vert_grid - kron(ones(length(vert_grid(:,1)),1),v);
+    aux = vert_grid - kron(ones(n_grid_vert,1),v);
     % get vector of norm
     aa=sqrt(aux(:,1).^2+aux(:,2).^2);
     ind=find(aa<1e-12);
     len=length(ind);
     if(len==0 || len >1), 
+        v
+        ind
+        len
+        vert_grid(ind,:)
         error('vert_link'); 
     end
     vert_link(i)=ind(1);

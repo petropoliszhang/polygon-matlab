@@ -1,35 +1,9 @@
-% clear all;
-close all; clc;
+clear all; close all; clc;
 
-logi_save = true;
+load bad.mat;
 
-L=10;
-n=30;
-h=L/n;
-eps=h/10*0;
-xi=linspace(eps,L-eps,n+1);
-eta=xi;
-fraction=0.95;
+c=c_ori;
 
-
-ind=0;
-x=zeros((n+1)^2,1);
-y=x;
-for i=1:n+1
-    ax=1;   if(i==1||i==n+1),ax=0;end
-    for j=1:n+1
-        ay=1;   if(j==1||j==n+1),ay=0;end
-        ind=ind+1;
-        x(ind) = xi(i) + (2*rand(1,1)-1)*h*fraction*ax;
-        y(ind) = eta(j)+ (2*rand(1,1)-1)*h*fraction*ay;
-    end
-end
-
-%%%%%%%%%%%%%
-[v,c]=VoronoiLimit(x,y,[0 L 0 L]);
-clc
-%%%%%%%%%%%%%
-% c_ori=c;
 % clean up duplicated vertices in single polygon definition
 for i=1:length(c)
     nv=length(c{i});
@@ -61,7 +35,7 @@ for i=1:length(inf_nan)
         fprintf('the following point will be omitted b/c the are NOT finite \n');
     end
     fprintf(' vertex # %d, x-value=%g, y-value=%g \n',inf_nan(i),v(inf_nan(i),1),v(inf_nan(i),2) );
-%     v(del(i),:)=[];
+    %     v(del(i),:)=[];
 end
 %
 % find duplicated vertices in v
@@ -79,18 +53,18 @@ for k=1:nv
     aa=sqrt(aux(:,1).^2+aux(:,2).^2);
     ind=find(aa<1e-12);
     len=length(ind);
-    if(len==0), 
+    if(len==0),
         vk
-        error('vk not found ????'); 
+        error('vk not found ????');
     end
-    if(len >1), 
-        warning('vk duplicated'); 
+    if(len >1),
+        warning('vk duplicated');
         vk;
         v(ind,:);
-        k;
-        ind;
+        k
+        ind
         ind2=find(ind>k);
-        ind(ind2);
+        ind(ind2)
         del=[del ind(ind2)];
         if(~isempty(ind2))
             keep=[keep k];
@@ -98,34 +72,36 @@ for k=1:nv
     end
 end
 % del=unique(del)
-% del
-% keep
+del
+keep
 % delete in descending order
 [del,isort]=sort(del,'descend');
 keep=keep(isort);
-% del
-% keep
+del
+keep
 
-% ID_to_look_for=[];
+ID_to_look_for=[];
 
 for i=1:length(del)
     if(i==1)
         fprintf('the following point will be omitted b/c they are DUPLICATES \n');
     end
     fprintf(' vertex # %d, x-value=%g, y-value=%g \n',del(i),v(del(i),1),v(del(i),2) );
-%     v(del(i),:)=[];
+    %     v(del(i),:)=[];
     % update connectivity
     for id=1:length(c)
         g=c{id};
         ind=find(g==del(i));
         if(~isempty(ind))
+            g;
             g(ind)=keep(i);
-%             ID_to_look_for=[ID_to_look_for id];
+            g;
+            ID_to_look_for=[ID_to_look_for id];
         end
         c{id}=g;
     end
 end
-% ID_to_look_for
+ID_to_look_for
 
 %%%%%%%%%%%%%
 figure(9);
@@ -159,6 +135,7 @@ for iel=1:length(c)
     tot_area=tot_area+ar;
 end
 fprintf('total area read in geom = %g \n',tot_area);
+
 
 % decide whether some polygons overlap
 for i=1:length(c)
@@ -280,95 +257,5 @@ for iel=1:length(c)
 end
 fprintf('total area read in geom = %g \n',tot_area);
 
-
-
-%%%%%%%%%%%%%
-output_file1=strcat('.\figs\random_poly_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
-%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%
-% save_matlab_plot = input('save matlab plots? enter 1 for yes, 0 otherwise \n');
-save_matlab_plot=0;
-if save_matlab_plot~=0 || save_matlab_plot ~=1
-    save_matlab_plot=0;
-end
-if save_matlab_plot
-    print('-dpdf',strcat(output_file1,'.pdf'));
-    print('-dpng',strcat(output_file1,'.png'));
-    saveas(gcf,strcat(output_file1,'.fig'),'fig');
-end
-%%%%%%%%%%
-
-%%%%%%%%%%%%%
-% save txt file
-matID=1;
-srcID=1;
-% date and time;
-[yr, mo, da, hr, mi, s] = datevec(now);
-%
-output_file1=strcat(output_file1,'.txt')
-fid=fopen(output_file1,'w');
-fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
-fprintf(fid,'# dimensions \n');
-fprintf(fid,'%g %g \n',L,L);
-
-ncells = length(c);
-
-fprintf(fid,'# connectivity \n');
-fprintf(fid,'%d\n',ncells);
-skip = 0 ;
-for i = 1:length(c)
-    nvert=length(c{i});
-    fprintf(fid,'%d  ',nvert);
-    for k=1:nvert
-        fprintf(fid,'%d  ',skip+k);
-    end
-    fprintf(fid,'  %d %d \n',matID,srcID);
-    skip = skip + nvert;
-end
-
-nvert_total = skip;
-
-fprintf(fid,'# DG vertices (counter-clockwise) \n');
-fprintf(fid,'%d\n',nvert_total);
-for i = 1:length(c)
-    % extract all coord
-    aa=v(c{i},:);
-    x=aa(:,1);
-    y=aa(:,2);
-    % Find the centroid:
-    cx = mean(x);
-    cy = mean(y);
-    % Step 2: Find the angles:
-    ang = atan2(y - cy, x - cx);
-    % Step 3: Find the correct sorted order:
-    [dummy, order] = sort(ang);
-    % Step 4: Reorder the coordinates:
-    x = x(order);
-    y = y(order);
-    aa(:,1)=x;
-    aa(:,2)=y;
-    fprintf(fid,'%g  %g  \n',aa');
-end
-
-nv=length(v(:,1))-length(inf_nan)-length(del);
-fprintf(fid,'# grid vertices \n');
-fprintf(fid,'%d\n',nv);
-for k=1:length(v(:,1))
-    if( ~isempty(find(inf_nan==k)) )
-        fprintf('skipping inf_nan point %d \n',k);
-        continue
-    end
-    if( ~isempty(find(del==k)) )
-        fprintf('skipping omitted point %d \n',k);
-        continue
-    end
-    fprintf(fid,'%g %g \n',v(k,1),v(k,2) );
-end
-
-fclose(fid);
-
-
 return
-
 
