@@ -1,9 +1,12 @@
-function create_vtk_output(filename,ndof,nel,connectivity,vert,z)
+function create_vtk_output(filename,ndof,nel,connectivity,vert,z,cycle)
 
 t1=cputime;
 
 % vtk output for mesh
 %                ====
+if(~isempty(cycle))
+    filename = sprintf('%s_cy%2.2d',filename,cycle);
+end
 str = sprintf('%s_mesh.vtk',filename);
 fid = fopen(str,'w');
 fprintf(fid,'# vtk DataFile Version 3.0 \n');

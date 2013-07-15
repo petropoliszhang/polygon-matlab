@@ -1,4 +1,4 @@
-function L2_norm(ndof,nel,connectivity,vert,n_quad,z,exact)
+function L2_error=L2_norm(ndof,nel,connectivity,vert,n_quad,z,exact)
 
 t1=cputime;
 

@@ -3,6 +3,8 @@ function rectangular_pwld()
 %------------------------------------------------
 close all; clc
 % close all; clc; clear A; clear MM; clc
+global verbose
+verbose=false;
 %------------------------------------------------
 %
 % data
@@ -51,7 +53,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
-geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
+% geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.15.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
@@ -67,7 +69,9 @@ geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n40_a0.txt';
 
 logi_mms  = true;
-mms_type=2;
+max_ref_cycles=4;
+frac_ref=0;
+mms_type=1;
 logi_plot = true;
 vtk_basename = 'rectangular';
 %
@@ -98,6 +102,10 @@ C_pen_bd=2*C_pen;
 %
 % load mesh
 %
+fprintf('\n--------------------------------------------\n');
+fprintf('------ Initial mesh (cycle 1) ------\n');
+fprintf('--------------------------------------------\n');
+
 [Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] =...
     read_geom(geofile);
 % assign bc markers
@@ -141,8 +149,8 @@ if(logi_mms)
             zz=exact(uu,vv);
             figure(99)
             surf(uu,vv,zz)
-%             figure(999)
-%             surf(uu,vv,mms(uu,vv))
+            %             figure(999)
+            %             surf(uu,vv,mms(uu,vv))
         otherwise
             error('wrong mss type');
     end
@@ -151,95 +159,145 @@ else
     mms='';
     n_quad=0;
 end
-%------------------------------------------------
-%
-% assemble + solve
-%
-z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,edg_perp,C_pen,C_pen_bd,...
-    i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val );
 
-%------------------------------------------------
-%
-% error indicator
-%
-err_i = error_ind(z,nel,n_edge,vert,connectivity,edg2poly,edg2vert,c_diff,i_mat);
-figure(13);clf
-for iel=1:nel
-    g=connectivity{iel}(:);
-    ee=log10(err_i(iel)*ones(length(g),1));
-    patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
-end
-view(-135,25);
-view(0,90);
-figure(14);clf
-for iel=1:nel
-    g=connectivity{iel}(:);
-    ee=(err_i(iel)*ones(length(g),1));
-    patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
-end
-view(-135,25);
-view(0,90);
-% err_i
-% a=[0  44.9482 45.0518  79.9963  80.0037 104.9997  105.0003 120.0000 125 ];
-% diff(a)
-%------------------------------------------------
-%
-% plot
-%
-if(logi_plot)
+%=============================================
+%=============================================
+% refinement cycles
+%=============================================
+%=============================================
+for i_cycle=1:max_ref_cycles
     
-    figure(11);clf
+    if(i_cycle==1)
+        t_cycle_beg = t_beg;
+    else
+        t_cycle_beg = cputime;
+    end
+    %------------------------------------------------
+    %
+    % assemble + solve
+    %
+    z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,edg_perp,C_pen,C_pen_bd,...
+        i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val );
+    
+    %------------------------------------------------
+    %
+    % error indicator
+    %
+    err_i = error_ind(z,nel,n_edge,vert,connectivity,edg2poly,edg2vert,c_diff,i_mat);
+    figure(13+(i_cycle-1)*10);clf
     for iel=1:nel
         g=connectivity{iel}(:);
-        patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
+        ee=log10(err_i(iel)*ones(length(g),1));
+        patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
     end
     view(-135,25);
     view(0,90);
-    figure(12);clf
-    % plot on finer mesh
-    % 4---3   vertex anti-clockwise ordering,
-    % | c |
-    % 1---2
+    figure(14+(i_cycle-1)*10);clf
     for iel=1:nel
         g=connectivity{iel}(:);
-        v=vert(g,:);
-        c=mean(v);
-        zc=mean(z(g));
-        % alpha coef
-        nv=length(g);
-        alpha=1/nv;
-        for i=1:nv
-            i2=i+1; if(i==nv), i2=1; end
-            xx=[ vert(g([i i2]),1); c(1)];
-            yy=[ vert(g([i i2]),2); c(2)];
-            zz=[ z(g([i i2])); zc];
-            patch(xx,yy,zz,zz,'LineStyle','none');
-        end
+        ee=(err_i(iel)*ones(length(g),1));
+        patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
     end
     view(-135,25);
+    view(0,90);
+    % err_i
+    % a=[0  44.9482 45.0518  79.9963  80.0037 104.9997  105.0003 120.0000 125 ];
+    % diff(a)
+    %------------------------------------------------
+    %
+    % plot
+    %
+    if(logi_plot)
+        
+        figure(11+(i_cycle-1)*10);clf
+        for iel=1:nel
+            g=connectivity{iel}(:);
+            patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
+        end
+        view(-135,25);
+        view(0,90);
+        figure(12+(i_cycle-1)*10);clf
+        % plot on finer mesh
+        % 4---3   vertex anti-clockwise ordering,
+        % | c |
+        % 1---2
+        for iel=1:nel
+            g=connectivity{iel}(:);
+            v=vert(g,:);
+            c=mean(v);
+            zc=mean(z(g));
+            % alpha coef
+            nv=length(g);
+            alpha=1/nv;
+            for i=1:nv
+                i2=i+1; if(i==nv), i2=1; end
+                xx=[ vert(g([i i2]),1); c(1)];
+                yy=[ vert(g([i i2]),2); c(2)];
+                zz=[ z(g([i i2])); zc];
+                patch(xx,yy,zz,zz,'LineStyle','none');
+            end
+        end
+        view(-135,25);
+        
+    end
     
+    %------------------------------------------------
+    %
+    % L-2 norm
+    %
+    if(logi_mms)
+        
+        norm_data(i_cycle,1)=ndof;
+        norm_data(i_cycle,2)=L2_norm(ndof,nel,connectivity,vert,n_quad,z,exact);
+        
+    end % end logical test
+    
+    %------------------------------------------------
+    %
+    % vtk output
+    %
+    cycle_number = i_cycle;
+    if(max_ref_cycles==1),  cycle_number=[]; end
+    create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z,cycle_number);
+    
+    %------------------------------------------------
+    t_cycle_end = cputime;
+    fprintf('\n\nTime in cycle %d = %g \n',i_cycle,t_cycle_end-t_cycle_beg);
+    %------------------------------------------------
+    %
+    % refinement
+    if(i_cycle<max_ref_cycles)
+        
+        fprintf('\n--------------------------------------------\n');
+        fprintf('------ Refinement cycle # %3.3d ------\n',i_cycle+1);
+        fprintf('--------------------------------------------\n');
+
+        [nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] =...
+            refine_geom(err_i,frac_ref,nel,connectivity,vert,i_mat,i_src,edg2poly);
+        
+        % assign bc markers
+        edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
+        
+        % compute normal vectors
+        edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
+
+    end
+    
+    %------------------------------------------------
+
 end
-
-%------------------------------------------------
-%
-% L-2 norm
-%
-if(logi_mms)
-    
-    L2_norm(ndof,nel,connectivity,vert,n_quad,z,exact);
-    
-end % end logical test
-
-%------------------------------------------------
-%
-% vtk output
-%
-create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z)
-
-%------------------------------------------------
-
+%=============================================
+%=============================================
+% refinement cycles
+%=============================================
+%=============================================
 t_end=cputime;
 fprintf('\n\n-----------------------------\nTotal time    = %g \n',t_end-t_beg);
+
+if(logi_mms)
+    figure(999)
+    plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-')
+end
 
 return
 end
