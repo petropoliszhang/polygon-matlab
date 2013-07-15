@@ -24,8 +24,8 @@ end
 if(isempty(ind2) && isempty(ind2_))
     new_edge=new_edge+1;
     edg2vert(new_edge,1:2)= ed;
-    edg2poly(new_edge,1)=ipoly; % 1
-    edg2poly(new_edge,2)=-1; % bc
+    edg2poly(new_edge,1)=ipoly; % first poly for that edge is Km
+    edg2poly(new_edge,2)=-1; % later, the only -1 values left will be for bc
 else
     if(length(ind2)==1)
         work=ind1(ind2);

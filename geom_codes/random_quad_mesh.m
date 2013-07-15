@@ -1,10 +1,11 @@
 clear all; close all; clc
 % random mesh generated for quadrilaterals
 
-logi_save = false;
+logi_save_plots = false;
+logi_write_file = true;
 
 L=1;
-n=20;
+n=40;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
@@ -25,8 +26,8 @@ end
 figure(1)
 surf(x,y,ones(n+1,n+1)*0,'FaceColor','white')
 view(0,90)
-if(logi_save)
-    output_file1=strcat('.\figs\random_quad_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file1=strcat('.\figs\random_quad_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+if(logi_save_plots)
     print('-dpdf',strcat(output_file1,'.pdf'));
     print('-dpng',strcat(output_file1,'.png'));
     saveas(gcf,strcat(output_file1,'.fig'),'fig');
@@ -41,8 +42,8 @@ if(mod(n,2)==0)
     surf(xx,y,ones(n+1,n+1))
     view(0,90)
 end
-if(logi_save)
-    output_file2=strcat('.\figs\random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file2=strcat('.\figs\random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+if(logi_save_plots)
     print('-dpdf',strcat(output_file2,'.pdf'));
     print('-dpng',strcat(output_file2,'.png'));
     saveas(gcf,strcat(output_file2,'.fig'),'fig');
@@ -57,14 +58,14 @@ if(mod(n,2)==0)
     surf(xx,yy,ones(n+1,n+1))
     view(0,90)
 end
-if(logi_save)
-    output_file3=strcat('.\figs\random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+output_file3=strcat('.\figs\random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+if(logi_save_plots)
     print('-dpdf',strcat(output_file3,'.pdf'));
     print('-dpng',strcat(output_file3,'.png'));
     saveas(gcf,strcat(output_file3,'.fig'),'fig');
 end
 %
-if(~logi_save), return; end;
+if(~logi_write_file), return; end;
 %
 %---------------------------------------------
 % save txt file
