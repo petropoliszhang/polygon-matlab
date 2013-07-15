@@ -21,7 +21,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.txt';
 %
-% geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.2.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.2.txt';
 %
@@ -70,7 +70,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 
 logi_mms  = true;
 max_ref_cycles=4;
-frac_ref=0;
+frac_ref=0.7;
 mms_type=1;
 logi_plot = true;
 vtk_basename = 'rectangular';
