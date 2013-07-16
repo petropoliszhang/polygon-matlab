@@ -112,6 +112,10 @@ fprintf('--------------------------------------------\n');
 edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
 % compute normal vectors
 edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
+% assign the current refinement level 
+if(max_ref_cycles>1)
+    curr_ref_lev = zeros(nel,1);
+end
 %
 %------------------------------------------------
 %
@@ -272,8 +276,8 @@ for i_cycle=1:max_ref_cycles
         fprintf('------ Refinement cycle # %3.3d ------\n',i_cycle+1);
         fprintf('--------------------------------------------\n');
 
-        [nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] =...
-            refine_geom(err_i,frac_ref,nel,connectivity,vert,i_mat,i_src,edg2poly);
+        [nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
+            refine_geom_v2(err_i,frac_ref,curr_ref_lev,nel,connectivity,vert,i_mat,i_src,edg2poly);
         
         % assign bc markers
         edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
