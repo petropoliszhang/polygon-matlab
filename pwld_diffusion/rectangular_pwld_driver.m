@@ -73,7 +73,7 @@ max_ref_cycles=4;
 frac_ref=0.7;
 mms_type=1;
 logi_plot = true;
-vtk_basename = 'rectangular';
+vtk_basename = 'testing';
 %
 tot = 1/3; sca = 1/3;
 c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10;

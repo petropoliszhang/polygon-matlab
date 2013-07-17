@@ -40,3 +40,4 @@
 *.cc*
 *_BT_*
 *ep.txt
+testing*.vtk
