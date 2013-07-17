@@ -1,5 +1,5 @@
 function [nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
-    refine_geom_v2(err_i,frac_ref,curr_ref_lev,old_nel,old_connectivity,old_vert,old_i_mat,old_i_src,old_edg2poly)
+    refine_geom_v3(err_i,frac_ref,curr_ref_lev,old_nel,old_connectivity,old_vert,old_i_mat,old_i_src,old_edg2poly)
 % mesh refinement
 
 t1=cputime;
@@ -27,46 +27,36 @@ if(dmax>1)
     error('max diff in ref levels >1');
 end
 
-% number of cells to refine
-n_cell_to_ref = length(cell_refine);
-
 %----------------------------------------
 % the new mesh is created by generating the cells with the lowest 
 % refinement levels first
 
-all_cells = 1:old_nel;
-unchanged_cells = setxor(all_cells,cell_refine);
-n_unchanged = length(unchanged_cells);
-%sanity check
-aux = intersect(all_cells,cell_refine);
-aux = aux -sort(cell_refine);
-if(any(aux))
-    error('intersect(all_cells,cell_refine)');
-end
-%sanity check
-if( (n_unchanged+n_cell_to_ref)~=old_nel)
-    error('(n_unchanged+n_cell_to_ref)~=old_nel');
-end
+% all_cells = 1:old_nel;
+% unchanged_cells = setxor(all_cells,cell_refine);
+% n_unchanged = length(unchanged_cells);
+% %sanity check
+% aux = intersect(all_cells,cell_refine);
+% aux = aux -sort(cell_refine);
+% if(any(aux))
+%     error('intersect(all_cells,cell_refine)');
+% end
+% %sanity check
+% if( (n_unchanged+n_cell_to_ref)~=old_nel)
+%     error('(n_unchanged+n_cell_to_ref)~=old_nel');
+% end
 
-% refinement levels for the cells to be refined
-next_ref_lev_to_process = next_ref_lev(cell_refine);
-[sorted_next_ref_lev_to_process,ordered_cell_refine]=sort(ref_to_process);
-sorted_curr_ref_lev_to_process = curr_ref_lev(ordered_cell_refine);
+% refinement levels 
+[sorted_next_ref_lev,ordered_cells]=sort(next_ref_lev);
+sorted_curr_ref_lev = curr_ref_lev(ordered_cells);
 
-
-level_values = unique(next_ref_lev_to_process);
+level_values = unique(next_ref_lev);
 how_many_levels=length(level_values);
-ordered_cell_refine=[];
 ncells_per_lev=zeros(how_many_levels,1);
 for k=1:how_many_levels
     ind = find( next_ref_lev == level_values(k) );
     ncells_per_lev = length(ind);
 end
 
-%sanity check
-if( length(ordered_cell_refine) ~= length(cell_refine) )
-    error('length(ordered_cell_refine) ~= length(cell_refine)');
-end
 
 %----------------------------------------
 
@@ -75,7 +65,7 @@ nel = (old_nel-n_cell_to_ref) + n_cell_to_ref*4;
 
 % new connectivity, imat, isrc
 connectivity=cell(nel,1);
-corner_pos=cell(nel,1);
+corners=cell(nel,1);
 i_mat=zeros(nel,1);
 i_src=zeros(nel,1);
 n_vertices=zeros(nel,1);
@@ -87,54 +77,21 @@ grid_vert_ID=[];
 new_iel = 0;
 new_dof = 0;
 
-%%% unchanged cells
-for k=1:n_unchanged
+%%% loop over cells
+for k=1:old_nel
     
     % get old cell ID
-    iel = unchanged_cells(k);
-    g = old_connectivity{iel};
-    nedg = length(g);
-    v = old_vert(g,:);
-   
-    % ---- create simple quad
-    new_iel=new_iel+1;
-    connectivity{new_iel}=zeros(nedg,1);
-    i_mat(new_iel) = old_i_mat(iel);
-    i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
-    
-    local_con = (new_dof+1):(new_dof+nedg);
-    connectivity{new_iel} = local_con;
-    corner_pos{new_iel} = old_corner_pos{iel};
-    n_vertices(new_iel) = nedg;
-
-    vert(local_con,1:2) = v(:,:);
-    new_dof = new_dof + nedg;
-    
-    grid_vert_ID = [ grid_vert_ID local_con];
-
-end
-    
-%%% cells to be refined
-for k=1:n_cell_to_ref
-    
-    % get old cell ID
-    iel = ordered_cell_refine(k);
-    corners = old_corner_pos{iel};
-    g = old_connectivity{iel}(corners);
+    iel = ordered_cells(k);
+    g = old_corners{iel};
     nedg = length(g);
     if(nedg~=4), error('refinement implemented for quads only as of now'); end
     v = old_vert(g,:);
-
+    
     % get refinement levels of the old cell 
-    next_lev = sorted_next_ref_lev_to_process(k);
-    curr_lev = sorted_curr_ref_lev_to_process(k);
-    % sanity checks
+    next_lev = sorted_next_ref_lev(k);
+    curr_lev = sorted_curr_ref_lev(k);
+    % sanity check
     if(next_lev ~= next_ref_lev(iel)), error('next_lev ~= next_ref_lev(iel)'); end
-    if(curr_lev ~= curr_ref_lev(iel)), error('curr_lev ~= curr_ref_lev(iel)'); end
-    if(next_lev == curr_lev), error('next_lev == curr_lev'); end
-
-    %%%%%%%% refine old cell first
     
     % new points
     centroid = mean(v);
@@ -142,7 +99,7 @@ for k=1:n_cell_to_ref
     i=2; new_pt2 = (v(i,:)+v(i+1,:))/2;
     i=3; new_pt3 = (v(i,:)+v(i+1,:))/2;
     i=4; new_pt4 = (v(i,:)+v(1,:)  )/2;
-
+    
     %  d---3---c
     %  |       |
     %  4   c   2
@@ -158,7 +115,37 @@ for k=1:n_cell_to_ref
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
-    corner_pos{new_iel} = 1:4;
+    n_vertices(new_iel) = nedg;
+
+    vert(new_dof+1,:) = v(1,:);
+    vert(new_dof+2,:) = new_pt1;
+    vert(new_dof+3,:) = centroid;
+    vert(new_dof+4,:) = new_pt4;
+    new_dof = new_dof + nedg;
+
+    
+    % new points
+    centroid = mean(v);
+    i=1; new_pt1 = (v(i,:)+v(i+1,:))/2;
+    i=2; new_pt2 = (v(i,:)+v(i+1,:))/2;
+    i=3; new_pt3 = (v(i,:)+v(i+1,:))/2;
+    i=4; new_pt4 = (v(i,:)+v(1,:)  )/2;
+    
+    %  d---3---c
+    %  |       |
+    %  4   c   2
+    %  |       |
+    %  a---1---b
+    %
+    % ---- quad 1
+    new_iel=new_iel+1;
+    connectivity{new_iel}=zeros(nedg,1);
+    i_mat(new_iel) = old_i_mat(iel);
+    i_src(new_iel) = old_i_src(iel);
+    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    
+    local_con = (new_dof+1):(new_dof+nedg);
+    connectivity{new_iel}(:) = local_con;
     n_vertices(new_iel) = nedg;
 
     vert(new_dof+1,:) = v(1,:);
@@ -179,7 +166,6 @@ for k=1:n_cell_to_ref
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
-    corner_pos{new_iel} = 1:4;
     n_vertices(new_iel) = nedg;
     
     vert(new_dof+1,:) = new_pt1;
@@ -200,7 +186,6 @@ for k=1:n_cell_to_ref
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
-    corner_pos{new_iel} = 1:4;
     n_vertices(new_iel) = nedg;
 
     vert(new_dof+1,:) = centroid;
@@ -221,7 +206,6 @@ for k=1:n_cell_to_ref
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
-    corner_pos{new_iel} = 1:4;
     n_vertices(new_iel) = nedg;
 
     vert(new_dof+1,:) = new_pt4;
@@ -233,9 +217,8 @@ for k=1:n_cell_to_ref
     grid_vert_ID = [ grid_vert_ID local_con];
 
 
-    %%%%%%%% then analyze what to do about the neighbors of that old cell
-    
-    % find the old neighbors to old iel
+    %%%%%%%%%%%%%%%%%%%%%
+    % find the 4 (quads only!!!) old neighbors to old iel
     list_edge_p = find( old_edg2poly(:,2) == iel );
     Kp = old_edg2poly(list_edge_p,2);
     ind = find(Kp==iel); Kp(ind)=[];
@@ -253,36 +236,6 @@ for k=1:n_cell_to_ref
         Km(ind(ii))=[];
     end
     K_others=[Kp Km];
-    
-    %  analyze each neighbor
-    for kk=1:length(K_others);
-        i_neigh = K_others(kk);
-        next_lev_neigh = next_ref_lev(i_neigh);
-        curr_lev_neigh = curr_ref_lev(i_neigh);
-        
-        if ( next_lev == next_lev_neigh)
-            % do nothing more
-        elseif( next_lev - next_lev_neigh == 1)
-            if( curr_lev == curr_lev_neigh )
-                % add midpoint
-            elseif( curr_lev - curr_lev_neigh == 1)
-                % second part
-            else
-                error(' wrong case for:  next_lev - next_lev_neigh == 1');
-            end
-        elseif( next_lev - next_lev_neigh == -1)
-            if( curr_lev - curr_lev_neigh == -1 )
-                % first part
-            else
-                error(' wrong case for:  next_lev - next_lev_neigh == -1');
-            end
-        else
-            error('|next_lev - next_lev_neigh| >1')
-        end
-
-        
-        
-    end
     
     % ------ below edge 1-2
     ed=g(1:2);
