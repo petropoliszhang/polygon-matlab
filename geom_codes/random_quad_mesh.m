@@ -5,7 +5,7 @@ logi_save_plots = false;
 logi_write_file = true;
 
 L=1;
-n=40;
+n=2;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;

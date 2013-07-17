@@ -1,4 +1,4 @@
-function rectangular_pwld()
+function rectangular_pwld_debug()
 
 close all; clc;clear A; clear MM;
 

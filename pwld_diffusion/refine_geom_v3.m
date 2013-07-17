@@ -54,7 +54,7 @@ how_many_levels=length(level_values);
 ncells_per_lev=zeros(how_many_levels,1);
 for k=1:how_many_levels
     ind = find( next_ref_lev == level_values(k) );
-    ncells_per_lev = length(ind);
+    ncells_per_lev(k) = length(ind);
 end
 
 

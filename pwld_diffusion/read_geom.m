@@ -1,9 +1,7 @@
-function [Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] = read_geom(file)
+function [Lx,Ly,nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src] ...
+    = read_geom(file)
 
 t1=cputime;
-
-% clear all; close all; clc;
-% file='.\geom_codes\figs\aa_random_quad_mesh_L1_n10_a0.53.txt'
 
 fid=fopen(file);
 a=textscan(fid,'%n','commentstyle','#');

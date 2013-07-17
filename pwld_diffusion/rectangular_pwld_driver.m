@@ -1,4 +1,4 @@
-function rectangular_pwld()
+function rectangular_pwld_driver()
 
 %------------------------------------------------
 close all; clc
@@ -68,22 +68,25 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n40_a0.txt';
 
-logi_mms  = true;
+geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
+
+logi_mms  = false;
 max_ref_cycles=4;
 frac_ref=0.7;
 mms_type=1;
 logi_plot = true;
+generate_vtk_output = false;
 vtk_basename = 'testing';
 %
 tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10;
+c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[0 0 0 0 ];
+bc_type=[1 1 2 2  ];
 bc_val.left  = 100;
 bc_val.right = -50;
 bc_val.bottom= 50;
@@ -115,6 +118,8 @@ edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
 % assign the current refinement level 
 if(max_ref_cycles>1)
     curr_ref_lev = zeros(nel,1);
+    corner_pos=cell(nel,1);
+for i=1:nel
 end
 %
 %------------------------------------------------
@@ -260,9 +265,11 @@ for i_cycle=1:max_ref_cycles
     %
     % vtk output
     %
-    cycle_number = i_cycle;
-    if(max_ref_cycles==1),  cycle_number=[]; end
-    create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z,cycle_number);
+    if generate_vtk_output
+        cycle_number = i_cycle;
+        if(max_ref_cycles==1),  cycle_number=[]; end
+        create_vtk_output(vtk_basename,ndof,nel,connectivity,vert,z,cycle_number);
+    end
     
     %------------------------------------------------
     t_cycle_end = cputime;
@@ -276,8 +283,13 @@ for i_cycle=1:max_ref_cycles
         fprintf('------ Refinement cycle # %3.3d ------\n',i_cycle+1);
         fprintf('--------------------------------------------\n');
 
-        [nel,ndof,connectivity,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
-            refine_geom_v2(err_i,frac_ref,curr_ref_lev,nel,connectivity,vert,i_mat,i_src,edg2poly);
+        % for debugging only !
+        err_i(:)=0;
+        err_i(1)=1;
+        
+        [nel,ndof,connectivity,corner_pos,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
+            refine_geom_v2(err_i,frac_ref,curr_ref_lev,nel,connectivity,corner_pos,vert,...
+                           edg2poly,edg2vert,i_mat,i_src);
         
         % assign bc markers
         edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
