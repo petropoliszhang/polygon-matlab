@@ -93,7 +93,7 @@ new_dof = 0;
 for k=1:n_cell_to_ref
     
     % get old cell ID
-    iel = ordered_cell_refine(k)
+    iel = ordered_cell_refine(k);
     corners = old_corner_pos{iel};
     g = old_connectivity{iel}(corners);
     nedg = length(g);
@@ -231,12 +231,12 @@ for k=1:n_cell_to_ref
         Kp(ind(ii))=[];
     end
     % generate lists of neighboring polygons and edges
-    K_others=[Kp ; Km]
+    K_others=[Kp ; Km];
     list_edges = [list_edge_p ; list_edge_m];
     
     %  analyze each neighbor
     for kk=1:length(K_others);
-        i_neigh = K_others(kk)
+        i_neigh = K_others(kk);
         next_lev_neigh = next_ref_lev(i_neigh);
         curr_lev_neigh = curr_ref_lev(i_neigh);
         

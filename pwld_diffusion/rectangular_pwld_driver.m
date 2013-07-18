@@ -70,10 +70,10 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 
 geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 
-logi_mms  = true;
-max_ref_cycles=15;
+logi_mms  = false;
+max_ref_cycles=6;
 frac_ref=0.2;
-mms_type=2;
+mms_type=1;
 logi_plot = true;
 logi_plot_err_i = false;
 generate_vtk_output = false;
@@ -87,7 +87,7 @@ c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[1 1 2 2  ];
+bc_type=[4 4 2 2  ];
 bc_val.left  = 100;
 bc_val.right = -50;
 bc_val.bottom= 50;
@@ -99,7 +99,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*5;
+C_pen=4*1;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
@@ -138,7 +138,7 @@ if(logi_mms)
             n_quad = 8;
         case{1}
             % exact solution
-            freq=1;
+            freq=3;
             exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
             % forcing rhs
             mms=@(x,y) (c_diff*(freq*pi)^2*(1/Lx^2+1/Ly^2)+sigma_a)*sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
