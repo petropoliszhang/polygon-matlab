@@ -72,7 +72,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 
 logi_mms  = true;
 max_ref_cycles=15;
-frac_ref=0.7;
+frac_ref=0.2;
 mms_type=2;
 logi_plot = true;
 logi_plot_err_i = false;
@@ -302,19 +302,19 @@ for i_cycle=1:max_ref_cycles
         %         [dummy,ind_]=min(distance_);
         %         err_i(ind_)=1;
         
-        figure(99);clf
-        hold all
-        for id=1:length(connectivity)
-            vv= vert(connectivity{id},:);
-            xc=mean(vv(:,1));
-            yc=mean(vv(:,2));
-            vv(end+1,:)=vv(1,:);
-            plot(vv(:,1),vv(:,2),'+-')
-            %plot(xc,yc,'x');
-            str=sprintf('%d',id);
-            text(xc,yc,str);
-            %     pause
-        end
+%         figure(99);clf
+%         hold all
+%         for id=1:length(connectivity)
+%             vv= vert(connectivity{id},:);
+%             xc=mean(vv(:,1));
+%             yc=mean(vv(:,2));
+%             vv(end+1,:)=vv(1,:);
+%             plot(vv(:,1),vv(:,2),'+-')
+%             %plot(xc,yc,'x');
+%             str=sprintf('%d',id);
+%             text(xc,yc,str);
+%             %     pause
+%         end
         
         [nel,ndof,connectivity,corner_pos,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
             refine_geom_v2(err_i,frac_ref,curr_ref_lev,nel,connectivity,corner_pos,vert,...

@@ -93,7 +93,7 @@ new_dof = 0;
 for k=1:n_cell_to_ref
     
     % get old cell ID
-    iel = ordered_cell_refine(k);
+    iel = ordered_cell_refine(k)
     corners = old_corner_pos{iel};
     g = old_connectivity{iel}(corners);
     nedg = length(g);
@@ -231,12 +231,12 @@ for k=1:n_cell_to_ref
         Kp(ind(ii))=[];
     end
     % generate lists of neighboring polygons and edges
-    K_others=[Kp ; Km];
+    K_others=[Kp ; Km]
     list_edges = [list_edge_p ; list_edge_m];
     
     %  analyze each neighbor
     for kk=1:length(K_others);
-        i_neigh = K_others(kk);
+        i_neigh = K_others(kk)
         next_lev_neigh = next_ref_lev(i_neigh);
         curr_lev_neigh = curr_ref_lev(i_neigh);
         
@@ -334,8 +334,9 @@ for k=1:n_cell_to_ref
                 vert(new_dof,:) = mid_pt;
                 n_vertices(new_iel_to_modify) = n_vertices(new_iel_to_modify) + 1;
                 
-                g_new = connectivity{new_iel_to_modify};
-                v_new = vert(g_new,:);
+                gc_new = connectivity{new_iel_to_modify}(corner_pos{new_iel_to_modify});
+                v_new = vert(gc_new,:);
+%                 len = length(v_new(:,1));
                 aux = zeros(4,2);
                 aux = v_new - kron(ones(4,1),v_iel_ed(1,:));
                 aa = sqrt(aux(:,1).^2+aux(:,2).^2);
@@ -360,8 +361,17 @@ for k=1:n_cell_to_ref
                         error('cor(1)*cor(2)');
                 end
                 
+                % save position before update
+                cor_pos = corner_pos{new_iel_to_modify}(i2);
                 corner_pos{new_iel_to_modify}(i2+1:end) =corner_pos{new_iel_to_modify}(i2+1:end) + 1;
-                g_new = [g_new(1:i2); new_dof; g_new(i2+1:end)];
+                
+                % not g with corners only below!
+                g_new = connectivity{new_iel_to_modify};
+                if(length(g_new)>4)
+                    disp('qqq')
+                end
+                i3 = find(g_new==g_new(cor_pos));
+                g_new = [g_new(1:i3); new_dof; g_new(i3+1:end)];
                 connectivity{new_iel_to_modify} = g_new;
                 
                 grid_vert_ID = [ grid_vert_ID new_dof];
