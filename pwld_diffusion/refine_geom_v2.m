@@ -1,8 +1,8 @@
-function [nel,ndof,connectivity,corner_pos,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
+function [nel,ndof,connectivity,corner_pos,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,new_curr_ref_lev] =...
     refine_geom_v2(err_i,frac_ref,curr_ref_lev,old_nel,old_connectivity,old_corner_pos,old_vert,...
     old_edg2poly,old_edg2vert,old_i_mat,old_i_src)
 % mesh refinement
-insert_fn = @(val, x, pos)cat(2,  x(1:pos-1), val, x(pos:end));
+% insert_fn = @(val, x, pos)cat(2,  x(1:pos-1), val, x(pos:end));
 
 t1=cputime;
 
@@ -36,7 +36,7 @@ n_cell_to_ref = length(cell_refine);
 % the new mesh is created by generating the cells with the lowest
 % refinement levels first
 
-all_cells = 1:old_nel;
+all_cells = (1:old_nel)';
 unchanged_cells = setxor(all_cells,cell_refine);
 n_unchanged = length(unchanged_cells);
 %sanity check
@@ -52,17 +52,17 @@ end
 
 % refinement levels for the cells to be refined
 next_ref_lev_to_process = next_ref_lev(cell_refine);
-[sorted_next_ref_lev_to_process,ordered_cell_refine]=sort(next_ref_lev_to_process);
+[sorted_next_ref_lev_to_process,sorting_order]=sort(next_ref_lev_to_process);
+ordered_cell_refine = cell_refine(sorting_order);
 sorted_curr_ref_lev_to_process = curr_ref_lev(ordered_cell_refine);
 
-
-level_values = unique(next_ref_lev_to_process);
-how_many_levels=length(level_values);
-ncells_per_lev=zeros(how_many_levels,1);
-for k=1:how_many_levels
-    ind = find( next_ref_lev == level_values(k) );
-    ncells_per_lev(k) = length(ind);
-end
+% % level_values = unique(next_ref_lev_to_process);
+% % how_many_levels=length(level_values);
+% % ncells_per_lev=zeros(how_many_levels,1);
+% % for k=1:how_many_levels
+% %     ind = find( next_ref_lev == level_values(k) );
+% %     ncells_per_lev(k) = length(ind);
+% % end
 
 %sanity check
 if( length(ordered_cell_refine) ~= length(cell_refine) )
@@ -80,7 +80,7 @@ corner_pos=cell(nel,1);
 i_mat=zeros(nel,1);
 i_src=zeros(nel,1);
 n_vertices=zeros(nel,1);
-curr_ref_lev=zeros(nel,1);
+new_curr_ref_lev=zeros(nel,1);
 
 vert=zeros(4*nel,2); % 4*nel is only a lower bound ...
 
@@ -128,7 +128,7 @@ for k=1:n_cell_to_ref
     connectivity{new_iel}=zeros(nedg,1);
     i_mat(new_iel) = old_i_mat(iel);
     i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    new_curr_ref_lev(new_iel) = next_ref_lev(iel);
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
@@ -149,7 +149,7 @@ for k=1:n_cell_to_ref
     connectivity{new_iel}=zeros(nedg,1);
     i_mat(new_iel) = old_i_mat(iel);
     i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    new_curr_ref_lev(new_iel) = next_ref_lev(iel);
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
@@ -170,7 +170,7 @@ for k=1:n_cell_to_ref
     connectivity{new_iel}=zeros(nedg,1);
     i_mat(new_iel) = old_i_mat(iel);
     i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    new_curr_ref_lev(new_iel) = next_ref_lev(iel);
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
@@ -191,7 +191,7 @@ for k=1:n_cell_to_ref
     connectivity{new_iel}=zeros(nedg,1);
     i_mat(new_iel) = old_i_mat(iel);
     i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    new_curr_ref_lev(new_iel) = next_ref_lev(iel);
     
     local_con = (new_dof+1):(new_dof+nedg);
     connectivity{new_iel}(:) = local_con;
@@ -211,17 +211,7 @@ for k=1:n_cell_to_ref
     
     % find the old neighbors to old iel
     list_edge_p = find( old_edg2poly(:,2) == iel );
-    Kp = old_edg2poly(list_edge_p,2);
-    % remove iel from list
-    ind = find(Kp==iel); Kp(ind)=[];
-    % remove boundary connections
-    ind = find(Kp<0);
-    ind = sort(ind,'descend');
-    for ii=1:length(ind)
-        Kp(ind(ii))=[];
-    end
-    list_edge_m = find( old_edg2poly(:,1) == iel );
-    Km = old_edg2poly(list_edge_p,1);
+    Km = old_edg2poly(list_edge_p,1); % it is 1 to get the other poly, Km
     % remove iel from list
     ind = find(Km==iel); Km(ind)=[];
     % remove boundary connections
@@ -230,9 +220,19 @@ for k=1:n_cell_to_ref
     for ii=1:length(ind)
         Km(ind(ii))=[];
     end
+    list_edge_m = find( old_edg2poly(:,1) == iel );
+    Kp = old_edg2poly(list_edge_m,2); % it is 2 to get the other poly, Kp
+    % remove iel from list
+    ind = find(Kp==iel); Kp(ind)=[];
+    % remove boundary connections
+    ind = find(Kp<0);
+    ind = sort(ind,'descend');
+    for ii=1:length(ind)
+        Kp(ind(ii))=[];
+    end
     % generate lists of neighboring polygons and edges
-    K_others=[Kp Km];
-    list_edges = [list_edge_p list_edge_m];
+    K_others=[Kp ; Km];
+    list_edges = [list_edge_p ; list_edge_m];
     
     %  analyze each neighbor
     for kk=1:length(K_others);
@@ -251,7 +251,7 @@ for k=1:n_cell_to_ref
                     error('i_neigh multiplicity in list_edges');
                 end
                 common_edge = list_edges(i_);
-                if(j_2==1)
+                if(j_==1)
                     ed = old_edg2vert(common_edge,1:2);
                 else
                     ed = old_edg2vert(common_edge,3:4);
@@ -264,7 +264,7 @@ for k=1:n_cell_to_ref
                 i2 = find( g_neigh == ed(1) );
                 if(length(i2)~=1), error('g_neigh'); end
                 n_old_vert = length(old_vert(:,1));
-                g_neigh = insert_fn(n_old_vert+1, g_neigh, i2+1);
+                g_neigh = [g_neigh(1:i2); n_old_vert+1; g_neigh(i2+1:end)];
                 % deal with corners
                 neigh_corners = old_corner_pos{i_neigh};
                 c_neigh = old_connectivity{i_neigh}(neigh_corners);
@@ -277,6 +277,8 @@ for k=1:n_cell_to_ref
                 old_corner_pos{i_neigh} = neigh_corners;
                 %             elseif( curr_lev - curr_lev_neigh == 1)
                 %                 % second part
+            elseif( curr_lev - curr_lev_neigh == 1)
+                %%% second part %%% actually, nothing left to do
             else
                 error(' wrong case for:  next_lev - next_lev_neigh == 1');
             end
@@ -289,7 +291,7 @@ for k=1:n_cell_to_ref
                     error('i_neigh multiplicity in list_edges');
                 end
                 common_edge = list_edges(i_);
-                if(j_2==1)
+                if(j_==1)
                     ed = old_edg2vert(common_edge,3:4); % flipped
                 else
                     ed = old_edg2vert(common_edge,1:2); % flipped
@@ -299,26 +301,69 @@ for k=1:n_cell_to_ref
                 
                 % which of the 4 quads that replace old iel should be
                 % selected ?
-                for ii=1:4
-                    g = connectivity{new_iel-ii+1};
-                    % not ed(1), we want a unique vertex, thus the corner of the new quads
-                    i2 = find( g == ed(2) );
-                    % exit small loop when found
-                    if(~isempty(i2))
-                        break;
+                % identify the corner of the old iel
+                i_corner = find(g == ed(1));
+                if(isempty(i_corner))
+                    i_corner = find(g == ed(2));
+                    if(isempty(i_corner))
+                        error('vertices of ed not found in corner');
+                    end
+                else
+                    i_corner2 = find(g == ed(2));
+                    if(~isempty(i_corner2))
+                        error('vertices of ed found TWICE in corner');
                     end
                 end
-                if(length(i2)~=1), error('g new quads'); end
-                new_iel_to_modify = new_iel-ii+1;
-                
+                % correspondance
+                % new_iel   <-> corner#4
+                % new_iel-1 <-> corner#3
+                % new_iel-2 <-> corner#2
+                % new_iel-3 <-> corner#1
+                switch i_corner
+                    case{1}
+                        new_iel_to_modify = new_iel -3;
+                    case{2}
+                        new_iel_to_modify = new_iel -2;
+                    case{3}
+                        new_iel_to_modify = new_iel -1;
+                    case{4}
+                        new_iel_to_modify = new_iel;
+                end                        
                 % add midpt to data from newly created quads
                 new_dof = new_dof + 1;
                 vert(new_dof,:) = mid_pt;
                 n_vertices(new_iel_to_modify) = n_vertices(new_iel_to_modify) + 1;
-                corner_pos{new_iel_to_modify}(i2:end) =corner_pos{new_iel_to_modify}(i2:end) + 1;
                 
-                g = insert_fn(new_dof, g, i2);
-                connectivity{new_iel_to_modify} = g;
+                g_new = connectivity{new_iel_to_modify};
+                v_new = vert(g_new,:);
+                aux = zeros(4,2);
+                aux = v_new - kron(ones(4,1),v_iel_ed(1,:));
+                aa = sqrt(aux(:,1).^2+aux(:,2).^2);
+                ind1=find(aa<1e-12);
+                aux = v_new - kron(ones(4,1),v_iel_ed(2,:));
+                aa = sqrt(aux(:,1).^2+aux(:,2).^2);
+                ind2=find(aa<1e-12);
+                if(length(ind1)~=1 || length(ind2)~=1)
+                    error('finding corners ...');
+                end
+                cor = sort([ind1 ind2]);
+                switch(cor(1)*cor(2))
+                    case{4}  % new midpt in between corners 1 4
+                        i2=4;
+                    case{2}  % new midpt in between corners 1 2
+                        i2=1;
+                    case{6}  % new midpt in between corners 2 3
+                        i2=2;
+                    case{12} % new midpt in between corners 3 4
+                        i2=3;
+                    otherwise
+                        error('cor(1)*cor(2)');
+                end
+                
+                corner_pos{new_iel_to_modify}(i2+1:end) =corner_pos{new_iel_to_modify}(i2+1:end) + 1;
+                g_new = [g_new(1:i2); new_dof; g_new(i2+1:end)];
+                connectivity{new_iel_to_modify} = g_new;
+                
                 grid_vert_ID = [ grid_vert_ID new_dof];
                 
             else
@@ -346,10 +391,10 @@ for k=1:n_unchanged
     connectivity{new_iel}=zeros(nedg,1);
     i_mat(new_iel) = old_i_mat(iel);
     i_src(new_iel) = old_i_src(iel);
-    curr_ref_lev(new_iel) = next_ref_lev(iel);
+    new_curr_ref_lev(new_iel) = next_ref_lev(iel);
     
     local_con = (new_dof+1):(new_dof+nedg);
-    connectivity{new_iel} = local_con;
+    connectivity{new_iel}(:) = local_con;
     corner_pos{new_iel} = old_corner_pos{iel};
     n_vertices(new_iel) = nedg;
     

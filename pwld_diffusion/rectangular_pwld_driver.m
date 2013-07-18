@@ -70,11 +70,12 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 
 geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 
-logi_mms  = false;
-max_ref_cycles=4;
+logi_mms  = true;
+max_ref_cycles=15;
 frac_ref=0.7;
-mms_type=1;
+mms_type=2;
 logi_plot = true;
+logi_plot_err_i = false;
 generate_vtk_output = false;
 vtk_basename = 'testing';
 %
@@ -115,11 +116,13 @@ fprintf('--------------------------------------------\n');
 edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
 % compute normal vectors
 edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
-% assign the current refinement level 
+% assign the current refinement level
 if(max_ref_cycles>1)
     curr_ref_lev = zeros(nel,1);
     corner_pos=cell(nel,1);
-for i=1:nel
+    for iel=1:nel
+        corner_pos{iel}=1:4;
+    end
 end
 %
 %------------------------------------------------
@@ -193,39 +196,42 @@ for i_cycle=1:max_ref_cycles
     % error indicator
     %
     err_i = error_ind(z,nel,n_edge,vert,connectivity,edg2poly,edg2vert,c_diff,i_mat);
-    figure(13+(i_cycle-1)*10);clf
-    for iel=1:nel
-        g=connectivity{iel}(:);
-        ee=log10(err_i(iel)*ones(length(g),1));
-        patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
+    
+    if(logi_plot_err_i)
+        incr=0;
+        figure(13+(i_cycle-1)*10);clf
+        for iel=1:nel
+            g=connectivity{iel}(:);
+            ee=log10(err_i(iel)*ones(length(g),1));
+            patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
+        end
+        view(-135,25);
+        view(0,90);
+        figure(14+(i_cycle-1)*10);clf
+        for iel=1:nel
+            g=connectivity{iel}(:);
+            ee=(err_i(iel)*ones(length(g),1));
+            patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
+        end
+        view(-135,25);
+        view(0,90);
     end
-    view(-135,25);
-    view(0,90);
-    figure(14+(i_cycle-1)*10);clf
-    for iel=1:nel
-        g=connectivity{iel}(:);
-        ee=(err_i(iel)*ones(length(g),1));
-        patch(vert(g,1),vert(g,2),ee,ee,'FaceColor','interp'); %,'LineStyle','none');
-    end
-    view(-135,25);
-    view(0,90);
-    % err_i
-    % a=[0  44.9482 45.0518  79.9963  80.0037 104.9997  105.0003 120.0000 125 ];
-    % diff(a)
+
     %------------------------------------------------
     %
     % plot
     %
     if(logi_plot)
         
-        figure(11+(i_cycle-1)*10);clf
+        incr=0;
+        figure(11+(i_cycle-1)*incr);clf
         for iel=1:nel
             g=connectivity{iel}(:);
             patch(vert(g,1),vert(g,2),z(g),z(g),'FaceColor','interp'); %,'LineStyle','none');
         end
         view(-135,25);
         view(0,90);
-        figure(12+(i_cycle-1)*10);clf
+        figure(12+(i_cycle-1)*incr);clf
         % plot on finer mesh
         % 4---3   vertex anti-clockwise ordering,
         % | c |
@@ -282,25 +288,48 @@ for i_cycle=1:max_ref_cycles
         fprintf('\n--------------------------------------------\n');
         fprintf('------ Refinement cycle # %3.3d ------\n',i_cycle+1);
         fprintf('--------------------------------------------\n');
-
-        % for debugging only !
-        err_i(:)=0;
-        err_i(1)=1;
+        
+        %         % for debugging only !
+        %         err_i(:)=0;
+        % %         err_i(end)=1;
+        %         distance_=zeros(nel,1);
+        %         for iel=1:nel
+        %             g = connectivity{iel}(corner_pos{iel});
+        %             v = vert(g,:);
+        %             vc=mean(v);
+        %             distance_(iel)=norm(vc-[Lx Ly]);
+        %         end
+        %         [dummy,ind_]=min(distance_);
+        %         err_i(ind_)=1;
+        
+        figure(99);clf
+        hold all
+        for id=1:length(connectivity)
+            vv= vert(connectivity{id},:);
+            xc=mean(vv(:,1));
+            yc=mean(vv(:,2));
+            vv(end+1,:)=vv(1,:);
+            plot(vv(:,1),vv(:,2),'+-')
+            %plot(xc,yc,'x');
+            str=sprintf('%d',id);
+            text(xc,yc,str);
+            %     pause
+        end
         
         [nel,ndof,connectivity,corner_pos,vert,n_edge,edg2poly,edg2vert,edg_perp,i_mat,i_src,curr_ref_lev] =...
             refine_geom_v2(err_i,frac_ref,curr_ref_lev,nel,connectivity,corner_pos,vert,...
-                           edg2poly,edg2vert,i_mat,i_src);
+            edg2poly,edg2vert,i_mat,i_src);
         
         % assign bc markers
         edg2poly = assign_bc_markers(n_edge,edg2poly,edg2vert,vert,Lx,Ly);
         
         % compute normal vectors
         edg_normal = compute_edge_normals(n_edge,edg2vert,vert);
-
+        
     end
     
     %------------------------------------------------
-
+    
 end
 %=============================================
 %=============================================

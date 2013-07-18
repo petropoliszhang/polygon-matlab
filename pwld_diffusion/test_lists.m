@@ -37,3 +37,8 @@ for k=1:how_many_levels
     ncells_per_lev(k) = length(ind);
 end
 [level_values ncells_per_lev']
+
+
+
+[sorted_next_ref_lev,sorting_order]=sort(ref_to_process)
+

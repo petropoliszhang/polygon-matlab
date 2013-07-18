@@ -9,7 +9,7 @@ buffer = cell_refine;
 % loop over cells flagged for refinement
 while ~isempty(buffer)
     
-    % pick a cell flageed for ref
+    % pick a cell flagged for ref
     iel=buffer(1);
     buffer(1)=[];
         
@@ -21,34 +21,38 @@ while ~isempty(buffer)
     
     % find the current neighbors to iel
     list_edge_p = find( edg2poly(:,2) == iel );
-    Kp = edg2poly(list_edge_p,2);
-    ind = find(Kp==iel); Kp(ind)=[];
-    ind = find(Kp<0);
-    ind = sort(ind,'descend');
-    for ii=1:length(ind)
-        Kp(ind(ii))=[];
-    end
-    list_edge_m = find( edg2poly(:,1) == iel );
     Km = edg2poly(list_edge_p,1);
+    % remove iel from list
     ind = find(Km==iel); Km(ind)=[];
+    % remove boundary connections
     ind = find(Km<0);
     ind = sort(ind,'descend');
     for ii=1:length(ind)
         Km(ind(ii))=[];
     end
-    K_others=[Kp Km];
+    list_edge_m = find( edg2poly(:,1) == iel );
+    Kp = edg2poly(list_edge_m,2);
+    % remove iel from list
+    ind = find(Kp==iel); Kp(ind)=[];
+    ind = find(Kp<0);
+    % remove boundary connections
+    ind = sort(ind,'descend');
+    for ii=1:length(ind)
+        Kp(ind(ii))=[];
+    end
+    K_others=[Kp ; Km];
     
     % loop over the neighbors of iel
     for k=1:length(K_others)
-        level_diff = abs( next_ref_lev(k) - proposed_ref_level_iel );
+        level_diff = abs( next_ref_lev(K_others(k)) - proposed_ref_level_iel );
         switch level_diff
             case{0,1}
                 % do nothing
             case{2}
                 % flag k for refinement
-                next_ref_lev(k) = next_ref_lev(k) + 1;
-                buffer(end+1) = k;
-                cell_refine(end+1) = k;
+                next_ref_lev(K_others(k)) = next_ref_lev(K_others(k)) + 1;
+                buffer(end+1) = K_others(k);
+                cell_refine(end+1) = K_others(k);
             otherwise
                 error('level_diff should not be >2');
         end        
