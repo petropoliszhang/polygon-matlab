@@ -58,6 +58,9 @@ for iel=1:nel
     end % end loop over sides
 end % end loop over elements
 
+% take sqrt to finish norm evaluation
+L2_error = sqrt(L2_error);
+
 t2=cputime;
 fprintf('L2 norm time  = %g \n',t2-t1);
 

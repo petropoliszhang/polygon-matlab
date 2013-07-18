@@ -21,7 +21,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.txt';
 %
-geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_x_L100_n10_a0.2.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_mid_xy_L100_n10_a0.2.txt';
 %
@@ -69,10 +69,20 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.2.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n40_a0.txt';
 
 geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n4_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n8_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n16_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n32_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n64_a0.txt';
+geofile='..\geom_codes\figs\random_quad_mesh_L1_n128_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n256_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n512_a0.txt';
 
-logi_mms  = false;
-max_ref_cycles=6;
-frac_ref=0.2;
+geofile='';
+
+logi_mms  = true;
+max_ref_cycles=1;
+frac_ref=0;
 mms_type=1;
 logi_plot = true;
 logi_plot_err_i = false;
@@ -340,8 +350,11 @@ t_end=cputime;
 fprintf('\n\n-----------------------------\nTotal time    = %g \n',t_end-t_beg);
 
 if(logi_mms)
-    figure(999)
+    figure(999); hold all;
     plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-')
+    nel_ = norm_data(:,1)/4;
+    h_ = 1./ sqrt(nel_);
+    plot(log10(1./h_),log10(norm_data(:,2)),'+-')
 end
 
 return
