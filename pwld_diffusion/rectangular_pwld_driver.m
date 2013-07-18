@@ -99,7 +99,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*1;
+C_pen=4*5;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
