@@ -50,7 +50,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.35.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.25.txt';
-% geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
+geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
@@ -68,17 +68,19 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n40_a0.txt';
 
-geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n4_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n8_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n16_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n32_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n64_a0.txt';
-geofile='..\geom_codes\figs\random_quad_mesh_L1_n128_a0.txt';
+% geofile='..\geom_codes\figs\random_quad_mesh_L1_n128_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n256_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n512_a0.txt';
 
-geofile='';
+geofile='..\geom_codes\figs\z_mesh_poly_L1_n20_a0.05.txt';
+
+% geofile='';
 
 logi_mms  = true;
 max_ref_cycles=1;
@@ -132,6 +134,11 @@ if(max_ref_cycles>1)
     corner_pos=cell(nel,1);
     for iel=1:nel
         corner_pos{iel}=1:4;
+    end
+    % only quads for now
+    for i=1:length(connectivity)
+        nv = length(connectivity{i});
+        if(nv ~= 4),error('mesh refinement only coded for initial cells that are quadrilaterals'); end
     end
 end
 %
