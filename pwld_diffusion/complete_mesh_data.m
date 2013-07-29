@@ -4,6 +4,12 @@ global verbose
 
 % find relationship between vert (DG) and vert_grid
 vert_link=zeros(ndof,1);
+% % % for kicks:
+% % for i=n_grid_vert:-1:2
+% %     vert_grid(i,:)=[];
+% % end
+% % n_grid_vert=1;
+
 for i=1:ndof
     v=vert(i,1:2);
     % get difference
@@ -12,12 +18,24 @@ for i=1:ndof
     aa=sqrt(aux(:,1).^2+aux(:,2).^2);
     ind=find(aa<1e-12);
     len=length(ind);
-    if(len==0 || len >1), 
+    if(len >1), 
         v
         ind
         len
         vert_grid(ind,:)
         error('vert_link'); 
+    end
+    if(len==0), 
+        if(verbose)
+            v
+            ind
+            len
+            vert_grid(ind,:)
+            warning('missing vert_link');
+        end
+        n_grid_vert = n_grid_vert + 1;
+        vert_grid(n_grid_vert,:) = v;
+        ind=n_grid_vert;
     end
     vert_link(i)=ind(1);
 end
