@@ -1,6 +1,9 @@
 % clear all; 
 close all; clc;
 
+logi_save = false;
+
+
 L=1;
 n=30;
 h=L/n;
@@ -291,6 +294,9 @@ if save_matlab_plot
 end
 %%%%%%%%%%
 
+%%%%%%%%%%%%%
+if(~logi_save), return; end
+%%%%%%%%%%%%%
 
 %%%%%%%%%%
 % save txt file

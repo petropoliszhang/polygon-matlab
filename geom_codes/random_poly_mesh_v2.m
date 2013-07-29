@@ -1,10 +1,10 @@
 % clear all;
 close all; clc;
 
-logi_save = true;
+logi_save = false;
 
 L=10;
-n=30;
+n=5;
 h=L/n;
 eps=h/10*0;
 xi=linspace(eps,L-eps,n+1);
@@ -300,6 +300,9 @@ end
 %%%%%%%%%%
 
 %%%%%%%%%%%%%
+if(~logi_save), return; end
+%%%%%%%%%%%%%
+
 % save txt file
 matID=1;
 srcID=1;
