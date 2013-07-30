@@ -483,7 +483,7 @@ n_grid_vert=length(vert_grid(:,1));
 [n_edge,edg2poly,edg2vert,edg_perp ] = complete_mesh_data( nel,ndof,n_grid_vert,vert,vert_grid,connectivity );
 
 t2=cputime;
-fprintf('Mesh time     = %g \n\n',t2-t1);
+fprintf('Re-mesh time  = %g \n\n',t2-t1);
 
 return
 end

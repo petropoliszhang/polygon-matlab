@@ -7,12 +7,12 @@ verbose = false;
 data.geofile = '';
 
 data.logi_mms = true;
-data.mms_type = 1;
+data.mms_type = 2;
 if ~data.logi_mms
     data_pbtype = 'linear'
 end
 
-data.max_ref_cycles = 7;
+data.max_ref_cycles = 8;
 data.ref_threshold  = 0; % 0=uniform refinement
 
 data.logi_plot           = true;

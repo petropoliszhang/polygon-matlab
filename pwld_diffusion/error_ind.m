@@ -1,6 +1,8 @@
 function err_i = error_ind(z,nel,n_edge,vert,connectivity,edg2poly,edg2vert,c_diff,i_mat)
 % error indication
 
+t1=cputime;
+
 % initialize
 err_i=zeros(nel,1);
 
@@ -78,5 +80,9 @@ end
 %     [or,area_poly] = polyorient(xx,yy);
 %     err_i(iel) = err_i(iel) / area_poly;
 
+t2=cputime;
+fprintf('Error time    = %g \n',t2-t1);
+
+return
 end
 
