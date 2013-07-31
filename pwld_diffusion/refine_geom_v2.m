@@ -112,6 +112,23 @@ for k=1:n_cell_to_ref
     
     % new points
     centroid = mean(v);
+    is_in=inpolygon(centroid(1),centroid(2),v(:,1),v(:,2));
+    if(~is_in)
+        % try true centroid
+        [cx,cy] = my_centroid(v(:,1),v(:,2));
+        is_in2=inpolygon(cx,cy,v(:,1),v(:,2));
+        if(~is_in2)
+            iel
+            g
+            v
+            centroid
+            [cx cy]
+            error('centroid is not in polygon');
+        else
+            centroid(1) = cx;
+            centroid(2) = cy;
+        end
+    end
     i=1; new_pt1 = (v(i,:)+v(i+1,:))/2;
     i=2; new_pt2 = (v(i,:)+v(i+1,:))/2;
     i=3; new_pt3 = (v(i,:)+v(i+1,:))/2;
