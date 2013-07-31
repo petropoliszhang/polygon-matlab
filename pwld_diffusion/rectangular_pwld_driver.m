@@ -53,7 +53,7 @@ geofile='..\geom_codes\figs\random_quad_mesh_L100_n10_a0.txt';
 geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc1_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n2_a0.txt';
-% geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
+geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.15.txt';
 % geofile='..\geom_codes\figs\shestakov_quad_nc6_a0.25.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L100_n30_a0.33.txt';
@@ -78,17 +78,17 @@ geofile='..\geom_codes\figs\shestakov_quad_nc4_a0.5.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n256_a0.txt';
 % geofile='..\geom_codes\figs\random_quad_mesh_L1_n512_a0.txt';
 
-geofile='..\geom_codes\figs\z_mesh_poly_L1_n20_a0.05.txt';
+% geofile='..\geom_codes\figs\z_mesh_poly_L1_n20_a0.05.txt';
 
 % geofile='';
 
 logi_mms  = true;
 max_ref_cycles=1;
 frac_ref=0;
-mms_type=1;
+mms_type=2;
 logi_plot = true;
 logi_plot_err_i = false;
-generate_vtk_output = false;
+generate_vtk_output = true;
 vtk_basename = 'testing';
 %
 tot = 1/3; sca = 1/3;
@@ -111,7 +111,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*5;
+C_pen=4*3;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
@@ -171,7 +171,7 @@ if(logi_mms)
             % forcing rhs
             mms=@(x,y) c_diff.*(1.0./Lx.^2.*1.0./Ly.^2.*x.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(Lx-x).*2.0e2+1.0./Lx.^2.*1.0./Ly.^2.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(Ly-y).*2.0e2-(1.0./Lx.^2.*1.0./Ly.^2.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(x.*2.0-x0.*2.0).*(Ly-y).*2.0e2)./varia-(1.0./Lx.^2.*1.0./Ly.^2.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(y.*2.0-y0.*2.0).*(Lx-x).*2.0e2)./varia+(1.0./Lx.^2.*1.0./Ly.^2.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(x.*2.0-x0.*2.0).*(Lx-x).*(Ly-y).*2.0e2)./varia+(1.0./Lx.^2.*1.0./Ly.^2.*x.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(y.*2.0-y0.*2.0).*(Lx-x).*(Ly-y).*2.0e2)./varia+(1.0./Lx.^2.*1.0./Ly.^2.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(Lx-x).*(Ly-y).*4.0e2)./varia-1.0./Lx.^2.*1.0./Ly.^2.*1.0./varia.^2.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(x.*2.0-x0.*2.0).^2.*(Lx-x).*(Ly-y).*1.0e2-1.0./Lx.^2.*1.0./Ly.^2.*1.0./varia.^2.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(y.*2.0-y0.*2.0).^2.*(Lx-x).*(Ly-y).*1.0e2)+1.0./Lx.^2.*1.0./Ly.^2.*sigma_a.*x.*y.*exp(-((x-x0).^2+(y-y0).^2)./varia).*(Lx-x).*(Ly-y).*1.0e2;
             % select quadrature order
-            n_quad = 8;
+            n_quad = 10;
             xx=linspace(0,Lx);
             yy=linspace(0,Ly);
             [uu,vv]=meshgrid(xx,yy);
@@ -356,7 +356,7 @@ end
 t_end=cputime;
 fprintf('\n\n-----------------------------\nTotal time    = %g \n',t_end-t_beg);
 
-if(logi_mms)
+if(logi_mms && max_ref_cycles>1)
     figure(999); hold all;
     plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-')
     nel_ = norm_data(:,1)/4;

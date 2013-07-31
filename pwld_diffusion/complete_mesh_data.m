@@ -18,14 +18,14 @@ for i=1:ndof
     aa=sqrt(aux(:,1).^2+aux(:,2).^2);
     ind=find(aa<1e-12);
     len=length(ind);
-    if(len >1), 
+    if(len >1),
         v
         ind
         len
         vert_grid(ind,:)
-        error('vert_link'); 
+        error('vert_link');
     end
-    if(len==0), 
+    if(len==0),
         if(verbose)
             v
             ind
@@ -66,10 +66,17 @@ for iel=1:nel
     
     % check orientation, verify area
     [or,ar] = polyorient(xx,yy);
-    if(or~=1), error('orientation problem'); end
+    if(or~=1)
+        iel
+        g
+        [xx yy]
+        or
+        ar
+        error('orientation problem');
+    end
     tot_area=tot_area+ar;
     
-    % check centroid
+    % check ''centroid''
     xc=mean(xx); yc=mean(yy);
     [in on]=inpolygon(xc,yc,xx,yy);
     % find in points
@@ -91,20 +98,22 @@ for iel=1:nel
         end
         centroid_outside = centroid_outside + 1;
     end
-
+    
 end
 fprintf('total area read in geom = %g \n',tot_area);
+fprintf('%d centroid(s) outside out of %d cells \n',centroid_outside,nel);
 fprintf('fraction of centroids outside of polygon = %g \n',centroid_outside/nel);
 fprintf('fraction of centroids on edge of polygon = %g \n',centroid_on_edge/nel);
 
 % compute h_perp
 edg_perp=zeros(n_edge,2); % j=1 for Km, j=2 for Kp
+edg_perp_=zeros(n_edge,2); % j=1 for Km, j=2 for Kp
 for ied=1:n_edge
     % get K-,K+
     Kp = edg2poly(ied,2);
     Km = edg2poly(ied,1);
     if(Km<=0 || Kp==0), error('Km<=0 or Kp==0'); end
-
+    
     % get the Km polygon connectivity and vertices
     gm = connectivity{Km}(:);
     xx=vert(gm,1); yy=vert(gm,2);
@@ -120,7 +129,7 @@ for ied=1:n_edge
     Le = norm( diff(vert(V,:)) );
     % nbr of vertices in Km poly
     nvm = length(gm);
-    if nvm <3
+    if nvm <3,
         error('the # of vertices cannot be <3');
     elseif nvm==3
         edg_perp(ied,1) = 2*poly_area/Le;
@@ -130,6 +139,25 @@ for ied=1:n_edge
         edg_perp(ied,1) = 4*poly_area/perim;
     else
         edg_perp(ied,1) = 2*poly_area/perim + sqrt(2*poly_area/nvm/sin(2*pi/nvm));
+    end
+    % new option
+    if(nvm > 3)
+        X1 = vert(V(1),:);
+        dx = diff(vert(V,:));
+        hbot = 1e99;
+        % get points of Km that are not on that edge
+        g_diff = setdiff(gm,V);
+        if(length(g_diff) ~= nvm-2), error('nvm-2 hbot'); end
+        for iv=1:length(g_diff)
+            X0 = vert(g_diff(iv),:);
+            dist = abs( det([(X1-X0)' dx']) ) / Le;
+            hbot = min(hbot,dist);
+        end
+        edg_perp_(ied,1) = hbot;
+        if(hbot>edg_perp(ied,1))
+%             edg_perp(ied,1) = (edg_perp(ied,1) + hbot)/2;
+%             edg_perp(ied,1) = hbot;
+        end
     end
     
     if(Kp>0)
@@ -154,8 +182,29 @@ for ied=1:n_edge
         else
             edg_perp(ied,2) = 2*poly_area/perim + sqrt(2*poly_area/nvp/sin(2*pi/nvp));
         end
+        % new option
+        % get edge vertices of K+ side
+        W = edg2vert(ied,3:4);
+        if(nvp > 3)
+            X1 = vert(W(1),:);
+            dx = diff(vert(W,:));
+            hbot = 1e99;
+            % get points of Km that are not on that edge
+            g_diff = setdiff(gp,W);
+            if(length(g_diff) ~= nvp-2), error('nvp-2 hbot'); end
+            for iv=1:length(g_diff)
+                X0 = vert(g_diff(iv),:);
+                dist = abs( det([(X1-X0)' dx']) ) / Le;
+                hbot = min(hbot,dist);
+            end
+            edg_perp_(ied,2) = hbot;
+            if(hbot>edg_perp(ied,2))
+%                 edg_perp(ied,2) = (edg_perp(ied,2) + hbot)/2;
+%                 edg_perp(ied,2) = hbot;
+            end
+        end
     end
-
+    
 end
 
 return
