@@ -558,7 +558,7 @@ u^\pm = \lim_{s\to 0^\pm} u(\vr + s \vn) \, ,
 for any point $\vr$ on that edge (that is, $u^+$ is the trace of $u$ along that edge taken from the cell pointed by $\vn$).
 %
 The penalty coefficient, $\kappa$, is edge-dependent and is given by
-\begin{equation}
+\begin{equation} \label{eq:kappa}
   \kappa_e = \left\{
     \begin{array}{ll}
       \frac{C}{2} \left( \frac{D^+}{h_\bot^+} + \frac{D^-}{h_\bot^-} \right) & \textrm{ for interior edges, i.e., } e \in \EI,\\
@@ -566,52 +566,51 @@ The penalty coefficient, $\kappa$, is edge-dependent and is given by
     \end{array}
     \right. \, ,
 \end{equation}
-where $C$ is a constant (we used $C=4$), $h_{\bot}$ is the length of the cell in the direction 
-orthogonal to edge $e$. In the mathematical literature, the jumps terms $\kappa\jmp{E}\jmp{\tf}$
-are also describe as stabilization terms and the constant $C$ needs to be large enough. 
-For triangular and quadrilateral meshes with linear basis functions, researchers typical employ 
-$C \ge 2$ or $C \ge 4$ (through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order).
-Again, the $\pm$ superscripts represent values taken from either 
-side of an edge. For triangular cells, $h_{\bot}=\frac{2A}{L_e}$ where $A$
-is the triangle area and $L_e$ is the length of edge $e$. 
+where $C$ is a constant, $h_{\bot}$ is the length of the cell in the direction 
+orthogonal to edge $e$. 
+%In the mathematical literature, the jumps terms, $\kappa\jmp{E}\jmp{\tf}$,
+%are also identified as a stabilization technique for which the constant $\kappa$ needs to be large enough. 
+For quadrilateral meshes with linear basis functions, researchers typically utilize $C \ge 4$ 
+(through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order). Here, we use $C=4$
+unless otherwise noted. For boundary edges, 
+Kanschat \cite{Kanschat2007} noted that doubling the value of $C$ (on quadrilateral meshes) was 
+beneficial; we have followed their recommendations. In \eqt{eq:kappa}, the $\pm$ superscripts 
+represent again values taken from either side of an edge. For triangular cells, $h_\bot$ is exactly 
+given by $h_{\bot}=\frac{2A}{L_e}$ where $A$ is the triangle area and $L_e$ is the length of edge $e$. 
 However, there are no formulae to compute $h_{\bot}$ for arbitrary polygons. In \cite{BT-PhD}, 
-the polygonal cells were assumed to be regular polygonal cells, in which case $h_{\bot}^\reg$ is given
+polygonal cells were assumed to be regular polygonal cells, in which case $h_{\bot}^\reg$ is given
 by twice the inradius for regular even-sided polygons and by the inradius plus the 
-circumradius for regular odd-sided polygons. The inradius and the circumradius are computed 
-using the area and perimeter of the actual polygonal cell. One possible disadvantage of assuming 
-that the cells are regular polygons is that the same value of $h_{\bot}$ is used for all edges.
-For highly skewed polygons, that value can be either too small or too large. Too small a value for 
-$h_{\bot}$ increases the penalty coefficient $\kappa$, hence augments the value of stabilization 
-terms even further, which is not an issue. However, when the assumption of a regular polygon leads to
-$h_{\bot}$ values that are too large, $\kappa$ may not be large enough.
+circumradius for odd-sided polygons. The inradius and the circumradius are computed 
+using the area and perimeter of the actual polygonal cell. 
+%For highly skewed meshes, 
+%One possible disadvantage of assuming 
+%that the cells are regular polygons is that the same value of $h_{\bot}$ is used for all edges.
+%For highly skewed polygons, that value can be either too small or too large. Too small a value for 
+%$h_{\bot}$ increases the penalty coefficient $\kappa$, hence augments the value of stabilization 
+%terms even further, which is not an issue. However, when the assumption of a regular polygon leads to
+%$h_{\bot}$ values that are too large, $\kappa$ may not be large enough.
 
 
 
-\end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Adaptive Mesh Refinement} \label{sec_amr}
+\section{Adaptive Mesh Refinement Using PWLD Basis Functions} \label{sec:amr}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As noted in the Introduction, one of the In this Section, we introduce Adaptive Mesh Refinement (AMR)
-\cite{Jessee1998,Wang2010a,Ragusa2010}. The goal of AMR is to refine the mesh
-where it is necessary while keeping the mesh as coarse as possible everywhere
-else. It is common to have problems with a quickly varying solution on a small
-part of the domain (e.g. boundary layers) and a smooth solution on the rest of 
-the domain. AMR allows to create automatically a mesh very fined where the
-solution varies quickly while keeping the rest of the mesh coarse. AMR requires 
-an \emph{a posteriori} error indicator to decide which cells should be refined. 
-In this work, the error indicator on element $K$ is given by \cite{Wang2010a}:
-\begin{equation}
-  \eta_K = \frac{\int_{\partial K} \ldb\phi_K\rdb^2}{\|\Phi_K\|_2^2},
-  \label{error_indic}
+Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
+\cite{amr stuff}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
+which cells to refine. When using discontinuous finite elements, it is observed that jumps are
+small in regions where the solution is smooth and are significantly larger in regions where
+the solution undergoes rapid spatial variations. A heuristic error indicator is, therefore, to
+monitor the interfacial jumps. Following \cite{deal,ragusa-wang1,ragusa-wang2}, we define 
+the error indicator on cell $K$ as:
+\begin{equation} \label{eq:error_indicator}
+  \eta_K = \frac{\int_{\partial K} \jmp{E}^2_K}{\|\Phi_K\|_2^2}.   
 \end{equation}  
-This error indicator is based on the jump of the scalar flux between
-two cells. The larger the jump is the larger the error indicator. Given that
-the solution of the diffusion equation is continuous, \cite{error_indic} is a
-good error indicator. 
+
+ As noted in the Introduction, one of the advantages of employing piece-wise linear functions
 
 The adaptive mesh refinement used in our code works as follows:
 \begin{enumerate}
@@ -654,6 +653,7 @@ The criterion of \eqt{eq:criterion} focuses the computational effort on elements
 standard AMR, this tends to naturally equi-distribute the spatial error, whereas for goal-oriented approaches
 this aims at reducing the computational effort for a given quantity of interest. 
 
+\end{document}
 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
