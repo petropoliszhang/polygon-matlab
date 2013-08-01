@@ -80,9 +80,9 @@ geofile='..\geom_codes\figs\shestakov_quad_nc5_a0.25.txt';
 
 % geofile='..\geom_codes\figs\z_mesh_poly_L1_n20_a0.05.txt';
 
-% geofile='';
+geofile='';
 
-logi_mms  = true;
+logi_mms  = false;
 max_ref_cycles=1;
 frac_ref=0;
 mms_type=2;
@@ -92,16 +92,16 @@ generate_vtk_output = true;
 vtk_basename = 'testing';
 %
 tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
+c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10;
 % bc type: 0= Dirichlet, homogeneous
 %          1= Dirichlet, inhomogeneous
 %          2= Neumann, homogeneous
 %          3= Neumann, inhomogeneous
 %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
 % values entered as LRBT
-bc_type=[4 4 2 2  ];
+bc_type=[3 0 2 2  ];
 bc_val.left  = 100;
-bc_val.right = -50;
+bc_val.right = 100;
 bc_val.bottom= 50;
 bc_val.top   = 10;
 %
