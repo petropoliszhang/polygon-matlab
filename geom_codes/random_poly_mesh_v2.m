@@ -1,15 +1,14 @@
 % clear all;
 close all; clc;
 
-logi_save = false;
+logi_save = true;
 
-L=10;
-n=5;
+L=1;
+n=15;
 h=L/n;
-eps=h/10*0;
-xi=linspace(eps,L-eps,n+1);
+xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.95;
+fraction=1.;
 
 
 ind=0;
@@ -299,6 +298,7 @@ if save_matlab_plot
 end
 %%%%%%%%%%
 
+ncells = length(c)
 %%%%%%%%%%%%%
 if(~logi_save), return; end
 %%%%%%%%%%%%%

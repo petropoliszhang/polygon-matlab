@@ -1,10 +1,13 @@
 clear all; close all; clc;
 
+logi_save = true;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % number of subdivisions of the original rectangle
-nc = 5;
+nc = 4;
+nc_sav = nc;
 % random parameter
-a  = 0.05;
+a  = 0.15;
 % rectangle dimensions
 L = 1;
 rm = L;
@@ -311,7 +314,7 @@ end
 fprintf('total area read in geom = %g \n',tot_area);
 
 %%%%%%%%%%%%%
-output_file1=strcat('.\figs\shestakov_poly_mesh_nc',int2str(nc),'_a',num2str(a,3));
+output_file1=strcat('.\figs\shestakov_poly_mesh_L',int2str(L),'_nc',int2str(nc_sav),'_a',num2str(a,3));
 %%%%%%%%%%%%%
 
 %%%%%%%%%%%%%
@@ -327,6 +330,10 @@ if save_matlab_plot
 end
 %%%%%%%%%%
 
+ncells = length(c)
+%%%%%%%%%%%%%
+if(~logi_save), return; end
+%%%%%%%%%%%%%
 
 %%%%%%%%%%
 % save txt file

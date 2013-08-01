@@ -14,7 +14,7 @@ else
     nsub=[4 7 13 16 20]*nn +1;
 end
 
-fraction=0.5;
+fraction=0.05;
 if(fraction<eps || fraction > 1-eps)
     error('wrong fraction');
 end

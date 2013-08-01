@@ -18,10 +18,14 @@ clear all; close all; clc;
 % program
 
 
+logi_save_plots = false;
+logi_write_file = true;
+
+
 % number of subdivisions of the original rectangle
-nc = 6;
+nc = 2;
 % random parameter
-a  = 0.15;
+a  = 0.5;
 % rectangle dimensions
 L = 1;
 rm = L;
@@ -143,12 +147,17 @@ figure(1)
 surf(r,z,ones(nm,nm))
 view(0,90)
 
-output_file1=strcat('.\figs\shestakov_quad_nc',int2str(nc),'_a',num2str(a));
-print('-dpdf',strcat(output_file1,'.pdf'));
-print('-dpng',strcat(output_file1,'.png'));
-saveas(gcf,strcat(output_file1,'.fig'),'fig');
+output_file1=strcat('.\figs\shestakov_quad_L',int2str(L),'_nc',int2str(nc),'_a',num2str(a));
+if(logi_save_plots)
+    print('-dpdf',strcat(output_file1,'.pdf'));
+    print('-dpng',strcat(output_file1,'.png'));
+    saveas(gcf,strcat(output_file1,'.fig'),'fig');
+end
 
-
+%---------------------------------------------
+%
+if(~logi_write_file), return; end;
+%
 %---------------------------------------------
 % save txt file
 matID=1;
@@ -207,7 +216,7 @@ fclose(fid);
 %%%%%%%%%%%%%%%%%%%%%
 %
 %
-BT=true;
+BT=false;
 % old mesh output
 % % % %%%%%%%%%%%%%%%%%%%%%
 if BT

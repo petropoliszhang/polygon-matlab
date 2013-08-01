@@ -4,12 +4,14 @@ clear all; close all; clc
 logi_save_plots = false;
 logi_write_file = true;
 
+logi_mid_x_xy = false;
+
 L=1;
-n=64*2*2*2;
+n=16;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.;
+fraction=0.66;
 BT=false;
 
 x=zeros(n+1,n+1);
@@ -35,35 +37,40 @@ end
 
 %---------------------------------------------
 % keep x=L/2 a straight line
-if(mod(n,2)==0)
-    xx=x;
-    xx(n/2+1,:)=L/2;
-    figure(2)
-    surf(xx,y,ones(n+1,n+1))
-    view(0,90)
+if logi_mid_x_xy
+    if(mod(n,2)==0)
+        xx=x;
+        xx(n/2+1,:)=L/2;
+        figure(2)
+        surf(xx,y,ones(n+1,n+1))
+        view(0,90)
+    end
+    output_file2=strcat('.\figs\random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+    if(logi_save_plots)
+        print('-dpdf',strcat(output_file2,'.pdf'));
+        print('-dpng',strcat(output_file2,'.png'));
+        saveas(gcf,strcat(output_file2,'.fig'),'fig');
+    end
 end
-output_file2=strcat('.\figs\random_quad_mesh_mid_x_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
-if(logi_save_plots)
-    print('-dpdf',strcat(output_file2,'.pdf'));
-    print('-dpng',strcat(output_file2,'.png'));
-    saveas(gcf,strcat(output_file2,'.fig'),'fig');
-end
-
 %---------------------------------------------
 % keep x=L/2  and y=L/2 as straight lines
-if(mod(n,2)==0)
-    yy=y;
-    yy(:,n/2+1)=L/2;
-    figure(3)
-    surf(xx,yy,ones(n+1,n+1))
-    view(0,90)
+if logi_mid_x_xy
+    if(mod(n,2)==0)
+        yy=y;
+        yy(:,n/2+1)=L/2;
+        figure(3)
+        surf(xx,yy,ones(n+1,n+1))
+        view(0,90)
+    end
+    output_file3=strcat('.\figs\random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
+    if(logi_save_plots)
+        print('-dpdf',strcat(output_file3,'.pdf'));
+        print('-dpng',strcat(output_file3,'.png'));
+        saveas(gcf,strcat(output_file3,'.fig'),'fig');
+    end
 end
-output_file3=strcat('.\figs\random_quad_mesh_mid_xy_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
-if(logi_save_plots)
-    print('-dpdf',strcat(output_file3,'.pdf'));
-    print('-dpng',strcat(output_file3,'.png'));
-    saveas(gcf,strcat(output_file3,'.fig'),'fig');
-end
+%
+%---------------------------------------------
 %
 if(~logi_write_file), return; end;
 %
@@ -120,91 +127,93 @@ fclose(fid);
 
 %%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%
-if(mod(n,2)==0)
+if logi_mid_x_xy
     %%%%%%%%%%%%%%
-    output_file2=strcat(output_file2,'.txt')
-    fid=fopen(output_file2,'w');
-
-    fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
-
-    fprintf(fid,'# dimensions \n');
-    fprintf(fid,'%g %g \n',L,L);
-
-    fprintf(fid,'# connectivity \n');
-    fprintf(fid,'%d\n',ncells);
-    for iel=1:ncells
-        skip = 4*(iel-1);
-        i1 = skip + 1;
-        i2 = skip + 2;
-        i3 = skip + 3;
-        i4 = skip + 4;
-        fprintf(fid,'%d %d %d %d %d %d %d \n',4,i1,i2,i3,i4,matID,srcID);
-    end
-
-    fprintf(fid,'# DG vertices (counter-clockwise) \n');
-    fprintf(fid,'%d\n',4*ncells);
-    for i=1:n
-        for j=1:n
-            fprintf(fid,' %g %g \n %g %g \n %g %g \n %g %g \n',xx(i,j)    ,y(i,j)    ,...
-                xx(i+1,j)  ,y(i+1,j)  ,...
-                xx(i+1,j+1),y(i+1,j+1),...
-                xx(i,j+1)  ,y(i,j+1)  );
+    if(mod(n,2)==0)
+        %%%%%%%%%%%%%%
+        output_file2=strcat(output_file2,'.txt')
+        fid=fopen(output_file2,'w');
+        
+        fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
+        
+        fprintf(fid,'# dimensions \n');
+        fprintf(fid,'%g %g \n',L,L);
+        
+        fprintf(fid,'# connectivity \n');
+        fprintf(fid,'%d\n',ncells);
+        for iel=1:ncells
+            skip = 4*(iel-1);
+            i1 = skip + 1;
+            i2 = skip + 2;
+            i3 = skip + 3;
+            i4 = skip + 4;
+            fprintf(fid,'%d %d %d %d %d %d %d \n',4,i1,i2,i3,i4,matID,srcID);
         end
-    end
-
-    fprintf(fid,'# grid vertices (counter-clockwise) \n');
-    fprintf(fid,'%d\n',(n+1)^2);
-    for i=1:n+1
-        for j=1:n+1
-            fprintf(fid,'%g %g \n',xx(i,j),y(i,j) );
+        
+        fprintf(fid,'# DG vertices (counter-clockwise) \n');
+        fprintf(fid,'%d\n',4*ncells);
+        for i=1:n
+            for j=1:n
+                fprintf(fid,' %g %g \n %g %g \n %g %g \n %g %g \n',xx(i,j)    ,y(i,j)    ,...
+                    xx(i+1,j)  ,y(i+1,j)  ,...
+                    xx(i+1,j+1),y(i+1,j+1),...
+                    xx(i,j+1)  ,y(i,j+1)  );
+            end
         end
-    end
-
-    fclose(fid);
-    %%%%%%%%%%%%%%%%%%%%%
-    output_file3=strcat(output_file3,'.txt')
-    fid=fopen(output_file3,'w');
-
-    fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
-
-    fprintf(fid,'# dimensions \n');
-    fprintf(fid,'%g %g \n',L,L);
-
-    fprintf(fid,'# connectivity \n');
-    fprintf(fid,'%d\n',ncells);
-    for iel=1:ncells
-        skip = 4*(iel-1);
-        i1 = skip + 1;
-        i2 = skip + 2;
-        i3 = skip + 3;
-        i4 = skip + 4;
-        fprintf(fid,'%d %d %d %d %d %d %d \n',4,i1,i2,i3,i4,matID,srcID);
-    end
-
-    fprintf(fid,'# DG vertices (counter-clockwise) \n');
-    fprintf(fid,'%d\n',4*ncells);
-    for i=1:n
-        for j=1:n
-            fprintf(fid,' %g %g \n %g %g \n %g %g \n %g %g \n',xx(i,j)    ,yy(i,j)    ,...
-                xx(i+1,j)  ,yy(i+1,j)  ,...
-                xx(i+1,j+1),yy(i+1,j+1),...
-                xx(i,j+1)  ,yy(i,j+1)  );
+        
+        fprintf(fid,'# grid vertices (counter-clockwise) \n');
+        fprintf(fid,'%d\n',(n+1)^2);
+        for i=1:n+1
+            for j=1:n+1
+                fprintf(fid,'%g %g \n',xx(i,j),y(i,j) );
+            end
         end
-    end
-
-    fprintf(fid,'# grid vertices (counter-clockwise) \n');
-    fprintf(fid,'%d\n',(n+1)^2);
-    for i=1:n+1
-        for j=1:n+1
-            fprintf(fid,'%g %g \n',xx(i,j),yy(i,j) );
+        
+        fclose(fid);
+        %%%%%%%%%%%%%%%%%%%%%
+        output_file3=strcat(output_file3,'.txt')
+        fid=fopen(output_file3,'w');
+        
+        fprintf(fid,'# Date: %d/%d/%d   Time: %d:%d\n', mo, da, yr, hr, mi);
+        
+        fprintf(fid,'# dimensions \n');
+        fprintf(fid,'%g %g \n',L,L);
+        
+        fprintf(fid,'# connectivity \n');
+        fprintf(fid,'%d\n',ncells);
+        for iel=1:ncells
+            skip = 4*(iel-1);
+            i1 = skip + 1;
+            i2 = skip + 2;
+            i3 = skip + 3;
+            i4 = skip + 4;
+            fprintf(fid,'%d %d %d %d %d %d %d \n',4,i1,i2,i3,i4,matID,srcID);
         end
+        
+        fprintf(fid,'# DG vertices (counter-clockwise) \n');
+        fprintf(fid,'%d\n',4*ncells);
+        for i=1:n
+            for j=1:n
+                fprintf(fid,' %g %g \n %g %g \n %g %g \n %g %g \n',xx(i,j)    ,yy(i,j)    ,...
+                    xx(i+1,j)  ,yy(i+1,j)  ,...
+                    xx(i+1,j+1),yy(i+1,j+1),...
+                    xx(i,j+1)  ,yy(i,j+1)  );
+            end
+        end
+        
+        fprintf(fid,'# grid vertices (counter-clockwise) \n');
+        fprintf(fid,'%d\n',(n+1)^2);
+        for i=1:n+1
+            for j=1:n+1
+                fprintf(fid,'%g %g \n',xx(i,j),yy(i,j) );
+            end
+        end
+        
+        fclose(fid);
+        %%%%%%%%%%%%%%
     end
-
-    fclose(fid);
     %%%%%%%%%%%%%%
 end
-%%%%%%%%%%%%%%
 
 % % % for BT's code, not used anymore
 % % %
