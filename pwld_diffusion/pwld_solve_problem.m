@@ -21,6 +21,7 @@ vtk_basename = input_arg.vtk_basename;
 if ~logi_mms
     if(strcmp(input_arg.pbtype,'linear'))
         tot = 1/3; sca = 1/3;
+        tot = 1/6; sca = 1/6;
         c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
         % bc type: 0= Dirichlet, homogeneous
         %          1= Dirichlet, inhomogeneous
@@ -29,8 +30,8 @@ if ~logi_mms
         %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
         % values entered as LRBT
         bc_type=[4 4 2 2  ];
-        bc_val.left  = 100;
-        bc_val.right = -50;
+        bc_val.left  = 0;
+        bc_val.right = 9;
         bc_val.bottom= 50;
         bc_val.top   = 10;
     else
@@ -43,7 +44,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4;
+C_pen=4*3;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
