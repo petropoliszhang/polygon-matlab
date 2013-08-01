@@ -292,14 +292,15 @@ radiation transport equation.
 % polygonal/polyhedral grids \cite{MorelWarsaWareing,PWLD,CFEM-PWDL-Warsa,WangRagusa}.
 
 The remainder of the paper is as follows. In \sct{sec:poly}, we discuss
-the use of polygonal meshes, recall the definition of the piecewise linear
-basis functions for arbitrary polygons, and point out how polygonal grids
+the use of polygonal meshes, define the piecewise linear discontinuous 
+basis functions for arbitrary polygons, and discuss how polygonal grids
 can be utilized in handling local mesh refinement (as in adaptive mesh refinement 
 approaches). The Symmetric Interior Penalty technique is reviewed in \sct{sec:ip}.
-The resulting linear system will be solved using an Algebraic Multi-Grid (AMG) approach.
-Results are presented in \sct{sec:results}; all of the test cases presented
+%The resulting linear system will be solved using an Algebraic Multi-Grid (AMG) approach.
+Mesh adaptivity utilizing piecewise linear basis function is presented in 
+\sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented
 are borrowed from the literature on (1) finite differences applied to the
-diffusion equation on non 
+diffusion equation on non FINISH 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -600,7 +601,7 @@ using the area and perimeter of the actual polygonal cell.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
-\cite{amr stuff}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
+\cite{amr_stuff}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
 which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
 across the faces (edges in 2D) between neighboring cells. The magnitude of these jumps is 
 small in regions where the solution is smooth and can be significantly larger in regions where
@@ -619,26 +620,51 @@ where $0 \le \theta \le 1$ is a user-specified coefficient. \eqt{eq:refine_fract
 that cells selected for refinement are such that their errors, normalized to the largest error found, 
 are larger than or equal to $\theta$.
 
-As noted in the Introduction, piece-wise linear functions can be beneficially used to handle transitions
+As noted in the Introduction, piece-wise linear basis functions can be beneficially used to handle transitions
 between mesh cells of different refinement levels. In the context of discontinuous finite elements, the
-analog of \fig{} is given in \fig{}. With standard linear discontinuous finite elements, the cell to
-the left (labelled $K$ in \fig{}) would remain  a quadrilateral after refinement of its neighbor. This also
-means that the restriction to edge $AB$ of the intensity from that cell, $E_K^{AB}$, would remain a
+analog of \fig{} is shown in \fig{}. With standard linear discontinuous finite element representation, 
+the cell that will not undergo refinement (labeled $K$ in \fig{}) would remain a quadrilateral 
+after refinement of its neighbor, cell $K^\prime$; with such a representation, the restriction of the intensity 
+along edge $AB$ of cell $K$ would remain a linear function. However, when employing 
+PWL basis functions, cell $K$ becomes a pentagon after refinement of its neighbor and the 
+restriction of the intensity along the ``degenerate'' edge $AB$ of that pentagon now becomes 
+piece-wise linear.
+
+In this work, we only consider the application of piece-wise linear functions to AMR for 
+grids that are initially composed of quadrilateral cells only and refine cells flagged for adaptivity 
+by subdividing them into four children cells; the child cell contains the following four vertices: 
+one of the corners of its parent cell, the midpoint of the two edges that contain that corner, 
+and the centroid of the parent cell.
+For simplicity in the refinement process, we also limit that the refinement level differences between 
+neighboring cells do not exceed one, but stress that this is not at all a limitation of PWL functions.
+Furthermore, with standard finite element representations, one often imposes refinement of a cell 
+when three or more of its neighbors at the same refinement depth have already been 
+further refined (Bank's $k$-neighbor rule, \cite{banks}). Such a situation would arise for 
+quadrilateral cell when at least three of its four neighbors have been refined,
+then that quadrangle would also be refined. However, with PLW functions, such a cell is viewed as a
+heptagon (three of its neighbors have been refined) with seven unconstrained unknowns or as an 
+octagon (all four neighbors have been refined) with eight unconstrained unknowns.
 
 
 
 
 
-\end{document}
+
 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results} \label{sec:results}
+\section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We present five examples to validate our approach.  
+Solution techniques to the radiation diffusion equation that preserve linear solution, are 
+second-order accurate, and do not suffer excessively from a mesh imprint (especially when using highly
+distorted grids) have been a topic of research in numerous publications. Our numerical examples
+are taken from that literature. 
+
+
+\end{document}
 
 In this Section, we compare the solution of the problem on an uniform mesh
 with the one on Z-mesh \cite{Stone2003}. We also show that the
