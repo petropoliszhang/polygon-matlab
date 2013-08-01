@@ -487,7 +487,7 @@ with Dirichlet boundary conditions
 \end{equation}
 Neumann boundary conditions
 \begin{equation}
-  -D \partial_n E(\vr) = -F_0(\vr) \ \textrm{ for } \vr \in \partial \D^n,
+  -D \partial_n E(\vr) = F_0(\vr) \ \textrm{ for } \vr \in \partial \D^n,
 \end{equation}
 and Robin boundary conditions
 \begin{equation}
@@ -525,7 +525,7 @@ Then, the SIP formulation is given by
 =
 \int_{\mathbb{T}_{h}} Q \tf 
 + \int_{\ED} E_0 \Big( \kappa \tf  -D \partial_n \tf  \Big)
-+ \int_{\EN} F_0 \tf  
+- \int_{\EN} F_0 \tf  
 + \int_{\ER} 2 F^{inc} \tf  \, ,
 \end{multline}
 where we recall that $\tf$ is a generic test function. 
@@ -601,57 +601,33 @@ using the area and perimeter of the actual polygonal cell.
 
 Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
 \cite{amr stuff}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
-which cells to refine. When using discontinuous finite elements, it is observed that jumps are
-small in regions where the solution is smooth and are significantly larger in regions where
-the solution undergoes rapid spatial variations. A heuristic error indicator is, therefore, to
-monitor the interfacial jumps. Following \cite{deal,ragusa-wang1,ragusa-wang2}, we define 
+which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
+across the faces (edges in 2D) between neighboring cells. The magnitude of these jumps is 
+small in regions where the solution is smooth and can be significantly larger in regions where
+the solution undergoes rapid spatial variations. A heuristic local error indicator is, therefore, to
+monitor the interfacial jumps. Following \cite{leight2007,ragusa-wang1,ragusa-wang2}, we define 
 the error indicator on cell $K$ as:
 \begin{equation} \label{eq:error_indicator}
-  \eta_K = \frac{\int_{\partial K} \jmp{E}^2_K}{\|\Phi_K\|_2^2}.   
+  \eta_K = \frac{\int_{\partial K} |\jmp{E}|_{\partial K}} {\text{meas}(\partial K)} \, .
 \end{equation}  
+%
+The cells flagged for refinement are such that 
+\begin{equation} \label{eq:refine_fraction}
+  \eta_K \ge  \theta \max_{K^\prime \in \mathbb{T}_h} \left( \eta_{K^\prime} \right) \, ,
+\end{equation}  
+where $0 \le \theta \le 1$ is a user-specified coefficient. \eqt{eq:refine_fraction} signifies
+that cells selected for refinement are such that their errors, normalized to the largest error found, 
+are larger than or equal to $\theta$.
 
- As noted in the Introduction, one of the advantages of employing piece-wise linear functions
-
-The adaptive mesh refinement used in our code works as follows:
-\begin{enumerate}
-  \item The solution is computed on a coarse mesh.
-  \item The error indicator for each cell is computed.
-  \item All the cells $K$ such that $\eta_K > \epsilon \max_{J} \eta_J$ where
-    $\epsilon \in [0,1]$ are flagged for refinement.
-  \item The flagged cells are refined.
-  \item The solution on the coarse mesh is projected on the fine mesh.
-  \item Go back to 1.
-\end{enumerate}
-Step 5 is not necessary but it permits to decrease the time needed to solve
-the problem on the finer mesh since a very good initial guess is available to
-the solver.
-
-When a discretization that does not allow polygonal cells is employed, the
-refinement of the mesh may create hanging nodes. Whereas if polygonal cells can
-be used, hanging nodes are not necessary since every time a hanging node
-would be needed, one edge is added to 2 cells.
-
-
-In radiation transport and radiative transfer, lower-order spatial schemes are most commonly used. The AMR techniques employed with such schemes typically rely on gradient-based error estimates \cite{Jessee1998380}, with a few exceptions, e.g., \cite{kanschat-rad-transfer-97}, where an adjoint-based estimator is derived.
-Here, we wish to obtain error estimates for high-order spatial approximations and, therefore, may not rely on simpler estimates such as the gradient of the solution. We have chosen to follow several approaches to estimate the spatial discretization error and propose three means for controlling the spatial error in $S_N$ calculations. The first technique employs two adapted AMR meshes at each adaptivity cycle: a coarse AMR mesh $\mathbb{T}_h^k$ and a fine AMR mesh $\mathbb{T}_{h/2}^k$ obtained by uniform refinement of $\mathbb{T}_h^k$; in the preceding, $k$ denotes the mesh adaptivity cycle index. Error estimates are obtained using the two solutions computed on $\mathbb{T}_{h}^k$ and $\mathbb{T}_{h/2}^k$. This approach is also discussed in \cite{demko-book1,Solin2004449}. The second error estimation technique proposed here is a simple variant of the above technique, where the coarse solution is not computed but approximated by projecting the finer solution onto the coarser mesh. The third approach presented is heuristic and monitors the inter-element jumps of the solution across elements. We discuss these three error estimates below. For goal-oriented AMR, the estimates 
-described here can be re-used ``as is''; see Section~\ref{sec:go-error}.
+As noted in the Introduction, piece-wise linear functions can be beneficially used to handle transitions
+between mesh cells of different refinement levels. In the context of discontinuous finite elements, the
+analog of \fig{} is given in \fig{}. With standard linear discontinuous finite elements, the cell to
+the left (labelled $K$ in \fig{}) would remain  a quadrilateral after refinement of its neighbor. This also
+means that the restriction to edge $AB$ of the intensity from that cell, $E_K^{AB}$, would remain a
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Refinement Criteria} \label{sec:error4}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The criterion for refinement is defined as follows: an element $K$ of $\mathbb{T}_h^k$ is selected for refinement if
-\be
-\beta _{K}^{k} \ge \alpha \, \max_{K'\in \mathbb{T}_{h}^k} \left( \beta _{K'}^{k} \right),
-\label{eq:criterion}
-\ee
-where $\alpha$ ($0 < \alpha < 1$) is a user-defined fraction and $\beta$ stands for any of the error estimates ($\mu$, $\eta$, $\zeta$, $\widetilde \mu$, $\widetilde \eta$, and $\widetilde \zeta$)
-previously defined in \eqt{eq:error-est1}, \eqt{eq:error-est2}, \eqt{eq:error-jump} or \eqt{eq:error-go}. 
-The criterion of \eqt{eq:criterion} focuses the computational effort on elements with the largest errors; for
-standard AMR, this tends to naturally equi-distribute the spatial error, whereas for goal-oriented approaches
-this aims at reducing the computational effort for a given quantity of interest. 
 
 \end{document}
 
