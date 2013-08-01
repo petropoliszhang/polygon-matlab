@@ -18,20 +18,25 @@ logi_plot_err_i     = input_arg.logi_plot_err_i;
 generate_vtk_output = input_arg.generate_vtk_output;
 vtk_basename = input_arg.vtk_basename;
 %
-tot = 1/3; sca = 1/3;
-c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
-% bc type: 0= Dirichlet, homogeneous
-%          1= Dirichlet, inhomogeneous
-%          2= Neumann, homogeneous
-%          3= Neumann, inhomogeneous
-%          4= Robin phi/4 + D/2 \partial_n phi = Jinc
-% values entered as LRBT
-bc_type=[4 4 2 2  ];
-bc_val.left  = 100;
-bc_val.right = -50;
-bc_val.bottom= 50;
-bc_val.top   = 10;
-%
+if ~logi_mms
+    if(strcmp(input_arg.pbtype,'linear'))
+        tot = 1/3; sca = 1/3;
+        c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0.10*0;
+        % bc type: 0= Dirichlet, homogeneous
+        %          1= Dirichlet, inhomogeneous
+        %          2= Neumann, homogeneous
+        %          3= Neumann, inhomogeneous
+        %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
+        % values entered as LRBT
+        bc_type=[4 4 2 2  ];
+        bc_val.left  = 100;
+        bc_val.right = -50;
+        bc_val.bottom= 50;
+        bc_val.top   = 10;
+    else
+        error('undefined problem type');
+    end
+end%
 %------------------------------------------------
 t_beg=cputime;
 %------------------------------------------------
