@@ -1,0 +1,37 @@
+Running script that drives the pwld code
+result_basename =
+results\rand_poly_linear_L1_n15_a0.95
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 5 
+Number of polygons with 4 vertices = 43 
+Number of polygons with 5 vertices = 73 
+Number of polygons with 6 vertices = 67 
+Number of polygons with 7 vertices = 41 
+Number of polygons with 8 vertices = 23 
+Number of polygons with 9 vertices = 4 
+Total number of polygons           = 256 
+total area read in geom = 1 
+0 centroid(s) outside out of 256 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 1.26361 
+
+Assembly time = 0.780005 
+Solver time   = 0.0156001 
+
+Solution: Min = +1.600000E+01 
+          Max = +2.000000E+01 
+
+Error time    = 0.0624004 
+Vtk time      = 0.826805 
+
+
+Time in cycle 1 = 3.80642 
+
+
+-----------------------------
+Total time    = 3.80642 
+>> 

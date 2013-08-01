@@ -1,0 +1,863 @@
+Running script that drives the pwld code
+result_basename =
+results\rand_quad_linear_L1_n16_a0.66
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 256 
+Total number of polygons           = 256 
+total area read in geom = 1 
+5 centroid(s) outside out of 256 cells 
+fraction of centroids outside of polygon = 0.0195313 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 2.09041 
+
+ans =
+  Columns 1 through 2
+                   0.28478                 0.0711513
+  Columns 3 through 4
+                  0.212468                 0.0866139
+  Columns 5 through 6
+                 0.2229085                 0.0945111
+poly =
+   197
+   198
+   199
+   200
+vert =
+                  0.175239                 0.0695092
+                   0.28478                 0.0711513
+                  0.212468                 0.0866139
+                  0.219147                   0.15077
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.212468                 0.0866139
+  Columns 3 through 4
+                  0.219147                   0.15077
+  Columns 5 through 6
+                 0.2229085                 0.0945111
+poly =
+   197
+   198
+   199
+   200
+vert =
+                  0.175239                 0.0695092
+                   0.28478                 0.0711513
+                  0.212468                 0.0866139
+                  0.219147                   0.15077
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.219147                   0.15077
+  Columns 3 through 4
+                  0.212468                 0.0866139
+  Columns 5 through 6
+                  0.213353               0.170823475
+poly =
+   201
+   202
+   203
+   204
+vert =
+                  0.219147                   0.15077
+                  0.212468                 0.0866139
+                  0.219218                  0.217642
+                  0.202579                  0.228268
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.202579                  0.228268
+  Columns 3 through 4
+                  0.219147                   0.15077
+  Columns 5 through 6
+                  0.213353               0.170823475
+poly =
+   201
+   202
+   203
+   204
+vert =
+                  0.219147                   0.15077
+                  0.212468                 0.0866139
+                  0.219218                  0.217642
+                  0.202579                  0.228268
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.220093                  0.344752
+  Columns 3 through 4
+                  0.215626                  0.294073
+  Columns 5 through 6
+                0.20558575                0.35141425
+poly =
+   213
+   214
+   215
+   216
+vert =
+                  0.220093                  0.344752
+                  0.215626                  0.294073
+                  0.217053                  0.407279
+                  0.169571                  0.359553
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.212632                  0.904409
+  Columns 3 through 4
+                  0.217292                  0.909253
+  Columns 5 through 6
+                0.22068075                0.86280375
+poly =
+   245
+   246
+   247
+   248
+vert =
+                  0.178354                   0.79723
+                  0.274445                  0.840323
+                  0.212632                  0.904409
+                  0.217292                  0.909253
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.217292                  0.909253
+  Columns 3 through 4
+                  0.212632                  0.904409
+  Columns 5 through 6
+                0.21016075                0.93077875
+poly =
+   249
+   250
+   251
+   252
+vert =
+                  0.217292                  0.909253
+                  0.212632                  0.904409
+                  0.242001                  0.942711
+                  0.168718                  0.966742
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.414976                  0.350636
+  Columns 3 through 4
+                  0.458125                  0.365791
+  Columns 5 through 6
+                 0.4012305                 0.3448835
+poly =
+   405
+   406
+   407
+   408
+vert =
+                  0.358417                  0.324303
+                  0.414976                  0.350636
+                  0.458125                  0.365791
+                  0.373404                  0.338804
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.420503                  0.470354
+  Columns 3 through 4
+                  0.428095                  0.459746
+  Columns 5 through 6
+                0.39693525                0.46483975
+poly =
+   413
+   414
+   415
+   416
+vert =
+                  0.373618                  0.448895
+                  0.420503                  0.470354
+                  0.428095                  0.459746
+                  0.365525                  0.480364
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                   0.45916                  0.774176
+  Columns 3 through 4
+                  0.435715                  0.778314
+  Columns 5 through 6
+                0.42837825                  0.782808
+poly =
+   433
+   434
+   435
+   436
+vert =
+                  0.411852                  0.770335
+                   0.45916                  0.774176
+                  0.435715                  0.778314
+                  0.406786                  0.808407
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.428095                  0.459746
+  Columns 3 through 4
+                  0.420503                  0.470354
+  Columns 5 through 6
+                0.47222675                0.46611575
+poly =
+   477
+   478
+   479
+   480
+vert =
+                  0.420503                  0.470354
+                  0.511885                  0.407622
+                  0.528424                  0.526741
+                  0.428095                  0.459746
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.522333                  0.286841
+  Columns 3 through 4
+                  0.565303                  0.279537
+  Columns 5 through 6
+                  0.511463                 0.2844995
+poly =
+   529
+   530
+   531
+   532
+vert =
+                  0.493293                  0.253312
+                  0.522333                  0.286841
+                  0.565303                  0.279537
+                  0.464923                  0.318308
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.599493                 0.0927309
+  Columns 3 through 4
+                  0.596252                 0.0669398
+  Columns 5 through 6
+                0.59165275               0.039917675
+poly =
+   577
+   578
+   579
+   580
+vert =
+                  0.529443                         0
+                  0.641423                         0
+                  0.599493                 0.0927309
+                  0.596252                 0.0669398
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.596252                 0.0669398
+  Columns 3 through 4
+                  0.599493                 0.0927309
+  Columns 5 through 6
+                0.60528025               0.097379925
+poly =
+   581
+   582
+   583
+   584
+vert =
+                  0.596252                 0.0669398
+                  0.599493                 0.0927309
+                  0.634632                  0.120236
+                  0.590744                  0.109613
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.565303                  0.279537
+  Columns 3 through 4
+                  0.522333                  0.286841
+  Columns 5 through 6
+                0.59016825                0.27892525
+poly =
+   593
+   594
+   595
+   596
+vert =
+                  0.522333                  0.286841
+                  0.642492                  0.217243
+                  0.630545                   0.33208
+                  0.565303                  0.279537
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.553831                  0.471963
+  Columns 3 through 4
+                  0.565147                  0.472848
+  Columns 5 through 6
+                 0.5871095                0.47375725
+poly =
+   605
+   606
+   607
+   608
+vert =
+                  0.565147                  0.472848
+                  0.614296                  0.454746
+                  0.615164                  0.495472
+                  0.553831                  0.471963
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.584924                  0.617455
+  Columns 3 through 4
+                   0.59171                  0.653311
+  Columns 5 through 6
+                  0.592652                0.59373675
+poly =
+   613
+   614
+   615
+   616
+vert =
+                  0.591085                  0.534759
+                  0.602889                  0.569422
+                  0.584924                  0.617455
+                   0.59171                  0.653311
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                   0.59171                  0.653311
+  Columns 3 through 4
+                  0.584924                  0.617455
+  Columns 5 through 6
+                0.58830775                  0.659742
+poly =
+   617
+   618
+   619
+   620
+vert =
+                   0.59171                  0.653311
+                  0.584924                  0.617455
+                  0.615378                  0.658101
+                  0.561219                  0.710101
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.729714                  0.228335
+  Columns 3 through 4
+                  0.745598                  0.213311
+  Columns 5 through 6
+                  0.713133                 0.2198845
+poly =
+   717
+   718
+   719
+   720
+vert =
+                  0.713594                   0.19358
+                  0.729714                  0.228335
+                  0.745598                  0.213311
+                  0.663626                  0.244312
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.724513                  0.640503
+  Columns 3 through 4
+                  0.728324                  0.638115
+  Columns 5 through 6
+                 0.7282395                0.60267175
+poly =
+   741
+   742
+   743
+   744
+vert =
+                  0.698564                  0.561245
+                  0.761557                  0.570824
+                  0.724513                  0.640503
+                  0.728324                  0.638115
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.728324                  0.638115
+  Columns 3 through 4
+                  0.724513                  0.640503
+  Columns 5 through 6
+                0.72841725                 0.6697405
+poly =
+   745
+   746
+   747
+   748
+vert =
+                  0.728324                  0.638115
+                  0.724513                  0.640503
+                  0.734365                  0.681436
+                  0.726467                  0.718908
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.726467                  0.718908
+  Columns 3 through 4
+                  0.734365                  0.681436
+  Columns 5 through 6
+                0.72635875                0.71906425
+poly =
+   749
+   750
+   751
+   752
+vert =
+                  0.726467                  0.718908
+                  0.734365                  0.681436
+                  0.740225                  0.760286
+                  0.704378                  0.715627
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.762505                  0.882378
+  Columns 3 through 4
+                   0.72188                  0.899726
+  Columns 5 through 6
+                0.72702525                 0.9013135
+poly =
+   761
+   762
+   763
+   764
+vert =
+                  0.702236                  0.897674
+                  0.762505                  0.882378
+                   0.72188                  0.899726
+                   0.72148                  0.925476
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                   0.72188                  0.899726
+  Columns 3 through 4
+                   0.72148                  0.925476
+  Columns 5 through 6
+                0.72702525                 0.9013135
+poly =
+   761
+   762
+   763
+   764
+vert =
+                  0.702236                  0.897674
+                  0.762505                  0.882378
+                   0.72188                  0.899726
+                   0.72148                  0.925476
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                   0.72148                  0.925476
+  Columns 3 through 4
+                   0.72188                  0.899726
+  Columns 5 through 6
+                0.71363275                 0.9563005
+poly =
+   765
+   766
+   767
+   768
+vert =
+                   0.72148                  0.925476
+                   0.72188                  0.899726
+                  0.720055                         1
+                  0.691116                         1
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.745598                  0.213311
+  Columns 3 through 4
+                  0.729714                  0.228335
+  Columns 5 through 6
+                 0.7671735                  0.212346
+poly =
+   781
+   782
+   783
+   784
+vert =
+                  0.729714                  0.228335
+                  0.816035                  0.167046
+                  0.777347                  0.240692
+                  0.745598                  0.213311
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.888798                  0.398872
+  Columns 3 through 4
+                  0.839476                  0.416318
+  Columns 5 through 6
+                0.84189175                0.41931175
+poly =
+   857
+   858
+   859
+   860
+vert =
+                  0.820036                  0.406711
+                  0.888798                  0.398872
+                  0.839476                  0.416318
+                  0.819257                  0.455346
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.839476                  0.416318
+  Columns 3 through 4
+                  0.819257                  0.455346
+  Columns 5 through 6
+                0.84189175                0.41931175
+poly =
+   857
+   858
+   859
+   860
+vert =
+                  0.820036                  0.406711
+                  0.888798                  0.398872
+                  0.839476                  0.416318
+                  0.819257                  0.455346
+iside =
+     3
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.809411                  0.586639
+  Columns 3 through 4
+                  0.835662                  0.658465
+  Columns 5 through 6
+                  0.843742                0.66039725
+poly =
+   873
+   874
+   875
+   876
+vert =
+                  0.809411                  0.586639
+                  0.835662                  0.658465
+                  0.898709                  0.688206
+                  0.831186                  0.708279
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.835662                  0.658465
+  Columns 3 through 4
+                  0.898709                  0.688206
+  Columns 5 through 6
+                  0.843742                0.66039725
+poly =
+   873
+   874
+   875
+   876
+vert =
+                  0.809411                  0.586639
+                  0.835662                  0.658465
+                  0.898709                  0.688206
+                  0.831186                  0.708279
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.839476                  0.416318
+  Columns 3 through 4
+                  0.888798                  0.398872
+  Columns 5 through 6
+                 0.9008945                  0.391609
+poly =
+   921
+   922
+   923
+   924
+vert =
+                  0.888798                  0.398872
+                  0.932008                  0.344449
+                  0.943296                  0.406797
+                  0.839476                  0.416318
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+ans =
+  Columns 1 through 2
+                  0.949459                   0.83584
+  Columns 3 through 4
+                  0.926996                  0.828791
+  Columns 5 through 6
+                0.96911375                0.84652825
+poly =
+        1013
+        1014
+        1015
+        1016
+vert =
+                  0.926996                  0.828791
+                         1                  0.806673
+                         1                  0.914809
+                  0.949459                   0.83584
+iside =
+     4
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of
+polygonal the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 98 
+Assembly time = 0.904806 
+Solver time   = 0.0312002 
+
+Solution: Min = +1.600000E+01 
+          Max = +2.000000E+01 
+
+Error time    = 0.0624004 
+Vtk time      = 0.468003 
+
+
+Time in cycle 1 = 4.33683 
+
+
+-----------------------------
+Total time    = 4.33683 
+>> 

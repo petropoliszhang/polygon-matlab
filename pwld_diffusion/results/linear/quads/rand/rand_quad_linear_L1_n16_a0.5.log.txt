@@ -1,0 +1,37 @@
+Running script that drives the pwld code
+result_basename =
+results\rand_quad_linear_L1_n16_a0.5
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 256 
+Total number of polygons           = 256 
+total area read in geom = 1 
+0 centroid(s) outside out of 256 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.998406 
+
+Assembly time = 0.436803 
+Solver time   = 0.0156001 
+
+Solution: Min = +1.600000E+01 
+          Max = +2.000000E+01 
+
+Error time    = 0.0312002 
+Vtk time      = 0.530403 
+
+
+Time in cycle 1 = 2.74562 
+
+
+-----------------------------
+Total time    = 2.74562 
+>> 
+
+elements with angle > 180: 
+(0.1  ; 0.6)
+(0.45 ; 0.17)
+(0.12 ; 0.17)
+

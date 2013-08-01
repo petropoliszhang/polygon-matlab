@@ -1,0 +1,83 @@
+Running script that drives the pwld code
+result_basename =
+results\rand_quad_linear_L1_n3_a0
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 9 
+Total number of polygons           = 9 
+total area read in geom = 1 
+1 centroid(s) outside out of 9 cells 
+fraction of centroids outside of polygon = 0.111111 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+ans =
+  Columns 1 through 2
+                  0.333333                  0.333333
+  Columns 3 through 4
+                      0.25                  0.766667
+  Columns 5 through 6
+                    0.3425                0.66166675
+poly =
+    17
+    18
+    19
+    20
+vert =
+                  0.333333                  0.333333
+                      0.25                  0.766667
+                  0.666667                  0.666667
+                      0.12                      0.88
+iside =
+     1
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 96 
+ans =
+  Columns 1 through 2
+                      0.25                  0.766667
+  Columns 3 through 4
+                  0.666667                  0.666667
+  Columns 5 through 6
+                    0.3425                0.66166675
+poly =
+    17
+    18
+    19
+    20
+vert =
+                  0.333333                  0.333333
+                      0.25                  0.766667
+                  0.666667                  0.666667
+                      0.12                      0.88
+iside =
+     2
+Warning: negative jac, ordering of the side is not
+clockwise, indicative of centroid being outside of polygonal
+the mesh 
+> In build_pwld_local_matrices at 57
+  In DG_assemble_solve at 14
+  In pwld_solve_problem at 141
+  In linear_random_driver at 96 
+Assembly time = 0.0312002 
+Solver time   = 0 
+
+Solution: Min = +1.600000E+01 
+          Max = +2.000000E+01 
+
+Error time    = 0 
+Vtk time      = 0.0156001 
+
+
+Time in cycle 1 = 0.499203 
+
+
+-----------------------------
+Total time    = 0.499203 
+>> 
