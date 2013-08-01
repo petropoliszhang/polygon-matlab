@@ -57,6 +57,9 @@ for iside=1:nv
         warning('negative jac, ordering of the side is not clockwise, indicative of centroid being outside of polygonal the mesh'); 
     end
     det_J_i=norm(Jac_i,2);
+    %%% hack
+    if Jac_i(3)<0, det_J_i=-det_J_i; end
+    %%% end hack
     Jac_i=[(B-A)' (C-A)'];
 %     det_J_i=det(Jac_i); % safer
     iJt=inv(Jac_i');
