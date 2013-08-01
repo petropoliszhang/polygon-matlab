@@ -354,16 +354,16 @@ for ied=1:n_edge
         switch(Kp)
             case{-10}
                 val=bc_val.left;
-                gm_=[gm(1) gm(4)];
+%                 gm_=[gm(1) gm(4)];
             case{-20}
                 val=bc_val.right;
-                gm_=[gm(2) gm(3)];
+%                 gm_=[gm(2) gm(3)];
             case{-30}
                 val=bc_val.bottom;
-                gm_=[gm(1) gm(2)];
+%                 gm_=[gm(1) gm(2)];
             case{-40}
                 val=bc_val.top;
-                gm_=[gm(3) gm(4)];
+%                 gm_=[gm(3) gm(4)];
             otherwise
                 error('inhomogeneous Neumann');
         end
@@ -385,16 +385,16 @@ for ied=1:n_edge
         switch(Kp)
             case{-10}
                 val=bc_val.left;
-                gm_=[gm(1) gm(4)];
+%                 gm_=[gm(1) gm(4)];
             case{-20}
                 val=bc_val.right;
-                gm_=[gm(2) gm(3)];
+%                 gm_=[gm(2) gm(3)];
             case{-30}
                 val=bc_val.bottom;
-                gm_=[gm(1) gm(2)];
+%                 gm_=[gm(1) gm(2)];
             case{-40}
                 val=bc_val.top;
-                gm_=[gm(3) gm(4)];
+%                 gm_=[gm(3) gm(4)];
             otherwise
                 error('inhomogeneous Neumann');
         end
@@ -412,16 +412,16 @@ for ied=1:n_edge
         switch(Kp)
             case{-10}
                 val=bc_val.left;
-                gm_=[gm(1) gm(4)];
+%                 gm_=[gm(1) gm(4)];
             case{-20}
                 val=bc_val.right;
-                gm_=[gm(2) gm(3)];
+%                 gm_=[gm(2) gm(3)];
             case{-30}
                 val=bc_val.bottom;
-                gm_=[gm(1) gm(2)];
+%                 gm_=[gm(1) gm(2)];
             case{-40}
                 val=bc_val.top;
-                gm_=[gm(3) gm(4)];
+%                 gm_=[gm(3) gm(4)];
             otherwise
                 error('Robin');
         end
@@ -431,6 +431,7 @@ for ied=1:n_edge
         aux(IDm,IDm) = aux(IDm,IDm) + 0.5 * Le * m1d;
         A(gm(:),gm(:)) = A(gm(:),gm(:)) + aux;
         % add 2(Jinc,v) to the rhs
+        gm_=edg2vert(ied,1:2); %safer
         b(gm_(:)) = b(gm_(:)) + 2*val*Le/2;
 
     end
