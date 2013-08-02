@@ -37,6 +37,10 @@ if ~logi_mms
     else
         error('undefined problem type');
     end
+else
+    tot = 2; sca = 1;
+    c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0;
+    bc_val = [];
 end%
 %------------------------------------------------
 t_beg=cputime;
@@ -44,7 +48,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*3;
+C_pen=4*1;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
@@ -80,7 +84,7 @@ end
 % mms
 %
 if(logi_mms)
-    bc_type=[0 0 0 0]; % imposed homogeneous Dirchlet
+    bc_type=[0 0 0 0]; % imposed homogeneous Dirchilet
     switch(mms_type)
         case{0}
             mms=@(x,y)  S_ext+0*(x.*y);

@@ -3,6 +3,8 @@ function [M,K,f,g]=build_pwld_local_matrices(poly,vert)
 % poly=[1 2 3]
 % vert=[0 0; 1 0; 0 1]
 
+global verbose
+
 % centroid
 C=mean(vert);
 % alpha coef
@@ -49,12 +51,14 @@ for iside=1:nv
     % compute |J|=2.Area for that side
     A=vert(irow1,:); B=vert(irow2,:);
     Jac_i = cross([B-A 0]',[C-A 0]'); % AB ^ AC
-    if(Jac_i(3)<0), 
-        [A B C]
-        poly
-        vert
-        iside
-        warning('negative jac, ordering of the side is not clockwise, indicative of centroid being outside of polygonal the mesh'); 
+    if verbose
+        if(Jac_i(3)<0),
+            [A B C]
+            poly
+            vert
+            iside
+            warning('negative jac, ordering of the side is not clockwise, indicative of centroid being outside of polygonal the mesh');
+        end
     end
     det_J_i=norm(Jac_i,2);
     %%% hack
@@ -63,12 +67,13 @@ for iside=1:nv
     Jac_i=[(B-A)' (C-A)'];
 %     det_J_i=det(Jac_i); % safer
     iJt=inv(Jac_i');
-    if(abs(det(Jac_i)-det_J_i)>1e-11), 
-        abs(det(Jac_i)-det_J_i)
-        fprintf('Jac1= %E /= Jac2= %E \n',det(Jac_i),det_J_i); 
-        warning('2 versions of Jac do not yield same det ...'); 
+    if verbose
+        if(abs(det(Jac_i)-det_J_i)>1e-11),
+            abs(det(Jac_i)-det_J_i)
+            fprintf('Jac1= %E /= Jac2= %E \n',det(Jac_i),det_J_i);
+            warning('2 versions of Jac do not yield same det ...');
+        end
     end
-    
     % add contribution from M_side
     M(list_vert,list_vert) = M(list_vert,list_vert) + det_J_i*M_side;
     
@@ -84,7 +89,9 @@ for iside=1:nv
     % [r1 r2 r3]
     % sanity check:
     test = 2*r1*(r2+r3)+2*r2*r3-(r1^2+r2^2+r3^2)-1;
-    if(abs(test)>1e-10), test, warning('r_i error in stiffness matrix coefficients'); end
+    if verbose
+        if(abs(test)>1e-10), test, warning('r_i error in stiffness matrix coefficients'); end
+    end
     % stiffness matrix for side i
     kk_side=[ ...
         (-1 + a)*a*r1 - (-1 + a)*r2 + a*r3,  ((1 - 2*a + 2*a^2)*r1 - r2 - r3)/2,  (a*((-1 + 2*a)*r1 - r2 + r3))/2;
