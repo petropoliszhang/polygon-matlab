@@ -1,14 +1,14 @@
 % clear all;
 close all; clc;
 
-logi_save = true;
+logi_write_file = false;
 
 L=1;
 n=15;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=1.;
+fraction=0.5;
 
 
 ind=0;
@@ -300,7 +300,7 @@ end
 
 ncells = length(c)
 %%%%%%%%%%%%%
-if(~logi_save), return; end
+if(~logi_write_file), return; end
 %%%%%%%%%%%%%
 
 % save txt file
