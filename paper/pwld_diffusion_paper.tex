@@ -647,10 +647,6 @@ octagon (all four neighbors have been refined) with eight unconstrained unknowns
 
 
 
-
-
-
-
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -661,8 +657,81 @@ octagon (all four neighbors have been refined) with eight unconstrained unknowns
 Solution techniques to the radiation diffusion equation that preserve linear solution, are 
 second-order accurate, and do not suffer excessively from a mesh imprint (especially when using highly
 distorted grids) have been a topic of research in numerous publications. Our numerical examples
-are taken from that literature. 
+are taken from that literature. Earlier works focused on quadrilateral (hexahedral in 3D) grids
+\cite{aaa}. Therefore, we also provide results obtained using four types of quadrilateral meshes: 
+``random'', ``'sinusoidal'', ``Z-mesh'' \cite{kershaw too?}, and the so-called ``Shestakov-Kershaw'' grids.
+A random quadrilateral mesh on a rectangular $L_x \times Ly$ domain is obtained by moving the interior 
+vertices of a regular rectangular mesh by a random fraction of the grid spacing: $\pm\alpha\delta x$ along 
+the $x$-axis and $\pm\alpha\delta y$ along the $y$-axis, where $\delta x\,,\delta y$ is the grid resolution 
+and $0 \le \alpha \le 1$. $\alpha=0$ returns the original rectangular grid. In the literature, a value of
+$\alpha$ in the order of 0.25 is often employed; here we show results with $\alpha$ up to 0.65. 
+Above 0.70, the original cells are often flipped onto themselves. The Z-mesh and Shestakov 
+mesh are meant to model grid distortions that occur in Lagrangian hydrodynamic simulations; for these meshes,
+the randomness parameter $a$ varies between 0 (extremely distorted) and 0.5 (structured rectangular).
 
+Polygonal grids employed here are obtained by computing a bounded Voronoi diagram, using the 
+vertices generated from the previous quadrilateral meshes (either the random, sinusoidal, Z-mesh, 
+or Shestakov quadrilateral grids). The Voronoi diagram is bounded to the size of the original 
+quadrilateral mesh.
+
+
+%-----------------------------------------------------------
+\subsection{The Standard Problem with Linear Exact Solution}
+%-----------------------------------------------------------
+A standard test problem to verify that a numerical scheme preserves linear solutions has been
+proposed in 1D by Morel et al. \cite{morel} and has been extended to multi-D by adding 
+appropriate reflective boundary conditions in several publications \cite{}. This test consists
+in solving the radiation diffusion equation on a unit square domain containing an homogeneous pure 
+scatterer material ($\sigma_a=0$), no volumetric sources ($Q=0$), with reflective boundary conditions 
+on the top and bottom faces, and Robin boundary conditions on the left and right faces
+\begin{align}
+  E(0) - 2 D \left.\partial_x E\right|_0 &= 4F^{inc} \ \forall y \textrm{ at } x=0, \\
+  E(1) + 2 D \left.\partial_x E\right|_1 &= 0 \ \forall y \textrm{ at } x=1.
+\end{align}
+The exact solution (for a domain of length $L$ in the $x$-direction) is
+\begin{equation}
+E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
+\end{equation}
+
+\pagebreak
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Random quads $\alpha=0.66$]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/rand/rand_quad_linear_L1_n16_a0_66}
+\label{fig:linear_rand_quad}
+}
+\subfigure[Z-mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/z-mesh/zzzz_quad_linear_L1_n20_a0_05}
+\label{fig:linear_z_quad}
+}
+\subfigure[Shestakov $a=0.15$]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/shes/shes_quad_linear_L1_nc4_a0_15}
+\label{fig:linear_shes_quad}
+}
+\subfigure[Shaskov $3\times 3$ mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/misha}
+\label{fig:linear_misha}
+}
+\caption{Linear solution, 16x16 quads/shes,20x20Z,3x3misha}
+\label{fig:linear_quad}
+\end{figure}
+
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{|l||c|}
+		\hline
+		Grid      & \# of convex cells / total \# of cells \\ \hline\hline
+		Random    & 54 / 256 \\ \hline
+		Z-mesh    &  0 / 400 \\ \hline
+		Shestakov & 22 / 256 \\ \hline
+		Shaskov   &  4 /   9 \\ \hline		
+		\end{tabular}
+	\caption{Fraction of Concave Cells in Quadrilaterals Grids shown in \fig{fig:linear_quad}}
+	\label{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig}
+\end{table}
+
+rand_poly_linear_L1_n15_a0_95
 
 \end{document}
 
