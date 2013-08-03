@@ -1,0 +1,41 @@
+Running script that drives the pwld code
+result_basename =
+results\shes_poly_linear_L1_nc4_a0.05
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 11 
+Number of polygons with 4 vertices = 58 
+Number of polygons with 5 vertices = 88 
+Number of polygons with 6 vertices = 50 
+Number of polygons with 7 vertices = 50 
+Number of polygons with 8 vertices = 21 
+Number of polygons with 9 vertices = 8 
+Number of polygons with 10 vertices = 2 
+Number of polygons with 11 vertices = 0 
+Number of polygons with 12 vertices = 1 
+Total number of polygons           = 289 
+Nbr of concave polygons 0 out of 289 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 289 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.670804 
+
+Assembly time = 0.390003 
+Solver time   = 0.0312002 
+
+Solution: Min = +1.600000E+01 
+          Max = +2.000000E+01 
+
+Error time    = 0.140401 
+Vtk time      = 0.312002 
+
+
+Time in cycle 1 = 2.10601 
+
+
+-----------------------------
+Total time    = 2.10601 
+>> 

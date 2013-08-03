@@ -1,0 +1,226 @@
+Running script that drives the pwld code
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb1_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 4 
+Total number of polygons           = 4 
+total area read in geom = 1 
+0 centroid(s) outside out of 4 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0 
+Solver time   = 0 
+
+Solution: Min = -9.190153E-01 
+          Max = +7.698358E-01 
+
+Error time    = 0.0312002 
+L2 norm time  = 0 
+	 ndof = 16, L2_error = +4.507416E-01 
+
+Vtk time      = 0.0312002 
+
+
+Time in cycle 1 = 0.187201 
+
+
+-----------------------------
+Total time    = 0.187201 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb2_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 16 
+Total number of polygons           = 16 
+total area read in geom = 1 
+1 centroid(s) outside out of 16 cells 
+fraction of centroids outside of polygon = 0.0625 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0.0468003 
+Solver time   = 0 
+
+Solution: Min = -7.784961E-01 
+          Max = +9.751482E-01 
+
+Error time    = 0 
+L2 norm time  = 0.0312002 
+	 ndof = 64, L2_error = +3.798359E-01 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 1 = 0.202801 
+
+
+-----------------------------
+Total time    = 0.202801 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb3_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 64 
+Total number of polygons           = 64 
+total area read in geom = 1 
+1 centroid(s) outside out of 64 cells 
+fraction of centroids outside of polygon = 0.015625 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0780005 
+
+Assembly time = 0.171601 
+Solver time   = 0 
+
+Solution: Min = -9.625056E-01 
+          Max = +9.230721E-01 
+
+Error time    = 0 
+L2 norm time  = 0.109201 
+	 ndof = 256, L2_error = +2.840955E-01 
+
+Vtk time      = 0.0624004 
+
+
+Time in cycle 1 = 0.530403 
+
+
+-----------------------------
+Total time    = 0.530403 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb4_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 256 
+Total number of polygons           = 256 
+total area read in geom = 1 
+4 centroid(s) outside out of 256 cells 
+fraction of centroids outside of polygon = 0.015625 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.374402 
+
+Assembly time = 0.702004 
+Solver time   = 0.0624004 
+
+Solution: Min = -7.501523E-01 
+          Max = +9.101277E-01 
+
+Error time    = 0.124801 
+L2 norm time  = 0.468003 
+	 ndof = 1024, L2_error = +2.182264E-01 
+
+Vtk time      = 0.280802 
+
+
+Time in cycle 1 = 2.79242 
+
+
+-----------------------------
+Total time    = 2.79242 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb5_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 1024 
+Total number of polygons           = 1024 
+total area read in geom = 1 
+19 centroid(s) outside out of 1024 cells 
+fraction of centroids outside of polygon = 0.0185547 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 1.56001 
+
+Assembly time = 2.90162 
+Solver time   = 0.124801 
+
+Solution: Min = -1.348319E+00 
+          Max = +9.653093E-01 
+
+Error time    = 0.202801 
+L2 norm time  = 1.80961 
+	 ndof = 4096, L2_error = +1.541877E-01 
+
+Vtk time      = 0.842405 
+
+
+Time in cycle 1 = 8.42405 
+
+
+-----------------------------
+Total time    = 8.42405 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb6_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 4096 
+Total number of polygons           = 4096 
+total area read in geom = 1 
+98 centroid(s) outside out of 4096 cells 
+fraction of centroids outside of polygon = 0.0239258 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 9.89046 
+
+Assembly time = 13.4005 
+Solver time   = 0.468003 
+
+Solution: Min = -1.783644E+00 
+          Max = +1.714377E+00 
+
+Error time    = 0.390003 
+L2 norm time  = 7.20725 
+	 ndof = 16384, L2_error = +1.239971E-01 
+
+Vtk time      = 3.41642 
+
+
+Time in cycle 1 = 38.8598 
+
+
+-----------------------------
+Total time    = 38.8598 
+result_basename =
+results\shes_quad_mms_1_L1_nc8_emb7_a0.1
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 16384 
+Total number of polygons           = 16384 
+total area read in geom = 1 
+357 centroid(s) outside out of 16384 cells 
+fraction of centroids outside of polygon = 0.0217896 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 95.4882 
+
+Assembly time = 87.657 
+Solver time   = 2.44922 
+
+Solution: Min = -9.308873E-01 
+          Max = +1.037497E+00 
+
+Error time    = 1.01401 
+L2 norm time  = 29.1566 
+	 ndof = 65536, L2_error = +9.684993E-02 
+
+Vtk time      = 13.7125 
+
+
+Time in cycle 1 = 245.421 
+
+
+-----------------------------
+Total time    = 245.421 
+>> -9
