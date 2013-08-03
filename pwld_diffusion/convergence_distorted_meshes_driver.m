@@ -96,6 +96,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 %--------------------------------------------
@@ -106,6 +107,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 %--------------------------------------------
@@ -116,6 +118,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 %--------------------------------------------
@@ -126,6 +129,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 %--------------------------------------------
@@ -136,6 +140,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 %--------------------------------------------
@@ -146,6 +151,7 @@ k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
 gg = geo(k1+1:k2-1);
 result_basename = strcat(result_basename_emb,'_',gg); result_basename
 data.result_basename        = result_basename;
+data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 pwld_solve_problem(data);
 
