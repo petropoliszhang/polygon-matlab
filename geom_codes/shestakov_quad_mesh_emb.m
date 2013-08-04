@@ -23,9 +23,9 @@ logi_write_file = true;
 
 
 % number of subdivisions of the original rectangle
-nc = 8;
+nc = 7;
 % random parameter
-a  = 0.1;
+a  = 0.20;
 % rectangle dimensions
 L = 1;
 rm = L;
