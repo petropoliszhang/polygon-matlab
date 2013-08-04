@@ -1,0 +1,186 @@
+clear all; close all; clc;
+
+basedir = '.\results\convergence\';
+
+% -------------
+% -------------
+% --- QUADS ---
+% -------------
+% -------------
+dir =strcat(basedir,'quads\');
+
+% uniform
+str = strcat(dir,'uniform\mms-1\reg_quad_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+hold all
+clear norm_data;
+leg=['unif'];
+
+% smooth
+geo = 'smoo_quad_mms_1_L1_nc7_emb1_a0.15.mat';
+for k=1:7
+    k1=strfind(geo,'_emb');
+    str = strcat(dir,'smooth\',geo(1:k1+3),int2str(k),geo(k1+5:end));
+    expression=sprintf('%s %s','load',str);eval(expression);
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; 'smoo'];
+
+% shestakov
+% % geo = 'shes_quad_mms_1_L1_nc8_emb1_a0.1.mat';
+geo = 'shes_quad_mms_1_L1_nc7_emb1_a0.3.mat';
+for k=1:7
+    k1=strfind(geo,'_emb');
+    str = strcat(dir,'shes\',geo(1:k1+3),int2str(k),geo(k1+5:end));
+    expression=sprintf('%s %s','load',str);eval(expression);
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '0.30'];
+
+% z-mesh
+str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(1)=norm_data(1);
+erro_(1)=norm_data(2);
+str = strcat(dir,'z-mesh\z-mesh-n9_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(2,1)=norm_data(1);
+erro_(2,1)=norm_data(2);
+
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(:,1)];
+erro_=[erro_; norm_data(:,2)];
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '   z'];
+
+%add legend
+legend(leg)
+
+% ------------
+% ------------
+% --- POLY ---
+% ------------
+% ------------
+figure(2)
+% uniform
+str = strcat(dir,'uniform\mms-1\reg_quad_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'o-');
+hold all
+clear norm_data;
+leg=['unif'];
+
+dir =strcat(basedir,'poly\');
+
+% rand
+geo = 'rand_poly_mms_1_L1_n2_a0.9.mat';
+for k=1:6
+    k1=strfind(geo,'_n');
+    str = strcat(dir,'rand\',geo(1:k1+1),int2str(2^k),geo(k1+3:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-'); hold all
+clear norm_data ndof_ erro_;
+leg=[leg ; 'rand'];
+
+% smooth
+geo = 'smoo_poly_mms_1_L1_n2_a0.15.mat';
+for k=1:6
+    k1=strfind(geo,'_n');
+    str = strcat(dir,'smooth\',geo(1:k1+1),int2str(2^k),geo(k1+3:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; 'smoo'];
+
+% shes
+geo = 'shes_poly_mms_1_L1_nc1_a0.02.mat';
+for k=1:6
+    k1=strfind(geo,'_nc');
+    str = strcat(dir,'shes\',geo(1:k1+2),int2str(k),geo(k1+4:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '0.02'];
+% shes
+geo = 'shes_poly_mms_1_L1_nc1_a0.1.mat';
+for k=1:6
+    k1=strfind(geo,'_nc');
+    str = strcat(dir,'shes\',geo(1:k1+2),int2str(k),geo(k1+4:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '0.10'];
+% shes
+geo = 'shes_poly_mms_1_L1_nc1_a0.15.mat';
+for k=1:6
+    k1=strfind(geo,'_nc');
+    str = strcat(dir,'shes\',geo(1:k1+2),int2str(k),geo(k1+4:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '0.15'];
+% shes
+geo = 'shes_poly_mms_1_L1_nc1_a0.25.mat';
+for k=1:6
+    k1=strfind(geo,'_nc');
+    str = strcat(dir,'shes\',geo(1:k1+2),int2str(k),geo(k1+4:end));
+    expression=sprintf('%s %s','load',str);eval(expression)
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '0.25'];
+
+% z-mesh
+str = strcat(dir,'z-mesh\z_mesh_poly_n6_a0.05_mms_1.mat'); 
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(1)=norm_data(1);
+erro_(1)=norm_data(2);
+str = strcat(dir,'z-mesh\z_mesh_poly_n9_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(2,1)=norm_data(1);
+erro_(2,1)=norm_data(2);
+str = strcat(dir,'z-mesh\z_mesh_poly_n20_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(3,1)=norm_data(1);
+erro_(3,1)=norm_data(2);
+str = strcat(dir,'z-mesh\z_mesh_poly_n40_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(4,1)=norm_data(1);
+erro_(4,1)=norm_data(2);
+str = strcat(dir,'z-mesh\z_mesh_poly_n80_a0.05_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(5,1)=norm_data(1);
+erro_(5,1)=norm_data(2);
+plot(log10(ndof_),log10(erro_),'+-');
+clear norm_data ndof_ erro_;
+leg=[leg ; '   z'];
+
+%add legend
+legend(leg)
+
