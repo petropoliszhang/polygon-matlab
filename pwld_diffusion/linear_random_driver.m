@@ -11,7 +11,6 @@ geo = 'random_quad_mesh_L100_n30_a0.1.txt'   ;
 geo = 'random_quad_mesh_L100_n30_a0.33.txt'  ;
 geo = 'random_quad_mesh_L100_n3_a0.25.txt'   ;
 % geo = 'random_quad_mesh_L100_n50_a0.33.txt'  ;
-geo = 'shestakov_poly_mesh_L1_nc4_a0.15.txt';
 
 % august 1 below:
 % geo = 'random_quad_mesh_L1_n16_a0.65.txt' ; % one small oscillation, goes away with use of <0 det
@@ -25,28 +24,36 @@ geo = 'shestakov_poly_mesh_L1_nc4_a0.15.txt';
 
 % geo = 'random_poly_mesh_L1_n15_a0.95.txt'; % good
 % geo = 'random_poly_mesh_L1_n15_a0.99.txt'; % good
+% geo = 'shestakov_poly_mesh_L1_nc4_a0.15.txt'; % good, not very crazy for a mesh ...
+geo = 'shestakov_poly_mesh_L1_nc4_a0.02.txt'; % good, not very crazy for a mesh ...
+geo = 'z_mesh_poly_L1_n20_a0.05.txt';
 % 
+% ----- geo file -----
 if(strcmp(geo,''))
     data.geofile = '';
 else
     data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
 end
 
+% ---- mms/linear choice
 data.logi_mms = false;
 data.mms_type = 2;
 if ~data.logi_mms
     data.pbtype = 'linear';
 end
 
+% ----- refinement choices
 data.max_ref_cycles = 1; % must be >=1
 data.ref_threshold  = 0; % 0=uniform refinement
 
+% ---- plotting choices
 data.logi_plot           = true;
 data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
+% ---- create result filename
 result_dir = 'results\';
-% is quad or poly mesh
+% ----  is quad or poly mesh ?
 found_poly = strfind(geo,'poly');
 found_quad = strfind(geo,'quad');
 if( ( isempty(found_poly) &&  isempty(found_quad) )|| ...
@@ -59,7 +66,7 @@ elseif ( isempty(found_poly) && ~isempty(found_quad) )
 else
     error('unknown mesh type');
 end
-% is rand, shes, or z-mesh ?
+% ---- is rand, shes, z-mesh, or misha ?
 found_rand = strfind(geo,'random');
 if(isempty(found_rand))
     found_shes = strfind(geo,'shestakov');
@@ -81,7 +88,7 @@ if(isempty(found_rand))
 else
     result_basename = strcat(result_dir,'rand_',mesh_type,'_');
 end
-    
+% --- put pieces together for filename    
 if(data.logi_mms)
     result_basename = sprintf('%s%s%c',result_basename,'mms_',int2str(data.mms_type));
 else
@@ -96,6 +103,7 @@ data.vtk_basename        = result_basename;
 data.save_workspace      = true;
 data.workspace_name      = strcat(result_basename,'.mat');
 
+% --- PWLD SOLVE finally
 pwld_solve_problem(data);
 
 
