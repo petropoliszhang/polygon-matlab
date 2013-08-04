@@ -4,11 +4,11 @@ global verbose
 
 % find relationship between vert (DG) and vert_grid
 vert_link=zeros(ndof,1);
-% % % for kicks:
-% % for i=n_grid_vert:-1:2
-% %     vert_grid(i,:)=[];
-% % end
-% % n_grid_vert=1;
+% for kicks:
+for i=n_grid_vert:-1:2
+    vert_grid(i,:)=[];
+end
+n_grid_vert=1;
 
 for i=1:ndof
     v=vert(i,1:2);
