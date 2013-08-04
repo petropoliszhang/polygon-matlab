@@ -4,7 +4,9 @@ disp('Running script that drives the pwld code');
 global verbose
 verbose = false;
 
-geo = 'shestakov_quad_L1_nc8_emb1_a0.1.txt';
+% geo = 'shestakov_quad_L1_nc8_emb1_a0.1.txt';
+% geo = 'smooth_quad_mesh_L100_nc6_emb1_a0.15.txt';
+geo = 'smooth_quad_mesh_L1_nc7_emb1_a0.15.txt';
 
 % choose geo file 
 if(strcmp(geo,''))
@@ -49,11 +51,11 @@ if(isempty(found_rand))
     if(isempty(found_shes))
         found_z = strfind(geo,'z_mesh');
         if(isempty(found_z))
-            found_misha = strfind(geo,'misha');
-            if(isempty(found_misha))
+            found_smooth = strfind(geo,'smooth');
+            if(isempty(found_smooth))
                 error('unknown mesh');
             else
-                result_basename = strcat(result_dir,'mish_',mesh_type,'_');
+                result_basename = strcat(result_dir,'smoo_',mesh_type,'_');
             end
         else
             result_basename = strcat(result_dir,'zzzz_',mesh_type,'_');
@@ -86,84 +88,119 @@ result_basename
 data.vtk_basename        = result_basename;
 data.workspace_name      = strcat(result_basename,'.mat');
 
-pwld_solve_problem(data);
+norm_data{1}=pwld_solve_problem(data);
 
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb2_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb3_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb4_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb5_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb6_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
-%--------------------------------------------
-geo = 'shestakov_quad_L1_nc8_emb7_a0.1.txt';
-data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
-%%%%% portion to repeat
-k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
-gg = geo(k1+1:k2-1);
-result_basename = strcat(result_basename_emb,'_',gg); result_basename
-data.result_basename        = result_basename;
-data.vtk_basename        = result_basename;
-data.workspace_name      = strcat(result_basename,'.mat');
-pwld_solve_problem(data);
+for k=2:7
+    k1=strfind(geo,'_emb')+3; 
+    k2=strfind(geo,'_a0'); 
+    % new geo
+    geo = strcat(geo(1:k1),int2str(k),geo(k2:end))
+    data.geofile = strcat('..\geom_codes\figs\',geo);
+    k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+    gg = geo(k1+1:k2-1);
+    result_basename = strcat(result_basename_emb,'_',gg); result_basename
+    data.result_basename        = result_basename;
+    data.vtk_basename        = result_basename;
+    data.workspace_name      = strcat(result_basename,'.mat');
+    norm_data{k}=pwld_solve_problem(data);
+end
 
-% useless, a0 --> rectangular grids
-% % % random_quad_mesh_L100_n10_a0.txt     
-% % % random_quad_mesh_L100_n50_a0.txt     
-% % % random_quad_mesh_L100_n30_a0.txt     
-% % % random_quad_mesh_L1_n128_a0.txt      
-% % % random_quad_mesh_L1_n16_a0.txt       
-% % % random_quad_mesh_L1_n2_a0.txt        
-% % % random_quad_mesh_L1_n32_a0.txt       
-% % % random_quad_mesh_L1_n40_a0.txt       
-% % % random_quad_mesh_L1_n4_a0.txt        
-% % % random_quad_mesh_L1_n64_a0.txt       
-% % % random_quad_mesh_L1_n8_a0.txt  
+workspace_name = strcat(result_basename,'_final','.mat');
+expression = sprintf('save %s',workspace_name');
+eval(expression);
+
+for k=1:length(norm_data)
+    ndof(k)=norm_data{k}(1);
+    erro(k)=norm_data{k}(2);
+end
+
+nel_ = ndof/4;
+h_ = 1./ sqrt(nel_);
+figure(30)
+plot(log10(nel_),log10(erro),'+-')
+figure(31)
+plot(log10(1./h_),log10(erro),'+-')
+
+return
+
+
+% % % % 
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb2_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb3_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb4_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb5_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb6_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % %--------------------------------------------
+% % % % geo = 'shestakov_quad_L1_nc8_emb7_a0.1.txt';
+% % % % data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+% % % % %%%%% portion to repeat
+% % % % k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
+% % % % gg = geo(k1+1:k2-1);
+% % % % result_basename = strcat(result_basename_emb,'_',gg); result_basename
+% % % % data.result_basename        = result_basename;
+% % % % data.vtk_basename        = result_basename;
+% % % % data.workspace_name      = strcat(result_basename,'.mat');
+% % % % pwld_solve_problem(data);
+% % % % 
+% % % % % useless, a0 --> rectangular grids
+% % % % % % % random_quad_mesh_L100_n10_a0.txt     
+% % % % % % % random_quad_mesh_L100_n50_a0.txt     
+% % % % % % % random_quad_mesh_L100_n30_a0.txt     
+% % % % % % % random_quad_mesh_L1_n128_a0.txt      
+% % % % % % % random_quad_mesh_L1_n16_a0.txt       
+% % % % % % % random_quad_mesh_L1_n2_a0.txt        
+% % % % % % % random_quad_mesh_L1_n32_a0.txt       
+% % % % % % % random_quad_mesh_L1_n40_a0.txt       
+% % % % % % % random_quad_mesh_L1_n4_a0.txt        
+% % % % % % % random_quad_mesh_L1_n64_a0.txt       
+% % % % % % % random_quad_mesh_L1_n8_a0.txt  
