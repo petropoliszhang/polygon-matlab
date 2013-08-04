@@ -1,13 +1,13 @@
 clear all; close all; clc;
 
-logi_save = true;
+logi_write_file = true;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % number of subdivisions of the original rectangle
 nc = 4;
 nc_sav = nc;
 % random parameter
-a  = 0.15;
+a  = 0.02;
 % rectangle dimensions
 L = 1;
 rm = L;
@@ -332,7 +332,7 @@ end
 
 ncells = length(c)
 %%%%%%%%%%%%%
-if(~logi_save), return; end
+if(~logi_write_file), return; end
 %%%%%%%%%%%%%
 
 %%%%%%%%%%

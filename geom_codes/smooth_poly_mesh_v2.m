@@ -88,9 +88,12 @@ for k=1:nv
         ind;
         ind2=find(ind>k);
         ind(ind2);
-        del=[del ind(ind2)];
+        del=[del (ind(ind2))'];
         if(~isempty(ind2))
-            keep=[keep k];
+            keep=[keep k*ones(1,length(ind2))];
+        end
+        if(length(del)~=length(keep))
+            error('length(del)~=length(keep)')
         end
     end
 end
