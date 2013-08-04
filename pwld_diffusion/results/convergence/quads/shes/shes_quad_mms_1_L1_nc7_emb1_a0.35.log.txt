@@ -1,0 +1,245 @@
+Running script that drives the pwld code
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb1_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 4 
+Total number of polygons           = 4 
+Nbr of concave polygons 0 out of 4 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.187201 
+
+Assembly time = 0.0624004 
+Solver time   = 0 
+
+Solution: Min = -7.368005E-01 
+          Max = +7.420811E-01 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.0156001 
+	 ndof = 16, L2_error = +3.810037E-01 
+
+Vtk time      = 0 
+
+
+Time in cycle 1 = 0.405603 
+
+
+-----------------------------
+Total time    = 0.405603 
+geo =
+shestakov_quad_L1_nc7_emb2_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb2_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 16 
+Total number of polygons           = 16 
+Nbr of concave polygons 0 out of 16 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 16 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0.0468003 
+Solver time   = 0 
+
+Solution: Min = -1.140219E+00 
+          Max = +1.062297E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0312002 
+	 ndof = 64, L2_error = +2.372937E-01 
+
+Vtk time      = 0.0156001 
+
+
+Time in cycle 1 = 0.202801 
+
+
+-----------------------------
+Total time    = 0.202801 
+geo =
+shestakov_quad_L1_nc7_emb3_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb3_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 64 
+Total number of polygons           = 64 
+Nbr of concave polygons 0 out of 64 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 64 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.156001 
+
+Assembly time = 0.171601 
+Solver time   = 0 
+
+Solution: Min = -1.105533E+00 
+          Max = +1.038675E+00 
+
+Error time    = 0 
+L2 norm time  = 0.124801 
+	 ndof = 256, L2_error = +9.716990E-02 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 1 = 0.592804 
+
+
+-----------------------------
+Total time    = 0.592804 
+geo =
+shestakov_quad_L1_nc7_emb4_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb4_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 256 
+Total number of polygons           = 256 
+Nbr of concave polygons 0 out of 256 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 256 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.405603 
+
+Assembly time = 0.686404 
+Solver time   = 0 
+
+Solution: Min = -1.052479E+00 
+          Max = +1.005158E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.452403 
+	 ndof = 1024, L2_error = +3.537175E-02 
+
+Vtk time      = 0.202801 
+
+
+Time in cycle 1 = 2.21521 
+
+
+-----------------------------
+Total time    = 2.21521 
+geo =
+shestakov_quad_L1_nc7_emb5_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb5_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 1024 
+Total number of polygons           = 1024 
+Nbr of concave polygons 0 out of 1024 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 1024 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 1.73161 
+
+Assembly time = 2.91722 
+Solver time   = 0.0468003 
+
+Solution: Min = -1.012050E+00 
+          Max = +1.006654E+00 
+
+Error time    = 0.0624004 
+L2 norm time  = 1.80961 
+	 ndof = 4096, L2_error = +1.136499E-02 
+
+Vtk time      = 0.826805 
+
+
+Time in cycle 1 = 8.42405 
+
+
+-----------------------------
+Total time    = 8.42405 
+geo =
+shestakov_quad_L1_nc7_emb6_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb6_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 4096 
+Total number of polygons           = 4096 
+Nbr of concave polygons 0 out of 4096 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4096 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 9.07926 
+
+Assembly time = 13.8841 
+Solver time   = 0.187201 
+
+Solution: Min = -1.003051E+00 
+          Max = +1.001336E+00 
+
+Error time    = 0.280802 
+L2 norm time  = 7.28525 
+	 ndof = 16384, L2_error = +3.589736E-03 
+
+Vtk time      = 3.32282 
+
+
+Time in cycle 1 = 38.1422 
+
+
+-----------------------------
+Total time    = 38.1422 
+geo =
+shestakov_quad_L1_nc7_emb7_a0.35.txt
+result_basename =
+results\shes_quad_mms_1_L1_nc7_emb7_a0.35
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 16384 
+Total number of polygons           = 16384 
+Nbr of concave polygons 0 out of 16384 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 16384 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 77.4701 
+
+Assembly time = 87.3294 
+Solver time   = 0.811205 
+
+Solution: Min = -1.000425E+00 
+          Max = +1.000724E+00 
+
+Error time    = 1.01401 
+L2 norm time  = 28.6574 
+	 ndof = 65536, L2_error = +1.139795E-03 
+
+Vtk time      = 13.2445 
+
+
+Time in cycle 1 = 223.877 
+
+
+-----------------------------
+Total time    = 223.877 
+>> 3.58
