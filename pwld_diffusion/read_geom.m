@@ -10,7 +10,7 @@ fid=fopen(file);
 if(fid<0)
     %------------------------------------------------
     % the file does not exist, we create a uniform mesh directly
-    fprintf('The Geo file does not exist. A uniform mesh will be created instead\n');
+    fprintf('The Geo file (%s) does not exist. A uniform mesh will be created instead\n',file);
     Lx=1;Ly=Lx;
     nx=input('Enter the # of subdivisions along x (a 0 or negative value will abort): ');
     fprintf('\n');
