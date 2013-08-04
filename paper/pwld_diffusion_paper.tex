@@ -676,7 +676,7 @@ quadrilateral mesh.
 
 
 %-----------------------------------------------------------
-\subsection{The Standard Problem with Linear Exact Solution}
+\subsection{A Standard Problem with Linear Exact Solution}
 %-----------------------------------------------------------
 A standard test problem to verify that a numerical scheme preserves linear solutions has been
 proposed in 1D by Morel et al. \cite{morel} and has been extended to multi-D by adding 
@@ -692,6 +692,14 @@ The exact solution (for a domain of length $L$ in the $x$-direction) is
 \begin{equation}
 E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
 \end{equation}
+
+\fig{fig:linear_quad} presents the isolines obtained for this problems using four different quadrilateral grids:
+(a) a $16 \times 16$ random grid obtained by randomly moving the vertices of a rectangular grids by 66\% ($\alpha=0.66$), 
+(b) a a $20 \times 20$ Z-mesh with a randomness factor of $a=0.05$ (recall that for the Z-mesh and the Shestakov, randomness increases
+as $a\to 0$), 
+(c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$, and 
+(d) a small  $3 \times 3$ non-convex grid due to Shashkov \cite{shashkov}.
+\tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 5 quads /256 had the cell centers lying outside of their cell. The linearity of the exact solution is exactly reproduced by the piecewise linear discontinuous finite lement solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline graphed represents an increment of 0.2 in the solution.
 
 \pagebreak
 \begin{figure}[!hbtp]
@@ -731,7 +739,121 @@ E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
 	\label{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig}
 \end{table}
 
-rand_poly_linear_L1_n15_a0_95
+\pagebreak
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Random polygons]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/rand/rand_poly_linear_L1_n15_a0_95}
+\label{fig:linear_rand_poly}
+}
+\subfigure[Z-mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/z-mesh/zzzz_poly_linear_L1_n20_a0_05}
+\label{fig:linear_z_poly}
+}
+\subfigure[Shestakov]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/shes/shes_poly_linear_L1_nc4_a0_02}
+\label{fig:linear_shes_poly}
+}
+\caption{Linear solution, 16x16 quads/shes,20x20Z,3x3misha}
+\label{fig:linear_poly}
+\end{figure}
+
+%results\rand_poly_linear_L1_n15_a0.95
+%Number of polygons with 3 vertices = 5 
+%Number of polygons with 4 vertices = 43 
+%Number of polygons with 5 vertices = 73 
+%Number of polygons with 6 vertices = 67 
+%Number of polygons with 7 vertices = 41 
+%Number of polygons with 8 vertices = 23 
+%Number of polygons with 9 vertices = 4 
+%Total number of polygons           = 256 
+%
+%results\zzzz_poly_linear_L1_n20_a0.05
+%Number of polygons with 4 vertices = 228 
+%Number of polygons with 5 vertices = 72 
+%Number of polygons with 6 vertices = 81 
+%Number of polygons with 7 vertices = 48 
+%Number of polygons with 8 vertices = 2 
+%Number of polygons with 9 vertices = 4 
+%Number of polygons with 10 vertices = 0 
+%Number of polygons with 11 vertices = 6 
+%Total number of polygons           = 441 
+%
+%results\shes_poly_linear_L1_nc4_a0.02
+%Number of polygons with 3 vertices = 12 
+%Number of polygons with 4 vertices = 65 
+%Number of polygons with 5 vertices = 83 
+%Number of polygons with 6 vertices = 50 
+%Number of polygons with 7 vertices = 36 
+%Number of polygons with 8 vertices = 21 
+%Number of polygons with 9 vertices = 18 
+%Number of polygons with 10 vertices = 2 
+%Number of polygons with 11 vertices = 2 
+%Total number of polygons           = 289 
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{|l||c|c|c|}
+		\hline
+		Polygon type       &Random              & Z-mesh & Shestakov  \\ \hline\hline
+Triangle  &   5 &  0 & 12 \\ \hline
+Quadrangle&  43 & 228& 65 \\ \hline
+Pentagon  &  73 & 72 & 83 \\ \hline
+Hexagon   &  67 & 81 & 50 \\ \hline
+Heptagon  &  41 & 48 & 36 \\ \hline
+Octagon   &  23 & 2  & 21 \\ \hline
+Nonagon   &   4 & 4  & 18 \\ \hline
+Decagon   &   0 & 0  &  2 \\ \hline
+Hendecagon&   0 & 6  &  2 \\ \hline		
+		\end{tabular}
+	\caption{Number and type of polygonal cells shown in in \fig{fig:linear_poly}}
+	\label{tab:poly_cell_types_linear_poly}
+\end{table}
+
+For instance, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}.
+
+%-----------------------------------------------------------
+\subsection{Convergence Rate Studies On Distorted Meshes}
+%-----------------------------------------------------------
+
+In this Section, we compare the convergence rates of PWLD finite elements on several quadrilateral
+and polygonal meshes using the method of manufactured solutions \cite{mms}. Using the following exact solution,
+\begin{equation}
+	E^{\textit{exa}}(x,y) = \sin(\nu \pi x/L_x) \sin(\nu\pi y/L_y) \qquad \text{in } \D=[0,L_x]\times [0,L_y]
+\end{equation}
+with zero-Dirichlet boundary conditions (and $\nu$ a frequency parameter, chosen to be 3 here), one can compute 
+the corresponding volumetric source term for the diffusion equation. Then, by solving one a sequence of
+grids with increasing resolution, one can determine the convergence rate of the $L_2$-norm of the error
+as a function of the number of unknowns. The $L_2$-norm of the error, $\varepsilon_h$, is defined in the usual manner:
+\begin{equation}
+	\varepsilon_h^2 = \| E^{\textit{exa}} - E_h \|^2_\D = \int_D \left[ E^{\textit{exa}}(x,y)  - E_h(x,y) \right]^2 \, dxdy	\, .
+\end{equation}
+To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used:
+\begin{equation}
+	\int_{\mathbb{T}_h} f  = \sum_{K\in \mathbb{T}_h} \sum_{\text{sides of }K} \sum_{k=1}^3 
+	\sum_{q=1}^{N_q} w_q f_q
+	\, .
+\end{equation}
+Note that the same process (subdivision of $K$ into sides further split into quadrangles) is employed to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
+
+
+QUADs
+\begin{enumerate}
+	\item uniform
+	\item Z-mesh
+	%\item rand
+	\item shes
+	\item smooth
+\end{enumerate}
+
+POLYs
+\begin{enumerate}
+	\item uniform
+	\item Z-mesh
+	\item rand
+	\item shes
+	\item smooth
+\end{enumerate}
 
 \end{document}
 
