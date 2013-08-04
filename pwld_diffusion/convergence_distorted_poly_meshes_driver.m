@@ -5,8 +5,14 @@ global verbose
 verbose = false;
 
 % geo = 'shestakov_quad_L1_nc8_emb1_a0.1.txt';
-% geo = 'smooth_quad_mesh_L100_nc6_emb1_a0.15.txt';
-geo = 'random_poly_mesh_L1_n4_a0.965.txt';
+% % geo = 'smooth_quad_mesh_L100_nc6_emb1_a0.15.txt';
+% geo = 'random_poly_mesh_L1_n4_a0.965.txt';
+% geo = 'random_poly_mesh_L1_n2_a0.9.txt';
+% geo = 'smooth_poly_mesh_L1_n2_a0.15.txt';
+% geo = 'shestakov_poly_mesh_L1_nc1_a0.02.txt';
+% geo = 'shestakov_poly_mesh_L1_nc1_a0.1.txt';
+% geo = 'shestakov_poly_mesh_L1_nc1_a0.15.txt';
+% geo = 'shestakov_poly_mesh_L1_nc1_a0.25.txt';
 
 % choose geo file 
 if(strcmp(geo,''))
@@ -90,11 +96,14 @@ data.workspace_name      = strcat(result_basename,'.mat');
 
 norm_data{1}=pwld_solve_problem(data);
 
-for k=2:5
-    k1=strfind(geo,'_n')+1; 
+for k=2:6
+%     k1=strfind(geo,'_n')+1; 
+    k1=strfind(geo,'_nc')+2; 
     k2=strfind(geo,'_a0'); 
     % new geo
-    geo = strcat(geo(1:k1),int2str(2^(k+1)),geo(k2:end))
+% %     geo = strcat(geo(1:k1),int2str(2^(k)),geo(k2:end))
+%    geo = strcat(geo(1:k1),int2str(k+1),geo(k2:end))
+    geo = strcat(geo(1:k1),int2str(k),geo(k2:end))
     data.geofile = strcat('..\geom_codes\figs\',geo);
     k1=strfind(geo,'_L'); k2=strfind(geo,'.txt');
     gg = geo(k1+1:k2-1);

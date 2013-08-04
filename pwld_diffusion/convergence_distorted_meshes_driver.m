@@ -6,7 +6,13 @@ verbose = false;
 
 % geo = 'shestakov_quad_L1_nc8_emb1_a0.1.txt';
 % geo = 'smooth_quad_mesh_L100_nc6_emb1_a0.15.txt';
-geo = 'smooth_quad_mesh_L1_nc7_emb1_a0.15.txt';
+% geo = 'smooth_quad_mesh_L1_nc7_emb1_a0.15.txt';
+% geo = 'shestakov_quad_L1_nc7_emb1_a0.25.txt';
+% geo = 'shestakov_quad_L1_nc7_emb1_a0.45.txt';
+% geo = 'shestakov_quad_L1_nc7_emb1_a0.35.txt';
+% geo = 'shestakov_quad_L1_nc7_emb1_a0.3.txt';
+% geo = 'shestakov_quad_L1_nc7_emb1_a0.15.txt';
+geo = 'shestakov_quad_L1_nc7_emb1_a0.2.txt';
 
 % choose geo file 
 if(strcmp(geo,''))
