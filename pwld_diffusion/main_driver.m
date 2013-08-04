@@ -4,33 +4,84 @@ disp('Running script that drives pwld');
 global verbose
 verbose = false;
 
-data.geofile = '';
+% ----- geo file -----
+geo = 'z_mesh_quad_L1_n20_a0.05.txt';
+if(strcmp(geo,''))
+    data.geofile = '';
+else
+    data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
+end
 
+% ---- mms/linear choice
 data.logi_mms = true;
-data.mms_type = 2;
+data.mms_type = 1;
 if ~data.logi_mms
     data_pbtype = 'linear'
 end
 
-data.max_ref_cycles = 8;
+% ----- refinement choices
+data.max_ref_cycles = 4;
 data.ref_threshold  = 0; % 0=uniform refinement
 
-data.logi_plot           = true;
+% ---- plotting choices
+data.logi_plot           = false;
 data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
-result_basename = 'results\reg_quad_';
+% ---- create result filename
+result_dir = 'results\';
+% ----  is quad or poly mesh ?
+found_poly = strfind(geo,'poly'); 
+found_quad = strfind(geo,'quad');
+if( ( isempty(found_poly) &&  isempty(found_quad) )|| ...
+    (~isempty(found_poly) && ~isempty(found_quad) ) )
+    error('impossible mesh type');
+elseif ( ~isempty(found_poly) && isempty(found_quad) )
+    mesh_type='poly';
+elseif ( isempty(found_poly) && ~isempty(found_quad) )
+    mesh_type='quad';
+else
+    error('unknown mesh type');
+end
+% ---- is rand, shes, z-mesh, or misha ?
+found_rand = strfind(geo,'random');
+if(isempty(found_rand))
+    found_shes = strfind(geo,'shestakov');
+    if(isempty(found_shes))
+        found_z = strfind(geo,'z_mesh');
+        if(isempty(found_z))
+            found_smooth = strfind(geo,'smooth');
+            if(isempty(found_smooth))
+                error('unknown mesh');
+            else
+                result_basename = strcat(result_dir,'smoo_',mesh_type,'_');
+            end
+        else
+            result_basename = strcat(result_dir,'zzzz_',mesh_type,'_');
+        end
+    else
+        result_basename = strcat(result_dir,'shes_',mesh_type,'_');
+    end
+else
+    result_basename = strcat(result_dir,'rand_',mesh_type,'_');
+end
+% --- put pieces together for filename    
 if(data.logi_mms)
     result_basename = sprintf('%s%s%c',result_basename,'mms_',int2str(data.mms_type));
 else
-    result_basename = sprintf('%s%s',result_basename,data_pbtype);
+    k1=strfind(geo,'_L');
+    k2=strfind(geo,'.txt');
+    gg = geo(k1+1:k2-1);
+    result_basename = strcat(result_basename,data.pbtype,'_',gg);
 end
 result_basename
+
 data.vtk_basename        = result_basename;
 
 data.save_workspace      = true;
-data.workspace_name      = result_basename;
+data.workspace_name      = strcat(result_basename,'.mat');
 
+% --- PWLD SOLVE finally
 pwld_solve_problem(data);
 
 
