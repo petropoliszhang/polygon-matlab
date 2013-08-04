@@ -1,15 +1,15 @@
 % clear all; 
 close all; clc;
 
-logi_save = false;
+logi_write_file = true;
 
 
 L=1;
-n=30;
+n=2^6;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.1;
+fraction=0.15;
 
 ind=0;
 x=zeros((n+1)^2,1);
@@ -298,7 +298,7 @@ end
 %%%%%%%%%%
 
 %%%%%%%%%%%%%
-if(~logi_save), return; end
+if(~logi_write_file), return; end
 %%%%%%%%%%%%%
 
 %%%%%%%%%%
