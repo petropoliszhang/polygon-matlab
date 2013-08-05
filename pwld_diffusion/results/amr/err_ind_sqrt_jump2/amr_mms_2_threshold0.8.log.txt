@@ -1,0 +1,614 @@
+Running script that drives pwld
+result_basename =
+results\amr_mms_2_threshold0.8
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+The Geo file () does not exist. A uniform mesh will be created instead
+Enter the # of subdivisions along x (a 0 or negative value will abort): 2
+
+Nbr of concave polygons 0 out of 4 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0.0312002 
+Solver time   = 0 
+
+Solution: Min = -4.618183E-01 
+          Max = +2.017883E+00 
+
+Error time    = 0 
+L2 norm time  = 0 
+	 ndof = 16, L2_error = +4.849280E-01 
+
+Vtk time      = 0.0312002 
+
+
+Time in cycle 1 = 0.405603 
+
+--------------------------------------------
+------ Refinement cycle # 002 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 1
+Number of cells flagged for refinement due to err.ind + rule  1
+Number of polygons with 4 vertices = 5 
+Number of polygons with 5 vertices = 2 
+Total number of polygons           = 7 
+total area read in geom = 1 
+0 centroid(s) outside out of 7 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.0156001 
+
+Assembly time = 0.0624004 
+Solver time   = 0 
+
+Solution: Min = -3.857616E-01 
+          Max = +4.520565E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0156001 
+	 ndof = 30, L2_error = +2.857479E-01 
+
+Vtk time      = 0 
+
+
+Time in cycle 2 = 0.124801 
+
+--------------------------------------------
+------ Refinement cycle # 003 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 1
+Number of cells flagged for refinement due to err.ind + rule  3
+Number of polygons with 4 vertices = 11 
+Number of polygons with 5 vertices = 4 
+Number of polygons with 6 vertices = 1 
+Total number of polygons           = 16 
+total area read in geom = 1 
+0 centroid(s) outside out of 16 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.0468003 
+
+Assembly time = 0.124801 
+Solver time   = 0 
+
+Solution: Min = -3.360701E-01 
+          Max = +4.384720E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0312002 
+	 ndof = 70, L2_error = +1.539403E-01 
+
+Vtk time      = 0.0156001 
+
+
+Time in cycle 3 = 0.249602 
+
+--------------------------------------------
+------ Refinement cycle # 004 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 1
+Number of cells flagged for refinement due to err.ind + rule  4
+Number of polygons with 4 vertices = 18 
+Number of polygons with 5 vertices = 9 
+Number of polygons with 6 vertices = 1 
+Total number of polygons           = 28 
+total area read in geom = 1 
+0 centroid(s) outside out of 28 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.0780005 
+
+Assembly time = 0.218401 
+Solver time   = 0 
+
+Solution: Min = -2.596268E-01 
+          Max = +4.651634E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0624004 
+	 ndof = 123, L2_error = +8.445474E-02 
+
+Vtk time      = 0.0156001 
+
+
+Time in cycle 4 = 0.358802 
+
+--------------------------------------------
+------ Refinement cycle # 005 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 2
+Number of cells flagged for refinement due to err.ind + rule  4
+Number of polygons with 4 vertices = 27 
+Number of polygons with 5 vertices = 11 
+Number of polygons with 6 vertices = 2 
+Total number of polygons           = 40 
+total area read in geom = 1 
+0 centroid(s) outside out of 40 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.0780005 
+
+Assembly time = 0.358802 
+Solver time   = 0 
+
+Solution: Min = -2.532101E-01 
+          Max = +4.800095E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0780005 
+	 ndof = 175, L2_error = +6.714046E-02 
+
+Vtk time      = 0.0624004 
+
+
+Time in cycle 5 = 0.624004 
+
+--------------------------------------------
+------ Refinement cycle # 006 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 1
+Number of cells flagged for refinement due to err.ind + rule  2
+Number of polygons with 4 vertices = 32 
+Number of polygons with 5 vertices = 9 
+Number of polygons with 6 vertices = 5 
+Total number of polygons           = 46 
+total area read in geom = 1 
+0 centroid(s) outside out of 46 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.0936006 
+
+Assembly time = 0.374402 
+Solver time   = 0 
+
+Solution: Min = -1.848627E-01 
+          Max = +4.836531E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0936006 
+	 ndof = 203, L2_error = +5.911383E-02 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 6 = 0.639604 
+
+--------------------------------------------
+------ Refinement cycle # 007 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 3
+Number of cells flagged for refinement due to err.ind + rule  4
+Number of polygons with 4 vertices = 43 
+Number of polygons with 5 vertices = 11 
+Number of polygons with 6 vertices = 4 
+Total number of polygons           = 58 
+total area read in geom = 1 
+0 centroid(s) outside out of 58 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.109201 
+
+Assembly time = 0.468003 
+Solver time   = 0 
+
+Solution: Min = -5.538272E-02 
+          Max = +4.871572E+00 
+
+Error time    = 0 
+L2 norm time  = 0.109201 
+	 ndof = 251, L2_error = +4.623083E-02 
+
+Vtk time      = 0.0624004 
+
+
+Time in cycle 7 = 0.733205 
+
+--------------------------------------------
+------ Refinement cycle # 008 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 11
+Number of cells flagged for refinement due to err.ind + rule  12
+Number of polygons with 4 vertices = 63 
+Number of polygons with 5 vertices = 28 
+Number of polygons with 6 vertices = 2 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 94 
+total area read in geom = 1 
+0 centroid(s) outside out of 94 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.156001 
+
+Assembly time = 0.764405 
+Solver time   = 0 
+
+Solution: Min = -5.511238E-02 
+          Max = +5.083482E+00 
+
+Error time    = 0 
+L2 norm time  = 0.171601 
+	 ndof = 411, L2_error = +2.583504E-02 
+
+Vtk time      = 0.124801 
+
+
+Time in cycle 8 = 1.23241 
+
+--------------------------------------------
+------ Refinement cycle # 009 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 2
+Number of cells flagged for refinement due to err.ind + rule  2
+Number of polygons with 4 vertices = 68 
+Number of polygons with 5 vertices = 27 
+Number of polygons with 6 vertices = 3 
+Number of polygons with 7 vertices = 2 
+Total number of polygons           = 100 
+total area read in geom = 1 
+0 centroid(s) outside out of 100 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.187201 
+
+Assembly time = 0.842405 
+Solver time   = 0 
+
+Solution: Min = -2.434239E-02 
+          Max = +5.090484E+00 
+
+Error time    = 0 
+L2 norm time  = 0.202801 
+	 ndof = 439, L2_error = +2.389119E-02 
+
+Vtk time      = 0.124801 
+
+
+Time in cycle 9 = 1.35721 
+
+--------------------------------------------
+------ Refinement cycle # 010 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 5
+Number of cells flagged for refinement due to err.ind + rule  8
+Number of polygons with 4 vertices = 86 
+Number of polygons with 5 vertices = 33 
+Number of polygons with 6 vertices = 2 
+Number of polygons with 7 vertices = 3 
+Total number of polygons           = 124 
+total area read in geom = 1 
+0 centroid(s) outside out of 124 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.265202 
+
+Assembly time = 1.01401 
+Solver time   = 0 
+
+Solution: Min = -2.110708E-02 
+          Max = +5.100025E+00 
+
+Error time    = 0 
+L2 norm time  = 0.249602 
+	 ndof = 542, L2_error = +2.040701E-02 
+
+Vtk time      = 0.124801 
+
+
+Time in cycle 10 = 1.65361 
+
+--------------------------------------------
+------ Refinement cycle # 011 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 8
+Number of cells flagged for refinement due to err.ind + rule  9
+Number of polygons with 4 vertices = 114 
+Number of polygons with 5 vertices = 27 
+Number of polygons with 6 vertices = 9 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 151 
+total area read in geom = 1 
+0 centroid(s) outside out of 151 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.265202 
+
+Assembly time = 1.21681 
+Solver time   = 0 
+
+Solution: Min = -2.217120E-02 
+          Max = +5.109737E+00 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.280802 
+	 ndof = 652, L2_error = +1.685338E-02 
+
+Vtk time      = 0.140401 
+
+
+Time in cycle 11 = 1.90321 
+
+--------------------------------------------
+------ Refinement cycle # 012 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 4
+Number of cells flagged for refinement due to err.ind + rule  5
+Number of polygons with 4 vertices = 130 
+Number of polygons with 5 vertices = 27 
+Number of polygons with 6 vertices = 8 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 166 
+total area read in geom = 1 
+0 centroid(s) outside out of 166 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.343202 
+
+Assembly time = 1.34161 
+Solver time   = 0 
+
+Solution: Min = -1.635331E-02 
+          Max = +5.119517E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.312002 
+	 ndof = 710, L2_error = +1.409752E-02 
+
+Vtk time      = 0.171601 
+
+
+Time in cycle 12 = 2.10601 
+
+--------------------------------------------
+------ Refinement cycle # 013 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 17
+Number of cells flagged for refinement due to err.ind + rule  18
+Number of polygons with 4 vertices = 153 
+Number of polygons with 5 vertices = 54 
+Number of polygons with 6 vertices = 12 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 220 
+total area read in geom = 1 
+0 centroid(s) outside out of 220 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.436803 
+
+Assembly time = 1.85641 
+Solver time   = 0 
+
+Solution: Min = -1.067682E-02 
+          Max = +5.123836E+00 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.421203 
+	 ndof = 961, L2_error = +1.346221E-02 
+
+Vtk time      = 0.187201 
+
+
+Time in cycle 13 = 2.80802 
+
+--------------------------------------------
+------ Refinement cycle # 014 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 13
+Number of cells flagged for refinement due to err.ind + rule  15
+Number of polygons with 4 vertices = 197 
+Number of polygons with 5 vertices = 50 
+Number of polygons with 6 vertices = 18 
+Total number of polygons           = 265 
+total area read in geom = 1 
+0 centroid(s) outside out of 265 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.483603 
+
+Assembly time = 2.24641 
+Solver time   = 0.0156001 
+
+Solution: Min = -9.739186E-03 
+          Max = +5.139091E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.514803 
+	 ndof = 1146, L2_error = +1.109027E-02 
+
+Vtk time      = 0.280802 
+
+
+Time in cycle 14 = 3.47882 
+
+--------------------------------------------
+------ Refinement cycle # 015 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 11
+Number of cells flagged for refinement due to err.ind + rule  11
+Number of polygons with 4 vertices = 231 
+Number of polygons with 5 vertices = 46 
+Number of polygons with 6 vertices = 21 
+Total number of polygons           = 298 
+total area read in geom = 1 
+0 centroid(s) outside out of 298 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.561604 
+
+Assembly time = 2.43362 
+Solver time   = 0 
+
+Solution: Min = -9.547341E-03 
+          Max = +5.075137E+00 
+
+Error time    = 0.0468003 
+L2 norm time  = 0.592804 
+	 ndof = 1280, L2_error = +8.345524E-03 
+
+Vtk time      = 0.296402 
+
+
+Time in cycle 15 = 3.80642 
+
+--------------------------------------------
+------ Refinement cycle # 016 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 16
+Number of cells flagged for refinement due to err.ind + rule  19
+Number of polygons with 4 vertices = 281 
+Number of polygons with 5 vertices = 52 
+Number of polygons with 6 vertices = 22 
+Total number of polygons           = 355 
+total area read in geom = 1 
+0 centroid(s) outside out of 355 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.748805 
+
+Assembly time = 2.99522 
+Solver time   = 0.0156001 
+
+Solution: Min = -7.781518E-03 
+          Max = +5.079384E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.717605 
+	 ndof = 1516, L2_error = +6.968763E-03 
+
+Vtk time      = 0.312002 
+
+
+Time in cycle 16 = 4.60203 
+
+--------------------------------------------
+------ Refinement cycle # 017 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 5
+Number of cells flagged for refinement due to err.ind + rule  5
+Number of polygons with 4 vertices = 292 
+Number of polygons with 5 vertices = 58 
+Number of polygons with 6 vertices = 20 
+Total number of polygons           = 370 
+total area read in geom = 1 
+0 centroid(s) outside out of 370 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.748805 
+
+Assembly time = 3.02642 
+Solver time   = 0.0468003 
+
+Solution: Min = -7.805655E-03 
+          Max = +5.079973E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.702004 
+	 ndof = 1578, L2_error = +6.784908E-03 
+
+Vtk time      = 0.343202 
+
+
+Time in cycle 17 = 4.68003 
+
+--------------------------------------------
+------ Refinement cycle # 018 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 23
+Number of cells flagged for refinement due to err.ind + rule  23
+Number of polygons with 4 vertices = 360 
+Number of polygons with 5 vertices = 51 
+Number of polygons with 6 vertices = 25 
+Number of polygons with 7 vertices = 3 
+Total number of polygons           = 439 
+total area read in geom = 1 
+0 centroid(s) outside out of 439 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.889206 
+
+Assembly time = 3.54122 
+Solver time   = 0.0312002 
+
+Solution: Min = -6.681390E-03 
+          Max = +5.086158E+00 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.826805 
+	 ndof = 1866, L2_error = +5.386294E-03 
+
+Vtk time      = 0.405603 
+
+
+Time in cycle 18 = 5.47564 
+
+--------------------------------------------
+------ Refinement cycle # 019 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 2
+Number of cells flagged for refinement due to err.ind + rule  2
+Number of polygons with 4 vertices = 368 
+Number of polygons with 5 vertices = 49 
+Number of polygons with 6 vertices = 27 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 445 
+total area read in geom = 1 
+0 centroid(s) outside out of 445 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.920406 
+
+Assembly time = 3.58802 
+Solver time   = 0.0624004 
+
+Solution: Min = -6.676753E-03 
+          Max = +5.086887E+00 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.842405 
+	 ndof = 1886, L2_error = +5.230878E-03 
+
+Vtk time      = 0.390003 
+
+
+Time in cycle 19 = 5.56924 
+
+--------------------------------------------
+------ Refinement cycle # 020 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 8
+Number of cells flagged for refinement due to err.ind + rule  8
+Number of polygons with 4 vertices = 390 
+Number of polygons with 5 vertices = 51 
+Number of polygons with 6 vertices = 27 
+Number of polygons with 7 vertices = 1 
+Total number of polygons           = 469 
+total area read in geom = 1 
+0 centroid(s) outside out of 469 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 0.936006 
+
+Assembly time = 3.77522 
+Solver time   = 0.0624004 
+
+Solution: Min = -4.609068E-03 
+          Max = +5.087471E+00 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.904806 
+	 ndof = 1984, L2_error = +4.941216E-03 
+
+Vtk time      = 0.421203 
+
+
+Time in cycle 20 = 5.85004 
+
+
+-----------------------------
+Total time    = 55.084 
+>> 8
