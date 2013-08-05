@@ -383,9 +383,9 @@ for k=1:n_cell_to_ref
                 
                 % not g with corners only below!
                 g_new = connectivity{new_iel_to_modify};
-                if(length(g_new)>4)
-                    disp('qqq')
-                end
+                % if(length(g_new)>4)
+                    % disp('qqq')
+                % end
                 i3 = find(g_new==g_new(cor_pos));
                 g_new = [g_new(1:i3); new_dof; g_new(i3+1:end)];
                 connectivity{new_iel_to_modify} = g_new;
