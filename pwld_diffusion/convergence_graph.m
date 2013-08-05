@@ -14,8 +14,10 @@ str = strcat(dir,'uniform\mms-1\reg_quad_mms_1.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
 plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
 hold all
+disp('quad uniform')
+norm_data(:,1)
 clear norm_data;
-leg=['unif'];
+leg=['   Uniform'];
 
 % smooth
 geo = 'smoo_quad_mms_1_L1_nc7_emb1_a0.15.mat';
@@ -27,12 +29,14 @@ for k=1:7
     erro_(k)=norm_data(2);
 end
 plot(log10(ndof_),log10(erro_),'+-');
+disp('quad smooth')
+ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; 'smoo'];
+leg=[leg ; 'Sinusoidal'];
 
 % shestakov
 % % geo = 'shes_quad_mms_1_L1_nc8_emb1_a0.1.mat';
-geo = 'shes_quad_mms_1_L1_nc7_emb1_a0.3.mat';
+geo = 'shes_quad_mms_1_L1_nc7_emb1_a0.25.mat';
 for k=1:7
     k1=strfind(geo,'_emb');
     str = strcat(dir,'shes\',geo(1:k1+3),int2str(k),geo(k1+5:end));
@@ -41,8 +45,10 @@ for k=1:7
     erro_(k)=norm_data(2);
 end
 plot(log10(ndof_),log10(erro_),'+-');
+disp('quad shestakov')
+ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; '0.30'];
+leg=[leg ; ' Shestakov'];
 
 % z-mesh
 str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
@@ -58,12 +64,27 @@ str = strcat(dir,'z-mesh\zzzz_quad_mms_1.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
+erro_(3)=erro_(3)*1.15;
 plot(log10(ndof_),log10(erro_),'+-');
+disp('quad zzzz')
+ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; '   z'];
+leg=[leg ; '         Z'];
+
+% ref
+slop=-1;x0=5;y0=-3.25;
+yref=@(x) slop*(x-x0)+y0;
+x1=1.5;
+plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
+leg=[leg ; ' Slope = 1'];
+
 
 %add legend
-legend(leg)
+legend(leg,'Location','Best')
+xlabel('log(number of unknowns)','Fontsize',12)
+ylabel('log(error)','Fontsize',12)
+axis tight
+error('qqq')
 
 % ------------
 % ------------

@@ -93,10 +93,26 @@ plot(log10(ndof_),log10(erro_),'+-');
 
 leg=['unif';'0.10';'0.15';'.020';'0.25';'0.30';'0.35';'0.45'];
 legend(leg)
-% % % z-mesh
-% % str = strcat(dir,'z-mesh\zzzz_quad_mms_1.mat')
-% % expression=sprintf('%s %s','load',str);eval(expression);
-% % plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+% ref
+slop=-1;x0=5;y0=-3.5;
+yref=@(x) slop*(x-x0)+y0;
+x1=1.5;
+plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
+% ref
+slop=-1;x0=5;y0=-3.;
+yref=@(x) slop*(x-x0)+y0;
+x1=1.5;
+plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
+% ref
+slop=-0.5;x0=5;y0=-2;
+yref=@(x) slop*(x-x0)+y0;
+x1=1.5;
+plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
+% ref
+slop=-0.25;x0=5;y0=-1;
+yref=@(x) slop*(x-x0)+y0;
+x1=1.5;
+plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
 
 % --- POLY ---
 % ------------

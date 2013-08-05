@@ -827,19 +827,123 @@ and polygonal meshes using the method of manufactured solutions \cite{mms}. Usin
 	E^{\textit{exa}}(x,y) = \sin(\nu \pi x/L_x) \sin(\nu\pi y/L_y) \qquad \text{in } \D=[0,L_x]\times [0,L_y]
 \end{equation}
 with zero-Dirichlet boundary conditions (and $\nu$ a frequency parameter, chosen to be 3 here), one can compute 
-the corresponding volumetric source term for the diffusion equation. Then, by solving one a sequence of
+the corresponding volumetric source term $Q(x,y)$ for the diffusion equation. Then, by solving on a sequence of
 grids with increasing resolution, one can determine the convergence rate of the $L_2$-norm of the error
 as a function of the number of unknowns. The $L_2$-norm of the error, $\varepsilon_h$, is defined in the usual manner:
 \begin{equation}
 	\varepsilon_h^2 = \| E^{\textit{exa}} - E_h \|^2_\D = \int_D \left[ E^{\textit{exa}}(x,y)  - E_h(x,y) \right]^2 \, dxdy	\, .
 \end{equation}
-To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used:
+To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used. This can be summarized as follows:
 \begin{equation}
 	\int_{\mathbb{T}_h} f  = \sum_{K\in \mathbb{T}_h} \sum_{\text{sides of }K} \sum_{k=1}^3 
 	\sum_{q=1}^{N_q} w_q f_q
 	\, .
 \end{equation}
-Note that the same process (subdivision of $K$ into sides further split into quadrangles) is employed to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
+Note that the same process (subdivision of $K$ into sides that are further split into quadrangles) is also employed to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
+
+For uniform structured meshes, it is fairly straightforward to obtain the asymptotic convergence rate by plotting the error $\varepsilon_h$ versus the mesh size $h$. Grid resolution is also related to the number of degrees of freedom, $N_\textit{dof}$ (unknowns) via 
+\begin{equation}
+N_{\textit{dof}} \propto  h ^{-\dim} 
+\end{equation}
+where $\dim$ is the dimensionality of the domain (here $\dim = 2$). Hence, a second-order convergence rate will translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
+
+The convergence rate graph shown in \fig{fig:conv_rate_quad} presents the variation of the $L_2$ norm of the error as a function
+of the number of unknowns for four types of quadrilateral grids: uniform, Sinusoidal, Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
+For a given grid type, a sequence of embedded meshes is straightforward to obtain. It is actually part of the construction process for Shestakov grids:  in \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$  Shestakov grids ($a=0.25$) used here. 
+A slope of one is observed for all meshes except  
+\fig{fig:conv_quad} shows Quadrilateral Grids and Solution isolines
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0000}
+\caption{Convergence Study Using Quadrilateral Grids}
+\label{fig:conv_rate_quad}
+\end{figure}
+
+\pagebreak
+\begin{figure}[!hbtp]
+\centering
+\subfigure[$2\times 2$ ]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0000}
+\label{fig:shes_quad_grids0}
+}
+\subfigure[$8\times 8$  ]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0002}
+\label{fig:shes_quad_grids2}
+}
+\subfigure[$32\times 32$ ]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0004}
+\label{fig:shes_quad_grids4}
+}
+\subfigure[$128\times 128$ ]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0006}
+\label{fig:shes_quad_grids6}
+}
+\caption{Quadrilateral Shestakov Grids ($a=0.25$)}
+\label{fig:shes_quad_grids}
+\end{figure}
+
+\pagebreak
+\begin{figure}[!hbtp]
+\centering
+\subfigure[$64\times 64$ Sinusoidal, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_mesh_0005}
+\label{fig:cv_smooth_quad_mesh}
+}
+\subfigure[$64\times 64$ Sinusoidal, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_iso7_0005}
+\label{fig:cv_smooth_quad_isoline}
+}
+\subfigure[$64\times 64$ Shestakov, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0005}
+\label{fig:cv_shes_quad_mesh}
+}
+\subfigure[$64\times 64$ Shestakov, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-sol-0005}
+\label{fig:cv_shes_quad_isoline}
+}
+\subfigure[$80 \times 80$ Z-mesh, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_msh_0002}
+\label{fig:cv_z_quad_mesh}
+}
+\subfigure[$80 \times 80$ Z-mesh, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_sol_0002}
+\label{fig:cv_z_quad_isoline}
+}
+\caption{Quadrilateral Grids and Solution isolines}
+\label{fig:conv_quad}
+\end{figure}
+
+\pagebreak
+\begin{figure}[!hbtp]
+\centering
+\subfigure[$32\times 32$ Sinusoidal, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_mesh_0004}
+\label{fig:cv_smooth_quad_mesh}
+}
+\subfigure[$32\times 32$ Sinusoidal, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_iso7_0004}
+\label{fig:cv_smooth_quad_isoline}
+}
+\subfigure[$32\times 32$ Shestakov, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0004}
+\label{fig:cv_shes_quad_mesh}
+}
+\subfigure[$32\times 32$ Shestakov, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-sol-0004}
+\label{fig:cv_shes_quad_isoline}
+}
+\subfigure[$40 \times 40$ Z-mesh, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_msh_0001}
+\label{fig:cv_z_quad_mesh}
+}
+\subfigure[$40 \times 40$ Z-mesh, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_sol_0001}
+\label{fig:cv_z_quad_isoline}
+}
+\caption{Quadrilateral Grids and Solution isolines}
+\label{fig:conv_quad}
+\end{figure}
 
 
 QUADs
