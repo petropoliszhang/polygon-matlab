@@ -699,7 +699,13 @@ E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
 as $a\to 0$), 
 (c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$, and 
 (d) a small  $3 \times 3$ non-convex grid due to Shashkov \cite{shashkov}.
-\tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 5 quads /256 had the cell centers lying outside of their cell. The linearity of the exact solution is exactly reproduced by the piecewise linear discontinuous finite lement solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline graphed represents an increment of 0.2 in the solution.
+\tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 
+%5 quads /256 had the cell centers lying outside of their cell. 
+The linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
+%
+\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to general a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarized the types and number of polygonal cells found in each of these grids. 
+For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. Again with the quadrilateral grids,  the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
+
 
 \pagebreak
 \begin{figure}[!hbtp]
@@ -750,7 +756,7 @@ as $a\to 0$),
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/z-mesh/zzzz_poly_linear_L1_n20_a0_05}
 \label{fig:linear_z_poly}
 }
-\subfigure[Shestakov]{
+\subfigure[Shestakov mesh]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/shes/shes_poly_linear_L1_nc4_a0_02}
 \label{fig:linear_shes_poly}
 }
@@ -810,7 +816,6 @@ Hendecagon&   0 & 6  &  2 \\ \hline
 	\label{tab:poly_cell_types_linear_poly}
 \end{table}
 
-For instance, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}.
 
 %-----------------------------------------------------------
 \subsection{Convergence Rate Studies On Distorted Meshes}
