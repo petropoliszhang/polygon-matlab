@@ -57,17 +57,10 @@ for ied=1:n_edge,
     % error vector for that edge
     delta_phi = z(gm(IDm)) - flipud(z(gp(IDp)));
     % contribution of that edge to the error in cell iel
-%     if(Kp==1||Kp==11||Kp==21||Km==1||Km==11||Km==21)
-%         [Km,Kp]
-%         delta_phi
-%         sum(delta_phi.^2)
-% %         delta_phi'*m1d*delta_phi
-% %         disp('wwww')
-%         pause
-%     end
-ee=sqrt(Le* (delta_phi'*m1d*delta_phi));
-% ee=(delta_phi'*m1d*delta_phi);
-% ee=sum(delta_phi.^2);
+    ee=sqrt(Le* (delta_phi'*m1d*delta_phi)); % good one
+    ee = Le*sum(abs(delta_phi))/2; % from Leicht
+    % ee=(delta_phi'*m1d*delta_phi);
+    % ee=sum(delta_phi.^2);
     err_i(Km) = err_i(Km) + ee;
     err_i(Kp) = err_i(Kp) + ee;
     %     err_i(Km) = err_i(Km) + sqrt(Le* (delta_phi'*m1d*delta_phi));
@@ -79,6 +72,13 @@ end
 %     xx=vert(g,1); yy=vert(g,2);
 %     [or,area_poly] = polyorient(xx,yy);
 %     err_i(iel) = err_i(iel) / area_poly;
+for iel=1:nel
+    g=connectivity{iel}(:);
+    xx=vert(g,1); yy=vert(g,2);
+    pg = polygeom(xx,yy);
+%     [~,area_poly] = polyorient(xx,yy);
+    err_i(iel) = err_i(iel) / pg(4);    % normalize by perimeter
+end
 
 t2=cputime;
 fprintf('Error time    = %g \n',t2-t1);
