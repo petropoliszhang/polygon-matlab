@@ -99,8 +99,16 @@ slop=-1;
 x0=1.2;y0=-.5;
 yref=@(x) slop*(x-x0)+y0;
 x1=4.25;
-plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
+plot([x0 x1],[yref(x0) yref(x1)],'k--','LineWidth',2);
 leg=[leg ; 'Slope =1'];
+
+% % ref
+% slop=-0.18;
+% x0=2;y0=-.35;
+% yref=@(x) slop*(x-x0)+y0;
+% x1=5;
+% plot([x0 x1],[yref(x0) yref(x1)],'k-.','LineWidth',2);
+% leg=[leg ; 'Slope1/2'];
 
 
 %add legend
