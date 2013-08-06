@@ -150,7 +150,7 @@ slop=-.80;
 x0=3.5;y0=-0.5;
 yref=@(x) slop*(x-x0)+y0;
 x1=5.1;
-plot([x0 x1],[yref(x0) yref(x1)],'k--','LineWidth',2);
+plot([x0 x1],[yref(x0) yref(x1)],'b-.','LineWidth',2);
 
 % slop=-1;
 % x0=3;y0=-0.5;

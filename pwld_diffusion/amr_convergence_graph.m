@@ -4,7 +4,7 @@ clear all; close all; clc;
 dir = '.\results\convergence\quads\';
 str = strcat(dir,'uniform\mms-2\reg_quad_mms_2.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
-plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-','LineWidth',2);
 hold all
 clear norm_data;
 leg=['unif'];
@@ -13,7 +13,7 @@ leg=['unif'];
 dir = '.\results\amr\err_ind_sqrt_jump2\';
 str = strcat(dir,'amr_mms_2_threshold0.2.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
-plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'s-','LineWidth',2);
 hold all
 clear norm_data;
 leg=[leg ; ' 0.2'];
@@ -22,7 +22,7 @@ leg=[leg ; ' 0.2'];
 dir = '.\results\amr\err_ind_sqrt_jump2\';
 str = strcat(dir,'amr_mms_2_threshold0.8.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
-plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'o-','LineWidth',2);
 hold all
 clear norm_data;
 leg=[leg ; ' 0.8'];
@@ -31,7 +31,7 @@ leg=[leg ; ' 0.8'];
 dir = '.\results\amr\err_ind_sqrt_jump2\';
 str = strcat(dir,'amr_mms_2_threshold0.6.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
-plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'d-','LineWidth',2);
 hold all
 clear norm_data;
 leg=[leg ; ' 0.6'];

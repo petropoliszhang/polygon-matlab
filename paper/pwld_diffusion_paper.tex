@@ -857,16 +857,13 @@ where $\dim$ is the dimensionality of the domain (here $\dim = 2$). Hence, a sec
 A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal, Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
 For a given mesh type, a sequence of embedded grids (straightforward to obtain) was utilized; this is actually part of the construction process for Shestakov grids. In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids ($a=0.25$) used here. 
 
-The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly randomly distorted meshes. 
+The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly distorted Shestakov meshes. To further analyze this observation, we provide the convergence for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid when a value of 0 corresponds to a highly distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any quadrilateral discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for $0.25 \le s \le 0.5$, and the reduction in weak; for $s=0.05$ (highly skewed grid, see \fig{fig:cv_z_quad_mesh_nm2}, for instance), the rate of convergence is still 1.6.
 
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/cv_quad}
-\caption{Convergence Study Using Quadrilateral Grids}
-\label{fig:conv_rate_quad}
-\end{figure}
+Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at increased resolutions, the grid imprints are no longer discernible).
 
 \pagebreak
+
+%   shes quad grids
 \begin{figure}[!hbtp]
 \centering
 \subfigure[$2\times 2$ ]{
@@ -887,6 +884,29 @@ The  variation of the $L_2$ norm of the error as a function of the number of unk
 }
 \caption{Quadrilateral Shestakov Grids ($a=0.25$)}
 \label{fig:shes_quad_grids}
+\end{figure}
+
+%   quad conv, all
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.5]{../pwld_diffusion/results/convergence/cv_quad}
+\caption{Convergence Study Using Quadrilateral Grids}
+\label{fig:conv_rate_quad}
+\end{figure}
+
+%   quad conv for shes and Z
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Shestakov Meshes]{
+\includegraphics[scale=0.28]{../pwld_diffusion/results/convergence/cv_shes_quad}
+\label{fig:cv_rate_shes_quad}
+}
+\subfigure[Z Meshes]{
+\includegraphics[scale=0.28]{../pwld_diffusion/results/convergence/cv_Z_quad}
+\label{fig:cv_rate_shes_quad}
+}
+\caption{Convergence Rates for Shestakov and Z Quadrilateral Grids as a function of the randomness parameter $a$ (Shestakov) and the skewness parameter $s$ (Z)}
+\label{fig:conv_rate_shes_Z_quad}
 \end{figure}
 
 %\pagebreak
@@ -921,6 +941,8 @@ The  variation of the $L_2$ norm of the error as a function of the number of unk
 %\end{figure}
 
 \pagebreak
+
+%   quad mesh/isoline
 \begin{figure}[!hbtp]
 \centering
 \subfigure[$32\times 32$ Sinusoidal, Mesh]{
@@ -931,19 +953,19 @@ The  variation of the $L_2$ norm of the error as a function of the number of unk
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_iso7_0004}
 \label{fig:cv_smooth_quad_isoline_nm2}
 }
-\subfigure[$32\times 32$ Shestakov, Mesh]{
+\subfigure[$32\times 32$ Shestakov ($a=0.25$), Mesh]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-msh-0004}
 \label{fig:cv_shes_quad_mesh_nm2}
 }
-\subfigure[$32\times 32$ Shestakov, Isolines]{
+\subfigure[$32\times 32$ Shestakov ($a=0.25$), Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/shes/visit/shes-quad-0_25-sol-0004}
 \label{fig:cv_shes_quad_isoline_nm2}
 }
-\subfigure[$40 \times 40$ Z-mesh, Mesh]{
+\subfigure[$40 \times 40$ Z-mesh ($s=0.05$), Mesh]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_msh_0001}
 \label{fig:cv_z_quad_mesh_nm2}
 }
-\subfigure[$40 \times 40$ Z-mesh, Isolines]{
+\subfigure[$40 \times 40$ Z-mesh ($s=0.05$), Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/z-mesh/visit/z_quad_sol_0001}
 \label{fig:cv_z_quad_isoline_nm2}
 }
@@ -951,41 +973,25 @@ The  variation of the $L_2$ norm of the error as a function of the number of unk
 \label{fig:conv_quad_nm2}
 \end{figure}
 
-\begin{figure}[!hbtp]
-\centering
-\subfigure[Shestakov Meshes]{
-\includegraphics[scale=0.28]{../pwld_diffusion/results/convergence/cv_shes_quad}
-\label{fig:cv_rate_shes_quad}
-}
-\subfigure[Z Meshes]{
-\includegraphics[scale=0.28]{../pwld_diffusion/results/convergence/cv_Z_quad}
-\label{fig:cv_rate_shes_quad}
-}
-\caption{Convergence Rates for Shestakov and Z Quadrilateral Grids as a function of the randomness parameter (Shestakov) and the skewness parameter (Z)}
-\label{fig:conv_rate_shes_Z_quad}
-\end{figure}
 
-%QUADs
-%\begin{enumerate}
-	%\item uniform
-	%\item Z-mesh
-	%%\item rand
-	%\item shes
-	%\item smooth
-%\end{enumerate}
 
-\subsubsection{Distorted Quadrilateral Meshes}
+
+\subsubsection{Polygonal Meshes}
 %--------------------------------------------
-POLYs
-\begin{enumerate}
-	\item uniform
-	\item Z-mesh
-	\item rand
-	\item shes
-	\item smooth
-\end{enumerate}
+
+We carry the same study as in the previous Section but using polygonal grids. We employ the same terminology (
+random, sinusoidal, Shestakov, Z) to denote the polygonal meshes generated. However, recall that this denomination
+only describes the manner in which the vertices (used as input for the bounded Voronoi diagram) have been obtained.
+
+\fig{fig:conv_rate_poly} shows the convergence study on polygonal grids. Second-order accuracy is observed for all 
+grids, including the Shestakov grids generated with $a=0.15$ and $a=0.25$, and a Z-mesh obtained with a skewness 
+coefficient of $s=0.05$.
 
 
+Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at increased resolutions, the grid imprints are no longer discernible).
+
+
+%   poly conv, all
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[scale=0.5]{../pwld_diffusion/results/convergence/cv_poly}
@@ -993,10 +999,81 @@ POLYs
 \label{fig:conv_rate_poly}
 \end{figure}
 
+%   poly mesh/isoline
+\begin{figure}[!hbtp]
+\centering
+\subfigure[6374 $N_\textit{dof}$  Random, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_msh0004}
+\label{fig:cv_smooth_poly_mesh_nm2}
+}
+\subfigure[6374 $N_\textit{dof}$  Random, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_sol0004}
+\label{fig:cv_smooth_poly_isoline_nm2}
+}
+%
+\subfigure[6332 $N_\textit{dof}$  Sinusoidal, Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/smooth/visit/smoo_poly_0_15_msh0004}
+\label{fig:cv_smooth_poly_mesh_nm2}
+}
+\subfigure[6332 $N_\textit{dof}$  Sinusoidal, Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/smooth/visit/smoo_poly_0_15_sol0004}
+\label{fig:cv_smooth_poly_isoline_nm2}
+}
+%
+\subfigure[6317 $N_\textit{dof}$  Shestakov ($a=0.10$), Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/shes/visit/shes_poly_0_10_msh0004}
+\label{fig:cv_shes_poly_mesh_nm2}
+}
+\subfigure[6317 $N_\textit{dof}$  Shestakov ($a=0.10$), Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/shes/visit/shes_poly_0_10_sol0004}
+\label{fig:cv_shes_poly_isoline_nm2}
+}
+\subfigure[8644 $N_\textit{dof}$  Z-mesh ($s=0.05$), Mesh]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/z-mesh/visit/z_poly_0_05_msh0004}
+\label{fig:cv_z_poly_mesh_nm2}
+}
+\subfigure[8644 $N_\textit{dof}$  Z-mesh ($s=0.05$), Isolines]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/z-mesh/visit/z_poly_0_05_sol0004}
+\label{fig:cv_z_poly_isoline_nm2}
+}
+\caption{Polygonal Grids and Solution isolines}
+\label{fig:conv_poly_nm2}
+\end{figure}
+
+
 %--------------------------------------------
-\subsection{AMR}
+\subsection{Adaptive Mesh Refinement Using a PWLD Discretization}
 %--------------------------------------------
 
+In this Section, we use a PWLD discretization to handle seamlessly AMR grids and compare the rate
+of convergence of PWLD AMR with PWLD on uniformly refined grids.In the AMR process, the cells whose
+error is within 20\% of the maximum detected error are flanged for refinement, that is, a value of 
+$\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
+To compare the numerical errors and obtain the rate of convergence, we employed again the method of 
+manufactured solutions \cite{mms}. This time, a strongly spatially varying function is chosen
+for the exact solution:
+\begin{equation}
+	E^{\textit{exa}}(x,y) = 100 \frac{xy(L_x-x)(L_y-y)}{(L_x L_y)^2}\exp\Big(-\frac{(x-x_0)^2+(y-y_0)^2}{\varsigma}\Big)
+	 \quad \text{in } \D=[0,L_x]\times [0,L_y] \,.
+\end{equation}
+We have chosen the location of the peak to be $x_0=\tfrac{6}{10}L_x$, $y_0=\tfrac{7}{10}L_y$, with $\varsigma=L_xL_y/100$. 
+This exact solution satisfies zero-Dirichlet boundary conditions. One then can compute 
+the corresponding volumetric source term $Q(x,y)$ used to generate the right-hand of the discrete linear system. 
+We solve the radiation diffusion equation on a sequence of grids with increasing resolution. The coarsest grid level
+uses simply a $2\times 2$ grid with quadrangles. This initial grid is either uniformly refined or locally adapted 
+using the refinement criteria set forth in \sct{sec:amr}. The $L_2$-norm of the error (difference
+between the exact and the computed numerical solutions) is plotted in \fig{fig:conv_rate_amr}. As expected, both refinement
+strategies lead to a convergence rate of one measured with the number of unknowns, demonstrating the 
+second-order accuracy of PWLD discretization. Using an AMR strategy, the solution is obtained with roughly a savings of
+a factor of 5-6 in terms of the number of unknowns. 
+
+%   poly conv, all
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.5]{../pwld_diffusion/results/amr/cv_amr}
+\caption{Rate of Convergence Using Uniform and Locally Adapted Grids}
+\label{fig:conv_rate_amr}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
