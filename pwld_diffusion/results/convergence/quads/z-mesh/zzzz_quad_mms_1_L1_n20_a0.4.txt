@@ -1,0 +1,119 @@
+Running script that drives pwld
+result_basename =
+results\zzzz_quad_mms_1_L1_n20_a0.4
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 400 
+Total number of polygons           = 400 
+Nbr of concave polygons 0 out of 400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.826805 
+
+Assembly time = 1.13881 
+Solver time   = 0.0156001 
+
+Solution: Min = -1.004718E+00 
+          Max = +1.005298E+00 
+
+Error time    = 0.109201 
+L2 norm time  = 0.748805 
+	 ndof = 1600, L2_error = +2.030652E-02 
+
+Vtk time      = 0.327602 
+
+
+Time in cycle 1 = 3.19802 
+
+--------------------------------------------
+------ Refinement cycle # 002 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 400
+Number of cells flagged for refinement due to err.ind + rule  400
+Number of polygons with 4 vertices = 1600 
+Total number of polygons           = 1600 
+total area read in geom = 1 
+0 centroid(s) outside out of 1600 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 4.89843 
+
+Assembly time = 4.78923 
+Solver time   = 0.0468003 
+
+Solution: Min = -1.000644E+00 
+          Max = +1.001254E+00 
+
+Error time    = 0.390003 
+L2 norm time  = 2.90162 
+	 ndof = 6400, L2_error = +5.799744E-03 
+
+Vtk time      = 1.32601 
+
+
+Time in cycle 2 = 9.45366 
+
+--------------------------------------------
+------ Refinement cycle # 003 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 1600
+Number of cells flagged for refinement due to err.ind + rule  1600
+Number of polygons with 4 vertices = 6400 
+Total number of polygons           = 6400 
+total area read in geom = 1 
+0 centroid(s) outside out of 6400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 49.5615 
+
+Assembly time = 23.9774 
+Solver time   = 0.234002 
+
+Solution: Min = -1.000189E+00 
+          Max = +1.000284E+00 
+
+Error time    = 1.34161 
+L2 norm time  = 11.4505 
+	 ndof = 25600, L2_error = +1.529326E-03 
+
+Vtk time      = 5.25723 
+
+
+Time in cycle 3 = 42.2919 
+
+--------------------------------------------
+------ Refinement cycle # 004 ------
+--------------------------------------------
+Number of cells flagged for refinement due to error indicator 6400
+Number of cells flagged for refinement due to err.ind + rule  6400
+Number of polygons with 4 vertices = 25600 
+Total number of polygons           = 25600 
+total area read in geom = 1 
+0 centroid(s) outside out of 25600 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Re-mesh time  = 911.139 
+
+Assembly time = 179.729 
+Solver time   = 1.73161 
+
+Solution: Min = -1.000039E+00 
+          Max = +1.000066E+00 
+
+Error time    = 5.33523 
+L2 norm time  = 45.1311 
+	 ndof = 102400, L2_error = +3.896901E-04 
+
+Vtk time      = 20.7013 
+
+
+Time in cycle 4 = 252.659 
+
+
+-----------------------------
+Total time    = 1273.5 
+>> 

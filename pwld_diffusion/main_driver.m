@@ -6,6 +6,9 @@ verbose = false;
 
 % ----- geo file -----
 geo = 'z_mesh_quad_L1_n20_a0.05.txt';
+geo = 'z_mesh_quad_L1_n20_a0.25.txt';
+geo = 'z_mesh_quad_L1_n20_a0.2.txt';
+geo = 'z_mesh_quad_L1_n20_a0.4.txt';
 if(strcmp(geo,''))
     data.geofile = '';
 else
@@ -69,11 +72,15 @@ end
 if(data.logi_mms)
     result_basename = sprintf('%s%s%c',result_basename,'mms_',int2str(data.mms_type));
 else
-    k1=strfind(geo,'_L');
-    k2=strfind(geo,'.txt');
-    gg = geo(k1+1:k2-1);
-    result_basename = strcat(result_basename,data.pbtype,'_',gg);
+    result_basename = strcat(result_basename,data.pbtype);
+
 end
+%%%%% portion to repeat
+k1=strfind(geo,'_L');
+k2=strfind(geo,'.txt');
+gg = geo(k1+1:k2-1);
+result_basename = strcat(result_basename,'_',gg);
+
 result_basename
 
 data.vtk_basename        = result_basename;

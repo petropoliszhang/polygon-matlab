@@ -6,10 +6,8 @@ logi_save_plots = false;
 logi_write_file = true;
 
 L=1;
-nx=5;
-nsub=[1 2 3 4 5] + 1;
 
-fraction=0.05;
+fraction=0.4;
 if(fraction<eps || fraction > 1-eps)
     error('wrong fraction');
 end
@@ -21,12 +19,23 @@ y1=@(x) slope1*(x-0.20*L)+fraction*L;
 y2=@(x) slope2*(x-0.35*L)+(1-fraction)*L;
 y3=@(x) slope1*(x-0.65*L)+fraction*L;
 
+%%%%%%
+% nx=5;
+% nsub=[1 2 3 4 5] + 1;
+% xi=[0 0.2 0.35 0.65 0.8 1.0];
+% ny=2;
+%%%%%%
+nx=6;
+nsub=[1 2 4 5 6] + 1;
+xi=[0 0.2 0.35 0.50 0.65 0.8 1.0];
+ny=4;
+%%%%%%
+% nx=9;
+% nsub=[2 3 6 7 9] + 1;
+% xi=[0 0.1 0.2 0.35 0.45 0.55 0.65 0.8 0.9 1.0];
+% ny=10;
 
-% % uniform subdivision along x
-% xi=linspace(0,L,n+1);
-xi=[0 0.2 0.35 0.65 0.8 1.0];
 
-ny=2;
 x=zeros(nx+1,ny+1);
 y=zeros(nx+1,ny+1);
 

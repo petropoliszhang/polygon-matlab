@@ -3,7 +3,7 @@ function z_mesh_quad()
 clear all; close all; clc;
 
 logi_save_plots = false;
-logi_write_file = false;
+logi_write_file = true;
 
 L=1;
 n=20;
@@ -14,7 +14,7 @@ else
     nsub=[4 7 13 16 20]*nn +1;
 end
 
-fraction=0.05;
+fraction=0.40;
 if(fraction<eps || fraction > 1-eps)
     error('wrong fraction');
 end

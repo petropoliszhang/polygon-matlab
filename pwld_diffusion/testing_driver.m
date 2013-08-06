@@ -6,14 +6,15 @@ verbose = true;
 verbose = false;
 
 % data.geofile = '';
-geo = 'shestakov_quad_L1_nc8_emb4_a0.1.txt';
-geo = 'random_poly_mesh_L1_n64_a0.965.txt' ;
-geo = 'random_poly_mesh_L1_n64_a0.9.txt'
-geo = 'z_mesh_quad_L1_n9_a0.05.txt'
-geo = 'z_mesh_quad_L1_n6_a0.05.txt'
-geo = 'z_mesh_quad_L1_n5_a0.05.txt'
-geo = 'shestakov_poly_mesh_L1_nc4_a0.02.txt';
-geo = 'z_mesh_poly_L1_n5_a0.05.txt';
+% geo = 'shestakov_quad_L1_nc8_emb4_a0.1.txt';
+% geo = 'random_poly_mesh_L1_n64_a0.965.txt' ;
+% geo = 'random_poly_mesh_L1_n64_a0.9.txt'
+% geo = 'z_mesh_quad_L1_n9_a0.05.txt'
+% geo = 'z_mesh_quad_L1_n6_a0.05.txt'
+% geo = 'z_mesh_quad_L1_n5_a0.05.txt'
+% geo = 'shestakov_poly_mesh_L1_nc4_a0.02.txt';
+% geo = 'z_mesh_poly_L1_n5_a0.05.txt';
+geo = 'z_mesh_quad_L1_n6_a0.4.txt';
 
 data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
 
@@ -30,7 +31,8 @@ data.logi_plot           = true;
 data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
-result_basename = 'results\z_mesh_poly_n5_a0.05_';
+% result_basename = 'results\z_mesh_poly_n5_a0.05_';
+result_basename = 'results\z_mesh_quad_n6_a0.4_';
 % result_basename = 'results\toto_';
 
 if(data.logi_mms)
