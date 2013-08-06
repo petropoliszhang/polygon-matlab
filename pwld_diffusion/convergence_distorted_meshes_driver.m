@@ -13,6 +13,8 @@ verbose = false;
 % geo = 'shestakov_quad_L1_nc7_emb1_a0.3.txt';
 % geo = 'shestakov_quad_L1_nc7_emb1_a0.15.txt';
 geo = 'shestakov_quad_L1_nc7_emb1_a0.2.txt';
+geo = 'random_quad_mesh_L1_nc8_emb1_a0.66.txt';
+geo = 'random_quad_mesh_L1_nc_emb1_a0.95.txt';
 
 % choose geo file 
 if(strcmp(geo,''))

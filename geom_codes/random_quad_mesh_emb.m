@@ -2,14 +2,14 @@ clear all; close all; clc
 % random mesh generated for quadrilaterals
 
 logi_save_plots = false;
-logi_write_file = false;
+logi_write_file = true;
 
 L=1;
-n=2^3; %= 2^4
+n=2^9; %= 2^4
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.50;
+fraction=.95;
 BT=false;
 
 x=zeros(n+1,n+1);

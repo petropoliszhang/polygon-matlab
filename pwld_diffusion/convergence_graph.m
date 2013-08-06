@@ -17,7 +17,23 @@ hold all
 disp('quad uniform')
 norm_data(:,1)
 clear norm_data;
-leg=['   Uniform'];
+leg=['Uniform   '];
+
+% random
+% geo = 'rand_quad_mms_1_L1_nc8_emb1_a0.66.mat';
+geo = 'rand_quad_mms_1_L1_nc_emb1_a0.95.mat';
+for k=1:7
+    k1=strfind(geo,'_emb');
+    str = strcat(dir,'rand\',geo(1:k1+3),int2str(k),geo(k1+5:end));
+    expression=sprintf('%s %s','load',str);eval(expression);
+    ndof_(k)=norm_data(1);
+    erro_(k)=norm_data(2);
+end
+plot(log10(ndof_),log10(erro_),'s-');
+disp('quad rand')
+ndof_'
+clear norm_data ndof_ erro_;
+leg=[leg ; 'Random    '];
 
 % smooth
 geo = 'smoo_quad_mms_1_L1_nc7_emb1_a0.15.mat';
@@ -28,7 +44,7 @@ for k=1:7
     ndof_(k)=norm_data(1);
     erro_(k)=norm_data(2);
 end
-plot(log10(ndof_),log10(erro_),'+-');
+plot(log10(ndof_),log10(erro_),'o-');
 disp('quad smooth')
 ndof_'
 clear norm_data ndof_ erro_;
@@ -44,11 +60,11 @@ for k=1:7
     ndof_(k)=norm_data(1);
     erro_(k)=norm_data(2);
 end
-plot(log10(ndof_),log10(erro_),'+-');
+plot(log10(ndof_),log10(erro_),'x-');
 disp('quad shestakov')
 ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; ' Shestakov'];
+leg=[leg ; 'Shestakov '];
 
 % z-mesh
 str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
@@ -65,18 +81,20 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'+-');
+plot(log10(ndof_),log10(erro_),'d-');
 disp('quad zzzz')
-ndof_'
+ndof_
 clear norm_data ndof_ erro_;
-leg=[leg ; '         Z'];
+leg=[leg ; 'Z         '];
 
 % ref
-slop=-1;x0=5;y0=-3.25;
+slop=-1;
+% x0=5;y0=-3.25;
+x0=1.2;y0=-.5;
 yref=@(x) slop*(x-x0)+y0;
-x1=1.5;
+x1=4.25;
 plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
-leg=[leg ; ' Slope = 1'];
+leg=[leg ; 'Slope = 1 '];
 
 
 %add legend
@@ -84,6 +102,7 @@ legend(leg,'Location','Best')
 xlabel('log(number of unknowns)','Fontsize',12)
 ylabel('log(error)','Fontsize',12)
 axis tight
+axis([1 5.25 -3.75 -0.25])
 error('qqq')
 
 % ------------
