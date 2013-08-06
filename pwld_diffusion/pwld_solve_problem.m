@@ -208,6 +208,23 @@ for i_cycle=1:max_ref_cycles
         end
         view(-135,25);
         
+        % mesh AMR, bug in visit ...       
+        if(max_ref_cycles>1)
+            figure(13+(i_cycle-1)*incr);clf
+            for iel=1:nel
+                g=connectivity{iel}(:);
+                aaa=ones(length(g),1);
+                patch(vert(g,1),vert(g,2),aaa,'FaceColor','white','LineWidth',1); %,'LineStyle','none');
+            end
+            set(gca,'PlotBoxAspectRatio',[5 5 1])
+            axis([0 1 0 1.001]); 
+            view(0,90);
+            amr_file = sprintf('%s_amr_cy%2.2d',vtk_basename,i_cycle);
+            print('-dpdf',strcat(amr_file,'.pdf'));
+            print('-dpng',strcat(amr_file,'.png'));
+            saveas(gcf,strcat(amr_file,'.fig'),'fig');
+        end
+
     end
     
     %------------------------------------------------

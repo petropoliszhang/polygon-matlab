@@ -12,12 +12,12 @@ if ~data.logi_mms
     data_pbtype = 'linear';
 end
 
-data.max_ref_cycles = 5;
+data.max_ref_cycles = 30;
 data.ref_threshold  = 0.8; % 0=uniform refinement
 
 data.logi_plot           = true;
 data.logi_plot_err_i     = false;
-data.generate_vtk_output = true;
+data.generate_vtk_output = false;
 
 if(data.logi_mms)
     result_basename = strcat('results\amr_mms_',int2str(data.mms_type),...
@@ -29,7 +29,7 @@ end
 result_basename
 data.vtk_basename        = result_basename;
 
-data.save_workspace      = true;
+data.save_workspace      = false;
 data.workspace_name      = strcat(result_basename,'.mat');
 
 pwld_solve_problem(data);
