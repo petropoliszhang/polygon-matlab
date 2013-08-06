@@ -988,7 +988,7 @@ grids, including the Shestakov grids generated with $a=0.15$ and $a=0.25$, and a
 coefficient of $s=0.05$.
 
 
-Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at increased resolutions, the grid imprints are no longer discernible).
+Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_poly} so as to display more prominently some mesh effects (at increased resolutions, the grid imprints are no longer discernible).
 
 
 %   poly conv, all
@@ -1073,6 +1073,44 @@ a factor of 5-6 in terms of the number of unknowns.
 \includegraphics[scale=0.5]{../pwld_diffusion/results/amr/cv_amr}
 \caption{Rate of Convergence Using Uniform and Locally Adapted Grids}
 \label{fig:conv_rate_amr}
+\end{figure}
+
+
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Cycle \# 12]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy12}
+\label{fig:amr_cycle_12}
+}
+\subfigure[Cycle \# 17]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy17}
+\label{fig:amr_cycle_17}
+}
+\subfigure[Cycle \# 25]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy25}
+\label{fig:amr_cycle_25}
+}
+\subfigure[Cycle \# 30]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy30}
+\label{fig:amr_cycle_30}
+}
+\caption{AMR Grids}
+\label{fig:amr_grids}
+\end{figure}
+
+% zoom and isolines
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Cycle \# 12]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/special/amr0005}
+\label{fig:amr_cycle_12}
+}
+\subfigure[Cycle \# 17]{
+\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
+\label{fig:amr_cycle_17}
+}
+\caption{AMR Grids .................}
+\label{fig:amr_grids2}
 \end{figure}
 
 
