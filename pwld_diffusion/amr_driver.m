@@ -12,8 +12,8 @@ if ~data.logi_mms
     data_pbtype = 'linear';
 end
 
-data.max_ref_cycles = 40;
-data.ref_threshold  = 0.9; % 0=uniform refinement
+data.max_ref_cycles = 5;
+data.ref_threshold  = 0.8; % 0=uniform refinement
 
 data.logi_plot           = true;
 data.logi_plot_err_i     = false;
