@@ -66,24 +66,44 @@ ndof_'
 clear norm_data ndof_ erro_;
 leg=[leg ; 'Shestakov '];
 
-% z-mesh
-str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
-expression=sprintf('%s %s','load',str);eval(expression);
-ndof_(1)=norm_data(1);
-erro_(1)=norm_data(2);
-str = strcat(dir,'z-mesh\z-mesh-n9_a0.05_mms_1.mat');
-expression=sprintf('%s %s','load',str);eval(expression);
-ndof_(2,1)=norm_data(1);
-erro_(2,1)=norm_data(2);
+% % z-mesh
+% str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
+% expression=sprintf('%s %s','load',str);eval(expression);
+% ndof_(1)=norm_data(1);
+% erro_(1)=norm_data(2);
+% str = strcat(dir,'z-mesh\z-mesh-n9_a0.05_mms_1.mat');
+% expression=sprintf('%s %s','load',str);eval(expression);
+% ndof_(2,1)=norm_data(1);
+% erro_(2,1)=norm_data(2);
+% 
+% str = strcat(dir,'z-mesh\zzzz_quad_mms_1.mat');
+% expression=sprintf('%s %s','load',str);eval(expression);
+% ndof_=[ndof_; norm_data(:,1)];
+% erro_=[erro_; norm_data(:,2)];
+% erro_(3)=erro_(3)*1.15;
+% plot(log10(ndof_),log10(erro_),'d-');
+% disp('quad zzzz')
+% ndof_
+% clear norm_data ndof_ erro_;
+% leg=[leg ; 'Z         '];
 
-str = strcat(dir,'z-mesh\zzzz_quad_mms_1.mat');
+% z-mesh 0.30
+w=0.30;
+j=1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n6_a0.',num2str(w*10),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(1)=norm_data(1); erro_(1)=norm_data(2);
+j=j+1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n9_a0.',num2str(w*10),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(j,1)=norm_data(1);
+erro_(j,1)=norm_data(2);
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n20_a0.',num2str(w*10),'.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'d-');
-disp('quad zzzz')
-ndof_
+plot(log10(ndof_),log10(erro_),'s-');
 clear norm_data ndof_ erro_;
 leg=[leg ; 'Z         '];
 
@@ -103,6 +123,8 @@ xlabel('log(number of unknowns)','Fontsize',12)
 ylabel('log(error)','Fontsize',12)
 axis tight
 axis([1 5.25 -3.75 -0.25])
+print('-dpdf',strcat('results\convergence\cv_quad','.pdf'));
+print('-dpng',strcat('results\convergence\cv_quad','.png'));
 error('qqq')
 
 % ------------
