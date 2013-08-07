@@ -6,7 +6,7 @@ logi_save_plots = false;
 logi_write_file = true;
 
 L=1;
-n=20;
+n=320*2;
 if(mod(n,20)~=0)
     error('n must be a multiple of 20 for the z-mesh')
 else
@@ -14,7 +14,7 @@ else
     nsub=[4 7 13 16 20]*nn +1;
 end
 
-fraction=0.40;
+fraction=0.25;
 if(fraction<eps || fraction > 1-eps)
     error('wrong fraction');
 end
