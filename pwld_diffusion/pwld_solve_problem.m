@@ -12,6 +12,7 @@ mms_type  = input_arg.mms_type;
 
 max_ref_cycles = input_arg.max_ref_cycles;
 ref_threshold  = input_arg.ref_threshold;
+logi_amr_output  = input_arg.logi_amr_output;
 
 logi_plot           = input_arg.logi_plot;
 logi_plot_err_i     = input_arg.logi_plot_err_i;
@@ -209,7 +210,7 @@ for i_cycle=1:max_ref_cycles
         view(-135,25);
         
         % mesh AMR, bug in visit ...       
-        if(max_ref_cycles>1)
+        if(max_ref_cycles>1 && logi_amr_output)
             figure(13+(i_cycle-1)*incr);clf
             for iel=1:nel
                 g=connectivity{iel}(:);

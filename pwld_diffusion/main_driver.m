@@ -8,7 +8,7 @@ verbose = false;
 geo = 'z_mesh_quad_L1_n20_a0.05.txt';
 geo = 'z_mesh_quad_L1_n20_a0.25.txt';
 geo = 'z_mesh_quad_L1_n20_a0.2.txt';
-geo = 'z_mesh_quad_L1_n20_a0.4.txt';
+% geo = 'z_mesh_quad_L1_n20_a0.4.txt';
 if(strcmp(geo,''))
     data.geofile = '';
 else
@@ -23,8 +23,9 @@ if ~data.logi_mms
 end
 
 % ----- refinement choices
-data.max_ref_cycles = 4;
+data.max_ref_cycles = 6;
 data.ref_threshold  = 0; % 0=uniform refinement
+data.logi_amr_output = false;
 
 % ---- plotting choices
 data.logi_plot           = false;
