@@ -163,7 +163,6 @@
 %-------------------------
 \author{Jean C. Ragusa\fnref{label1}\corref{cor1}}
 \ead{jean.ragusa@tamu.edu}
-
 % \cortext[cor1]{Corresponding author}
 %-------------------------
 
@@ -207,8 +206,8 @@ Acceleration scheme \cite{Adams2002,Wang2010}.
 }
 \bigskip
 
-This paper deals with a discontinuous finite element spatial discretization of the radiation 
-diffusion equation on arbitrary polygonal grids, with and without adaptive mesh refinement. 
+This paper deals with a Piece-Wise Linear Discontinuous (PWLD) finite element spatial discretization of 
+the radiation diffusion equation on arbitrary polygonal grids, with and without adaptive mesh refinement. 
 Radiation diffusion is an asymptotic limit of the radiation transport equation and can be 
 written in the following form:
 \begin{equation} \label{eq:radiation_diffusion}
@@ -218,8 +217,8 @@ where $E$ is the radiation energy intensity, $D$ is a diffusion coefficient, $\s
 an opacity coefficient, and $Q$ is the source.
 
 Several spatial discretizations have been proposed to solve \eqt{eq:radiation_diffusion} on
-arbitrary polygons (2D) and polyhedra (3D) \cite{Wachspress,Kuznetsov2004,Palmer2005,Brezzi2005,
-LipnikovShashkovSvyatskiy2006,BaileyAdams2008}. We review them below.
+arbitrary polygons (2D) and polyhedra (3D) \cite{Wachspress,Palmer2001,Kuznetsov2004,Brezzi2005,
+LipnikovShashkovSvyatskiy2006,BaileyPhD,BaileyAdams2008,LipnikovShashkov2010}. We review them below.
 %
 Wachspress \cite{Wachspress} developed a family of rational polynomial functions that can be employed
 as basis functions in a finite element method on polygonal/polyhedral grids. This yields
@@ -232,7 +231,7 @@ numerically and (ii) the Jacobian of the transformation becomes zero on degenera
 %standard five-point stencil on orthogonal grids, but the diffusion operator was asymmetric 
 %and cell-edge unknowns were added in addition to cell-center unknowns.
 %%
-Palmer \cite{Palmer2005,PalmerLLNL} proposed a node-based finite volume method 
+Palmer \cite{Palmer2001,PalmerLLNL} proposed a node-based finite volume method 
 that enforces particle balance over the control volume associated with a given grid vertex.
 This control volume defines a dual cell constructed as 
 the union of all corners surrounding the specified vertex $v$. In 2D, a corner 
@@ -268,7 +267,8 @@ defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedr
 
 In this paper, we are interested in solving a diffusion equation on arbitrary polygonal
 grids using a {\em discontinuous} finite element discretization. We employ the
-Symmetric Interior Penalty (SIP) technique \cite{IPRefs}, developed for the discretization
+Symmetric Interior Penalty (SIP) technique \cite{Arnold1982,DouglasN.Arnold2002,Kanschat2007}, 
+developed for the discretization
 of elliptic equations using discontinuous Galerkin techniques. For basis functions,
 we use the piecewise linear functions of \cite{BaileyAdams2008}.
 The motivations are three-fold: 
@@ -277,10 +277,11 @@ The motivations are three-fold:
 	the discretization of the diffusion equation on polygonal meshes;
 \item a diffusion equation often serves as a synthetic accelerator or 
 	preconditioner for iterative solution techniques applied to particle transport
-	\cite{AdamsLarsen2002}. A discontinuous finite element technique is often employ
+	\cite{AdamsLarsen2002,JamesS.Warsa2004}. A discontinuous finite element technique is often employ
 	in the discretization of the transport equation for unstructured and 
-	polygonal/polyhedral grids \cite{MorelWarsaWareing,PWLD,CFEM-PWDL-Warsa,WangRagusa}.
-  Employing the same    
+	polygonal/polyhedral grids \cite{Wareing_McGhee_Morel_Pautz_DGFEM2001,Warsa2008_CDFEM,
+	Ragusa_Wang_NSE_2009,Bailey_MC2011,Ragusa_Wang_JCP_2011}.
+  \tcr{Employing the same     ...}
 \item 
 \end{enumerate}
 The motivations for our work / In this work, we wish to assess ... In addition,
@@ -300,7 +301,7 @@ approaches). The Symmetric Interior Penalty technique is reviewed in \sct{sec:ip
 Mesh adaptivity utilizing piecewise linear basis function is presented in 
 \sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented
 are borrowed from the literature on (1) finite differences applied to the
-diffusion equation on non FINISH 
+diffusion equation on \tcr{not FINISHED }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -369,7 +370,7 @@ a weighted average of the polygon's vertices. Often, one chooses
 $\alpha_i = 1 / N_V$ but one may also define point $c$ as the centroid of the
 polygon under consideration.
 With the introduction of the cell center, the polygon can be viewed as
-$N_V$ triangular subcells (or ``sides'' if using the terminolgy of \cite{bailey}), 
+$N_V$ triangular subcells (or ``sides'' if using the terminology of \cite{BaileyAdams2008}), 
 each of these triangles being composed of two
 successive vertices and the cell center.
 The $N_V$ piecewise linear basis functions are then given by:
@@ -448,7 +449,7 @@ In this Section, we present the discontinuous Galerkin finite element technique 
 discretize the radiation diffusion equation on arbitrary polygonal grids. Many variants of such discretization
 methods exist for diffusion problems (depending on the choice of stabilization terms, whether 
 the diffusion equation is expressed in its mixed form, \ldots). We refer the Readers to the review
-papers \cite{unification,brezzi etc} for additional details. Here, we employ the Symmetric
+papers \cite{DouglasN.Arnold2002} for additional details. Here, we employ the Symmetric
 Interior Penalty (SIP) method which we have found to be robust in our test cases and relatively simple 
 to implement.
 %Even though discontinuous Galerkin methods are commonly used in the particle and radiation transport communities, 
@@ -506,7 +507,7 @@ quantities. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $vn$ th
 \subsection{The Symmetric Interior Penalty (SIP) Method}
 %-----------------------------------------------------------
 
-In this paragraph, we describe the SIP discretization \cite{Kanschat2007} of the 
+In this paragraph, we describe the SIP discretization \cite{DouglasN.Arnold2002,Kanschat2007} of the 
 radiation diffusion equation using discontinuous finite elements. 
 We introduce a partition
 of the domain, $\bigcup\nolimits_{K\in \mathbb{T}_{h}}K=\D$, and also assume
@@ -534,7 +535,9 @@ In \eqt{eq:SIP_1}, the last term on the left-hand side and the last two terms on
 are naturally obtained by applying the Neumman and Robin boundary conditions. The terms pertaining 
 to the Dirichlet boundary conditions are identical to the ones of Nitsche's penalty method. 
 Finally, the interior edge terms are the standard terms due to the extension of Nitsche's method to 
-the interior edges (see also \cite{qqq}). To generate the linear system associated with \eqt{eq:SIP_1}, 
+the interior edges.
+% (see also \cite{Kanschat2007}). 
+To generate the linear system associated with \eqt{eq:SIP_1}, 
 we have opted to use two loops: one over the elements to compute the volume integrals,
 \begin{equation}
 \int_{\mathbb{T}_{h}} \longrightarrow \sum_{K \in \mathbb{T}_{h}} \int_{K} \, ,
@@ -601,12 +604,12 @@ using the area and perimeter of the actual polygonal cell.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
-\cite{amr_stuff}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
+\cite{amrrrr}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
 which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
 across the faces (edges in 2D) between neighboring cells. The magnitude of these jumps is 
 small in regions where the solution is smooth and can be significantly larger in regions where
 the solution undergoes rapid spatial variations. A heuristic local error indicator is, therefore, to
-monitor the interfacial jumps. Following \cite{leight2007,ragusa-wang1,ragusa-wang2}, we define 
+monitor the interfacial jumps. Following \cite{leicht2007,Ragusa_Wang_JCP_2011}, we define 
 the error indicator on cell $K$ as:
 \begin{equation} \label{eq:error_indicator}
   \eta_K = \frac{\int_{\partial K} |\jmp{E}|_{\partial K}} {\text{meas}(\partial K)} \, .
@@ -1118,11 +1121,12 @@ a factor of 5-6 in terms of the number of unknowns.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include{bibli.bib}
-%\bibliographystyle{unsrt}
-%\bibliography{bibli}
-
 \pagebreak
+
+%\include{pwld_diffusion_paper.bib}
+\bibliographystyle{unsrt}
+\bibliography{pwld_diffusion_paper}
+
 
 
 \begin{thebibliography}{100}

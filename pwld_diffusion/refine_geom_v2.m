@@ -495,6 +495,9 @@ for i=1:length(del)
 end
 n_grid_vert=length(vert_grid(:,1));
 
+% convexity
+convexity_util(connectivity,nel,vert);
+
 % complete mesh data
 [n_edge,edg2poly,edg2vert,edg_perp ] = complete_mesh_data( nel,ndof,n_grid_vert,vert,vert_grid,connectivity );
 
