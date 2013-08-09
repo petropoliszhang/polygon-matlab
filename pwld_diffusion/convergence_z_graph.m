@@ -8,7 +8,14 @@ dir =strcat(basedir,'quads\');
 % uniform
 str = strcat(dir,'uniform\mms-1\reg_quad_mms_1.mat');
 expression=sprintf('%s %s','load',str);eval(expression);
-plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'+-');
+% ref slope
+slop=-1;
+x0=log10(norm_data(end,1));y0=log10(norm_data(end,2));
+yref=@(x) slop*(x-x0)+y0;
+norm_data(end+1,1)=4*norm_data(end,1);
+x1=log10(norm_data(end,1));
+norm_data(end,2)=10^(yref(x1));
+plot(log10(norm_data(:,1)),log10(norm_data(:,2)),'-');
 hold all
 disp('quad uniform')
 norm_data(:,1)
@@ -32,7 +39,11 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'d-');
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'+-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'))];
 
@@ -52,6 +63,10 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
 plot(log10(ndof_),log10(erro_),'o-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
@@ -72,6 +87,10 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
 plot(log10(ndof_),log10(erro_),'s-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
@@ -92,7 +111,35 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'s-');
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'h-');
+clear norm_data ndof_ erro_;
+leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
+
+% z-mesh 0.25
+w=0.25;
+j=1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n6_a0.',num2str(w*100),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(1)=norm_data(1); erro_(1)=norm_data(2);
+j=j+1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n9_a0.',num2str(w*100),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(j,1)=norm_data(1);
+erro_(j,1)=norm_data(2);
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n20_a0.',num2str(w*100),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(:,1)];
+erro_=[erro_; norm_data(:,2)];
+erro_(3)=erro_(3)*1.15;
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'v-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
 
@@ -112,9 +159,38 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'s-');
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'v-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
+
+% z-mesh 0.35
+w=0.35;
+j=1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n6_a0.',num2str(w*100),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(1)=norm_data(1); erro_(1)=norm_data(2);
+j=j+1;
+str = strcat(dir,'z-mesh\z_mesh_quad_n9_a0.',num2str(w*100),'_mms_1.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_(j,1)=norm_data(1);
+erro_(j,1)=norm_data(2);
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n20_a0.',num2str(w*100),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(:,1)];
+erro_=[erro_; norm_data(:,2)];
+erro_(3)=erro_(3)*1.15;
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'d-');
+clear norm_data ndof_ erro_;
+leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
+
 
 % z-mesh 0.40
 w=0.40;
@@ -132,7 +208,11 @@ expression=sprintf('%s %s','load',str);eval(expression);
 ndof_=[ndof_; norm_data(:,1)];
 erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
-plot(log10(ndof_),log10(erro_),'s-');
+str = strcat(dir,'z-mesh\zzzz_quad_mms_1_L1_n320_a0.',num2str(w*100,'%2.2d'),'.mat');
+expression=sprintf('%s %s','load',str);eval(expression);
+ndof_=[ndof_; norm_data(1)];
+erro_=[erro_; norm_data(2)];
+plot(log10(ndof_),log10(erro_),'p-');
 clear norm_data ndof_ erro_;
 leg=[leg ; strcat('Z, 0.',num2str(w*100,'%2.2d'),'   ')];
 
@@ -142,27 +222,22 @@ slop=-1;
 % x0=5;y0=-3.25;
 x0=1.2;y0=-.5;
 yref=@(x) slop*(x-x0)+y0;
-x1=4.25;
+x1=4.75;
 plot([x0 x1],[yref(x0) yref(x1)],'k--','LineWidth',2);
 leg=[leg ; 'Slope=1'];
 
-slop=-.80;
-x0=3.5;y0=-0.5;
-yref=@(x) slop*(x-x0)+y0;
-x1=5.1;
-plot([x0 x1],[yref(x0) yref(x1)],'b-.','LineWidth',2);
+% % slop=-.90;
+% % x0=3.5;y0=-0.75;
+% % yref=@(x) slop*(x-x0)+y0;
+% % x1=5.61;
+% % plot([x0 x1],[yref(x0) yref(x1)],'b-.','LineWidth',2);
 
-% slop=-1;
-% x0=3;y0=-0.5;
-% yref=@(x) slop*(x-x0)+y0;
-% x1=5.1;
-% plot([x0 x1],[yref(x0) yref(x1)],'k--','LineWidth',2);
 
 %add legend
 legend(leg,'Location','Best')
 xlabel('log(number of unknowns)','Fontsize',12)
 ylabel('log(error)','Fontsize',12)
-axis([1 5.25 -3.75 -0.25])
+axis([1 6 -4.25 -0.25])
 print('-dpdf',strcat('results\convergence\cv_Z_quad','.pdf'));
 print('-dpng',strcat('results\convergence\cv_Z_quad','.png'));
 

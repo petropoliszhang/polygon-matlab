@@ -14,7 +14,7 @@ verbose = false;
 % geo = 'z_mesh_quad_L1_n5_a0.05.txt'
 % geo = 'shestakov_poly_mesh_L1_nc4_a0.02.txt';
 % geo = 'z_mesh_poly_L1_n5_a0.05.txt';
-geo = 'z_mesh_quad_L1_n6_a0.4.txt';
+geo = 'z_mesh_quad_L1_n6_a0.35.txt';
 
 data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
 
@@ -26,13 +26,14 @@ end
 
 data.max_ref_cycles = 1;
 data.ref_threshold  = 0; % 0=uniform refinement
+data.logi_amr_output  = false; % 0=uniform refinement
 
 data.logi_plot           = true;
 data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
 % result_basename = 'results\z_mesh_poly_n5_a0.05_';
-result_basename = 'results\z_mesh_quad_n6_a0.4_';
+result_basename = 'results\z_mesh_quad_n6_a0.35_';
 % result_basename = 'results\toto_';
 
 if(data.logi_mms)

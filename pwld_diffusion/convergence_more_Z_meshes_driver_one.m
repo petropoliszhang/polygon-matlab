@@ -4,7 +4,7 @@ disp('Running script that drives the pwld code');
 global verbose
 verbose = false;
 
-geo = 'z_mesh_quad_L1_n320_a0.40.txt';
+geo = 'z_mesh_quad_L1_n320_a0.35.txt';
 
 % choose geo file 
 if(strcmp(geo,''))

@@ -7,7 +7,7 @@ logi_write_file = true;
 
 L=1;
 
-fraction=0.4;
+fraction=0.35;
 if(fraction<eps || fraction > 1-eps)
     error('wrong fraction');
 end
@@ -30,10 +30,10 @@ nsub=[1 2 4 5 6] + 1;
 xi=[0 0.2 0.35 0.50 0.65 0.8 1.0];
 ny=4;
 %%%%%%
-% nx=9;
-% nsub=[2 3 6 7 9] + 1;
-% xi=[0 0.1 0.2 0.35 0.45 0.55 0.65 0.8 0.9 1.0];
-% ny=10;
+nx=9;
+nsub=[2 3 6 7 9] + 1;
+xi=[0 0.1 0.2 0.35 0.45 0.55 0.65 0.8 0.9 1.0];
+ny=10;
 
 
 x=zeros(nx+1,ny+1);

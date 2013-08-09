@@ -4,7 +4,7 @@ disp('Running script that drives the pwld code');
 global verbose
 verbose = false;
 
-geo = 'z_mesh_quad_L1_n320_a0.05.txt';
+geo = 'z_mesh_quad_L1_n320_a0.20.txt';
 
 % choose geo file 
 if(strcmp(geo,''))
@@ -89,7 +89,7 @@ data.workspace_name      = strcat(result_basename,'.mat');
 
 norm_data{1}=pwld_solve_problem(data);
 
-for k=2:8
+for k=5:6
     k1=strfind(geo,'_a0.')+3; 
     k2=strfind(geo,'.txt'); 
     % new geo
