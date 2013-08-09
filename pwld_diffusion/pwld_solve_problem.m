@@ -33,8 +33,21 @@ if ~logi_mms
         bc_type=[4 4 2 2  ];
         bc_val.left  = 0;
         bc_val.right = 9;
-        bc_val.bottom= 50;
-        bc_val.top   = 10;
+        bc_val.bottom= 0;
+        bc_val.top   = 0;
+    elseif(strcmp(input_arg.pbtype,'linear_2mat_v1'))
+        c_diff=[1 100]; sigma_a=[0 0]; S_ext=[0 0];
+        % bc type: 0= Dirichlet, homogeneous
+        %          1= Dirichlet, inhomogeneous
+        %          2= Neumann, homogeneous
+        %          3= Neumann, inhomogeneous
+        %          4= Robin phi/4 + D/2 \partial_n phi = Jinc
+        % values entered as LRBT
+        bc_type=[4 4 2 2 ];
+        bc_val.left  = 0;
+        bc_val.right = 9;
+        bc_val.bottom= 0;
+        bc_val.top   = 0;
     else
         error('undefined problem type');
     end

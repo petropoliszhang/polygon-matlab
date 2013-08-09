@@ -15,13 +15,14 @@ verbose = false;
 % geo = 'shestakov_poly_mesh_L1_nc4_a0.02.txt';
 % geo = 'z_mesh_poly_L1_n5_a0.05.txt';
 geo = 'z_mesh_quad_L1_n6_a0.35.txt';
+geo = 'random_quad_mesh_mid_x_2mat_L1_n16_a0.5.txt';
 
 data.geofile = sprintf('%s%s','..\geom_codes\figs\',geo);
 
-data.logi_mms = true;
+data.logi_mms = false;
 data.mms_type = 1;
 if ~data.logi_mms
-    data_pbtype = 'linear'
+    data.pbtype = 'linear_2mat_v1'
 end
 
 data.max_ref_cycles = 1;
@@ -33,8 +34,8 @@ data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
 % result_basename = 'results\z_mesh_poly_n5_a0.05_';
-result_basename = 'results\z_mesh_quad_n6_a0.35_';
-% result_basename = 'results\toto_';
+% result_basename = 'results\z_mesh_quad_n6_a0.35_';
+result_basename = 'results\rand16_';
 
 if(data.logi_mms)
     result_basename = sprintf('%s%s%c',result_basename,'mms_',int2str(data.mms_type));

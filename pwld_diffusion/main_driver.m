@@ -21,7 +21,7 @@ end
 data.logi_mms = true;
 data.mms_type = 1;
 if ~data.logi_mms
-    data_pbtype = 'linear'
+    data.pbtype = 'linear'
 end
 
 % ----- refinement choices
