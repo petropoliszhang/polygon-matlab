@@ -1,4 +1,4 @@
-function z = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,edg_perp,C_pen,C_pen_bd,...
+function [z,varargout] = DG_assemble_solve( ndof,nel,n_edge,vert,connectivity,edg2poly,edg2vert,edg_normal,edg_perp,C_pen,C_pen_bd,...
     i_mat,c_diff,sigma_a,i_src,S_ext,logi_mms,mms,n_quad,bc_type,bc_val )
 
 
@@ -454,6 +454,9 @@ t2=cputime;
 fprintf('Solver time   = %g \n\n',t2-t1);
 
 fprintf('Solution: Min = %+E \n          Max = %+E \n\n',min(z),max(z));
+%------------------------------------------------
+varargout{1}=A;
+varargout{2}=b;
 %------------------------------------------------
 
 return
