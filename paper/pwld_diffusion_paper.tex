@@ -151,7 +151,7 @@
 %-------------------------
 %-------------------------
 %\title{Discontinuous Finite Element Solution for Diffusion Equations on Arbitrary Polygonal Meshes}
-\title{Discontinuous Finite Element Solution of the Diffusion Equation on Arbitrary Polygonal Meshes}
+\title{Discontinuous Finite Element Solution of the Radiation Diffusion Equation on Arbitrary Quadrilateral and Polygonal Meshes}
 %-------------------------
 %-------------------------
 
@@ -196,15 +196,15 @@ aaaa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tcr{Make sure the following is expressed somewhere:\\
-In this
-research, we focus on using PWLD to discretize the diffusion equation. The
-PWLD discretization employs discontinuous finite elements and has been used to
-discretize the transport equation. Using it to discretize the diffusion
-equation is an important step in order to create a Diffusion Synthetic
-Acceleration scheme \cite{Adams2002,Wang2010}.
-}
-\bigskip
+%%\tcr{Make sure the following is expressed somewhere:\\
+%%In this
+%%research, we focus on using PWLD to discretize the diffusion equation. The
+%%PWLD discretization employs discontinuous finite elements and has been used to
+%%discretize the transport equation. Using it to discretize the diffusion
+%%equation is an important step in order to create a Diffusion Synthetic
+%%Acceleration scheme \cite{Adams2002,Wang2010}.
+%%}
+%%\bigskip
 
 This paper deals with a Piece-Wise Linear Discontinuous (PWLD) finite element spatial discretization of 
 the radiation diffusion equation on arbitrary polygonal grids, with and without adaptive mesh refinement. 
@@ -268,40 +268,53 @@ defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedr
 In this paper, we are interested in solving a diffusion equation on arbitrary polygonal
 grids using a {\em discontinuous} finite element discretization. We employ the
 Symmetric Interior Penalty (SIP) technique \cite{Arnold1982,DouglasN.Arnold2002,Kanschat2007}, 
-developed for the discretization
-of elliptic equations using discontinuous Galerkin techniques. For basis functions,
+developed for the discretization of elliptic equations using discontinuous Galerkin techniques;
+this results in a linear system matrix that is Symmetric Positive Definite (SPD). For basis functions,
 we use the piecewise linear functions of \cite{BaileyAdams2008}.
-The motivations are three-fold: 
+The motivations for employing discontinuous finite elements on polygonal grids are as follows: 
 \begin{enumerate}
-\item we wish to assess the performance of the discontinuous finite elements for 
-	the discretization of the diffusion equation on polygonal meshes;
-\item a diffusion equation often serves as a synthetic accelerator or 
-	preconditioner for iterative solution techniques applied to particle transport
-	\cite{AdamsLarsen2002,JamesS.Warsa2004}. A discontinuous finite element technique is often employ
-	in the discretization of the transport equation for unstructured and 
-	polygonal/polyhedral grids \cite{Wareing_McGhee_Morel_Pautz_DGFEM2001,Warsa2008_CDFEM,
-	Ragusa_Wang_NSE_2009,Bailey_MC2011,Ragusa_Wang_JCP_2011}.
-  \tcr{Employing the same     ...}
 \item 
+%we wish to assess the performance of piece-wise linear discontinuous finite elements for 
+%	the discretization of the diffusion equation on polygonal meshes; \\
+	prior works dealing with the spatial discretization of the radiation diffusion equation on polygonal meshes 
+	have used finite volume, mimetic finite differences, and continuous finite element techniques;  
+	we wish to assess the performance of Piece-Wise linear discontinuous finite elements for such grids;
+\item prior works also dealt with spatial discretization errors on highly distorted quadrilateral grids; 
+  we \tcr{wish to assess} the accuracy of a PWLD discretization on such grids as well; 
+\item a diffusion solve often serves as a synthetic accelerator or preconditioner for 
+  iterative solution techniques applied to radiation transport problems
+	\cite{AdamsLarsen2002,JamesS.Warsa2004}. On unstructured and polygonal/polyhedral grids,
+	a discontinuous finite element technique is often employed to discretize the transport equation 
+	\cite{Wareing_McGhee_Morel_Pautz_DGFEM2001,Warsa2008_CDFEM,Ragusa_Wang_NSE_2009,Bailey_MC2011,Ragusa_Wang_JCP_2011};
+	it was found in \cite{Ragusa_Wang_NSE_2010} that employing the same discretization technique for both 
+	the radiation transport solve and its diffusion preconditioner was effective on triangular grids.
+	In developing a PWLD-based diffusion preconditioner for transport solves, one needs to 
+	evaluate the effectiveness of a PWLD discretization of the diffusion equation first.  
+\item It has been proposed that PWL continuous discretizations can
+  more seamlessly handle locally refined grids as produced by Adaptive Mesh Refinement (AMR) algorithms
+	\cite{BaileyAdams2008}. In \cite{BaileyAdams2008}, the authors generated a grid with two refinement levels
+	and for a problem with a linear solution. Here, we fully embed a PWL discontinuous discretization
+	in an AMR process and test it with more complex solutions.
 \end{enumerate}
-The motivations for our work / In this work, we wish to assess ... In addition,
-a diffusion equation often serves as a synthetic accelerator or as a
-preconditioner \cite{AdamsLarsen2002} for iterative solution techniques of the 
-radiation transport equation.
+%The motivations for our work / In this work, we wish to assess ... In addition,
+%a diffusion equation often serves as a synthetic accelerator or as a
+%preconditioner \cite{AdamsLarsen2002} for iterative solution techniques of the 
+%radiation transport equation.
 % , where a discontinuous finite element technique is often preferred
 % in the discretization of the transport equation for unstructured and 
 % polygonal/polyhedral grids \cite{MorelWarsaWareing,PWLD,CFEM-PWDL-Warsa,WangRagusa}.
 
-The remainder of the paper is as follows. In \sct{sec:poly}, we discuss
+The remainder of the paper is as follows. In \sct{sec:poly}, we further discuss
 the use of polygonal meshes, define the piecewise linear discontinuous 
-basis functions for arbitrary polygons, and discuss how polygonal grids
-can be utilized in handling local mesh refinement (as in adaptive mesh refinement 
-approaches). The Symmetric Interior Penalty technique is reviewed in \sct{sec:ip}.
+basis functions for arbitrary polygons, and examine how polygonal grids
+can be utilized in handling local mesh refinement (as in AMR 
+approaches). The Symmetric Interior Penalty technique applied to the diffusion 
+equation is reviewed in \sct{sec:ip}.
 %The resulting linear system will be solved using an Algebraic Multi-Grid (AMG) approach.
 Mesh adaptivity utilizing piecewise linear basis function is presented in 
-\sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented
-are borrowed from the literature on (1) finite differences applied to the
-diffusion equation on \tcr{not FINISHED }
+\sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented here 
+are borrowed from the literature on spatial discretization techniques applied to 
+the diffusion equation \tcr{solved} on highly distorted quadrilateral grids and polygonal grids.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -860,7 +873,7 @@ where $\dim$ is the dimensionality of the domain (here $\dim = 2$). Hence, a sec
 A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal, Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
 For a given mesh type, a sequence of embedded grids (straightforward to obtain) was utilized; this is actually part of the construction process for Shestakov grids. In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids ($a=0.25$) used here. 
 
-The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly distorted Shestakov meshes. To further analyze this observation, we provide the convergence for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid when a value of 0 corresponds to a highly distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any quadrilateral discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for $0.25 \le s \le 0.5$, and the reduction in weak; for $s=0.05$ (highly skewed grid, see \fig{fig:cv_z_quad_mesh_nm2}, for instance), the rate of convergence is still 1.6.
+The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly distorted Shestakov meshes. To further analyze this observation, we provide the convergence for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid when a value of 0 corresponds to a highly distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any quadrilateral discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
 
 Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at increased resolutions, the grid imprints are no longer discernible).
 
@@ -1105,11 +1118,11 @@ a factor of 5-6 in terms of the number of unknowns.
 \begin{figure}[!hbtp]
 \centering
 \subfigure[Cycle \# 12]{
-\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/special/amr0005}
+\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/special/amr0005}
 \label{fig:amr_cycle_12}
 }
 \subfigure[Cycle \# 17]{
-\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
+\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
 \label{fig:amr_cycle_17}
 }
 \caption{AMR Grids .................}
@@ -1123,16 +1136,9 @@ a factor of 5-6 in terms of the number of unknowns.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 
-%\include{pwld_diffusion_paper.bib}
 \bibliographystyle{unsrt}
 \bibliography{pwld_diffusion_paper}
 
-
-
-\begin{thebibliography}{100}
-
-
-\end{thebibliography}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
