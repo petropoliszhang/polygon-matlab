@@ -1,0 +1,35 @@
+Running script that drives the pwld code
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.40
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 22878.1 
+
+Assembly time = 26400.8 
+Solver time   = 83.3357 
+
+Solution: Min = -1.000010E+00 
+          Max = +1.000016E+00 
+
+Error time    = 47.0811 
+L2 norm time  = 422.31 
+	 ndof = 409600, L2_error = +9.810966E-05 
+
+Vtk time      = 192.49 
+
+
+Time in cycle 1 = 50026.3 
+
+
+-----------------------------
+Total time    = 50026.3 
+>> 

@@ -1,0 +1,80 @@
+Running script that drives the pwld code
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.05
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 19080.8 
+
+Assembly time = 22263.5 
+Solver time   = 77.3609 
+
+Solution: Min = -9.998413E-01 
+          Max = +9.992824E-01 
+
+Error time    = 46.3635 
+L2 norm time  = 399.721 
+	 ndof = 409600, L2_error = +3.549530E-03 
+
+Vtk time      = 271.021 
+
+
+Time in cycle 1 = 42140.8 
+
+
+-----------------------------
+Total time    = 42140.8 
+geo =
+z_mesh_quad_L1_n320_a0.10.txt
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.10
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 24864.7 
+
+Assembly time = 20521 
+Solver time   = 74.8961 
+
+Solution: Min = -9.998413E-01 
+          Max = +9.993482E-01 
+
+Error time    = 44.3511 
+L2 norm time  = 374.855 
+	 ndof = 409600, L2_error = +2.443733E-03 
+
+Vtk time      = 185.548 
+
+
+Time in cycle 1 = 46067.3 
+
+
+-----------------------------
+Total time    = 46067.3 
+geo =
+z_mesh_quad_L1_n320_a0.15.txt
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 

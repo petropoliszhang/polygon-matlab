@@ -1,0 +1,105 @@
+Running script that drives the pwld code
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.20
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 4558.24 
+
+Assembly time = 3838.94 
+Solver time   = 12.2929 
+
+Solution: Min = -9.998752E-01 
+          Max = +9.996363E-01 
+
+Error time    = 20.7013 
+L2 norm time  = 175.907 
+	 ndof = 409600, L2_error = +1.008904E-03 
+
+Vtk time      = 86.3154 
+
+
+Time in cycle 1 = 8693.31 
+
+
+-----------------------------
+Total time    = 8693.31 
+geo =
+z_mesh_quad_L1_n320_a0.25.txt
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.25
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 4306.66 
+
+Assembly time = 3863.02 
+Solver time   = 11.7157 
+
+Solution: Min = -9.999098E-01 
+          Max = +9.997506E-01 
+
+Error time    = 20.7793 
+L2 norm time  = 176.188 
+	 ndof = 409600, L2_error = +6.062194E-04 
+
+Vtk time      = 86.2842 
+
+
+Time in cycle 1 = 8465.55 
+
+
+-----------------------------
+Total time    = 8465.55 
+geo =
+z_mesh_quad_L1_n320_a0.30.txt
+result_basename =
+results\zzzz_quad_mms_1_L1_n320_a0.30
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 102400 
+Total number of polygons           = 102400 
+Nbr of concave polygons 0 out of 102400 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 102400 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 4590.25 
+
+Assembly time = 3991.33 
+Solver time   = 11.9185 
+
+Solution: Min = -9.999501E-01 
+          Max = +9.999293E-01 
+
+Error time    = 20.6077 
+L2 norm time  = 173.099 
+	 ndof = 409600, L2_error = +3.468883E-04 
+
+Vtk time      = 85.1921 
+
+
+Time in cycle 1 = 8873.27 
+
+
+-----------------------------
+Total time    = 8873.27 
+>> 

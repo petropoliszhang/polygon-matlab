@@ -9,7 +9,8 @@ geo = 'z_mesh_quad_L1_n20_a0.05.txt';
 geo = 'z_mesh_quad_L1_n20_a0.25.txt';
 geo = 'z_mesh_quad_L1_n20_a0.2.txt';
 % geo = 'z_mesh_quad_L1_n20_a0.4.txt';
-geo = 'z_mesh_quad_L1_n20_a0.25.txt';
+% geo = 'z_mesh_quad_L1_n20_a0.25.txt';
+geo = 'z_mesh_quad_L1_n20_a0.35.txt';
 if(strcmp(geo,''))
     data.geofile = '';
 else
