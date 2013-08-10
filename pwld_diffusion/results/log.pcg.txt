@@ -1,0 +1,1172 @@
+
+
+
+===============================
+===============================
+.\results\convergence\quads\uniform\mms-1\reg_quad_mms_1.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 86.8458 
+Solver time   = 0.499203 
+
+Solution: Min = -1.000109E+00 
+          Max = +1.000410E+00 
+
+condest A = 38626.7 
+150 mg=false;
+flag =
+     0
+iter =
+     3
+relres =
+      2.42832287227521e-13
+nbr iter unprec 3 
+norm x-z = 2.80296e-12
+flag =
+     0
+iter =
+   193
+relres =
+      7.49153514532377e-11
+nbr iter jac 193 
+norm x-z = 4.4604e-11
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 128.053
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 128.053
+flag =
+     0
+iter =
+   313
+relres =
+      8.02423722885919e-11
+nbr iter SSOR1 313 
+norm x-z = 8.19806e-10
+flag =
+     0
+iter =
+   345
+relres =
+      9.43523519178214e-11
+nbr iter SSOR1.3 345 
+norm x-z = 8.21025e-10
+
+
+
+===============================
+===============================
+.\results\convergence\quads\rand\rand_quad_mms_1_L1_nc_emb7_a0.95.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 82.2125 
+Solver time   = 0.811205 
+
+Solution: Min = -1.000521E+00 
+          Max = +1.000662E+00 
+
+condest A = 55791.4 
+flag =
+     0
+iter =
+   966
+relres =
+      9.80188204400277e-11
+nbr iter unprec 966 
+norm x-z = 1.44275e-09
+flag =
+     0
+iter =
+   871
+relres =
+      9.93613996475892e-11
+nbr iter jac 871 
+norm x-z = 2.64569e-09
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 128.045
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 128.045
+flag =
+     0
+iter =
+   374
+relres =
+      9.97219722613417e-11
+nbr iter SSOR1 374 
+norm x-z = 3.34127e-09
+flag =
+     0
+iter =
+   410
+relres =
+       9.6058768724869e-11
+nbr iter SSOR1.3 410 
+norm x-z = 4.29851e-09
+
+
+
+===============================
+===============================
+.\results\convergence\quads\smooth\smoo_quad_mms_1_L1_nc7_emb7_a0.15.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 81.8381 
+Solver time   = 0.858006 
+
+Solution: Min = -1.000429E+00 
+          Max = +1.000171E+00 
+
+condest A = 685159 
+flag =
+     1
+iter =
+   996
+relres =
+        0.0320006126762005
+nbr iter unprec 996 
+norm x-z = 2.21354
+flag =
+     1
+iter =
+        1000
+relres =
+      3.37636442018599e-06
+nbr iter jac 1000 
+norm x-z = 5.55583e-05
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 127.85
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 127.85
+flag =
+     0
+iter =
+   650
+relres =
+         9.60971024067e-11
+nbr iter SSOR1 650 
+norm x-z = 2.07701e-09
+flag =
+     0
+iter =
+   660
+relres =
+      9.53131981920653e-11
+nbr iter SSOR1.3 660 
+norm x-z = 1.18482e-09
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc8_emb7_a0.1.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 82.7585 
+Solver time   = 0.764405 
+
+Solution: Min = -9.308873E-01 
+          Max = +1.037497E+00 
+
+condest A = 6.96613e+08 
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 111.457
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter jac 0 
+norm x-z = 111.457
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 111.457
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 111.457
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1 0 
+norm x-z = 111.457
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1.3 0 
+norm x-z = 111.457
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.15.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 81.1361 
+Solver time   = 0.826805 
+
+Solution: Min = -1.033568E+00 
+          Max = +1.219859E+00 
+
+condest A = 3.94751e+08 
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 118.962
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter jac 0 
+norm x-z = 118.962
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 118.962
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 118.962
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1 0 
+norm x-z = 118.962
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1.3 0 
+norm x-z = 118.962
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.2.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 81.2141 
+Solver time   = 0.904806 
+
+Solution: Min = -9.983756E-01 
+          Max = +1.649123E+00 
+
+condest A = 7.28598e+07 
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 117.733
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter jac 0 
+norm x-z = 117.733
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 117.733
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 117.733
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1 0 
+norm x-z = 117.733
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1.3 0 
+norm x-z = 117.733
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.25.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 82.9769 
+Solver time   = 0.826805 
+
+Solution: Min = -1.001657E+00 
+          Max = +1.001918E+00 
+
+condest A = 4.62471e+06 
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 123.245
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter jac 0 
+norm x-z = 123.245
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 123.245
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 123.245
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1 0 
+norm x-z = 123.245
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1.3 0 
+norm x-z = 123.245
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.3.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 82.6649 
+Solver time   = 0.764405 
+
+Solution: Min = -1.003893E+00 
+          Max = +1.000174E+00 
+
+condest A = 628367 
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 127.394
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter jac 0 
+norm x-z = 127.394
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 127.394
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 127.394
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1 0 
+norm x-z = 127.394
+flag =
+     4
+iter =
+     0
+relres =
+     1
+nbr iter SSOR1.3 0 
+norm x-z = 127.394
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.35.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 81.3389 
+Solver time   = 0.733205 
+
+Solution: Min = -1.000425E+00 
+          Max = +1.000724E+00 
+
+condest A = 223236 
+flag =
+     1
+iter =
+   999
+relres =
+      0.000601098680041807
+nbr iter unprec 999 
+norm x-z = 0.0145959
+flag =
+     1
+iter =
+        1000
+relres =
+      1.85692496172952e-07
+nbr iter jac 1000 
+norm x-z = 3.61237e-06
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 126.086
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 126.086
+flag =
+     0
+iter =
+   544
+relres =
+      9.53284663410376e-11
+nbr iter SSOR1 544 
+norm x-z = 1.28817e-09
+flag =
+     0
+iter =
+   596
+relres =
+      9.85135622912689e-11
+nbr iter SSOR1.3 596 
+norm x-z = 1.07037e-09
+
+
+
+===============================
+===============================
+.\results\convergence\quads\shes\shes_quad_mms_1_L1_nc7_emb7_a0.45.mat 
+===============================
+===============================
+ans =
+       16384       65536
+Assembly time = 80.8553 
+Solver time   = 0.889206 
+
+Solution: Min = -1.000385E+00 
+          Max = +1.000400E+00 
+
+condest A = 44611.3 
+flag =
+     1
+iter =
+   999
+relres =
+      2.99180555308922e-09
+nbr iter unprec 999 
+norm x-z = 5.6452e-08
+flag =
+     1
+iter =
+   998
+relres =
+       5.6200552791223e-10
+nbr iter jac 998 
+norm x-z = 1.08417e-08
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 127.136
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 127.136
+flag =
+     0
+iter =
+   430
+relres =
+        9.792875964311e-11
+nbr iter SSOR1 430 
+norm x-z = 2.10836e-09
+flag =
+     0
+iter =
+   453
+relres =
+      9.57007018077665e-11
+nbr iter SSOR1.3 453 
+norm x-z = 8.70028e-10
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_a0.05.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 253.751 
+Solver time   = 1.98121 
+
+Solution: Min = -9.994290E-01 
+          Max = +9.969120E-01 
+
+condest A = 5.30913e+06 
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter unprec 0 
+norm x-z = 141.736
+flag =
+     1
+iter =
+        1000
+relres =
+        0.0137064857016466
+nbr iter jac 1000 
+norm x-z = 0.464336
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 141.736
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 141.736
+flag =
+     1
+iter =
+        1000
+relres =
+       4.6148870975199e-06
+nbr iter SSOR1 1000 
+norm x-z = 0.000141928
+flag =
+     1
+iter =
+        1000
+relres =
+      3.12073822645666e-05
+nbr iter SSOR1.3 1000 
+norm x-z = 0.000578922
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.1.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 170.462 
+Solver time   = 1.62241 
+
+Solution: Min = -9.994044E-01 
+          Max = +9.974929E-01 
+
+condest A = 2.55644e+06 
+flag =
+     1
+iter =
+   997
+relres =
+         0.613533199026817
+nbr iter unprec 997 
+norm x-z = 7.67958
+flag =
+     1
+iter =
+   946
+relres =
+       0.00624703229329586
+nbr iter jac 946 
+norm x-z = 0.555874
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 150.517
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 150.517
+flag =
+     1
+iter =
+   986
+relres =
+      5.14413541261807e-07
+nbr iter SSOR1 986 
+norm x-z = 2.80111e-05
+flag =
+     1
+iter =
+   997
+relres =
+        3.262550121292e-06
+nbr iter SSOR1.3 997 
+norm x-z = 0.000119839
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.15.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 164.363 
+Solver time   = 1.57561 
+
+Solution: Min = -9.994279E-01 
+          Max = +9.978891E-01 
+
+condest A = 1.46336e+06 
+flag =
+     1
+iter =
+   974
+relres =
+         0.289077718292207
+nbr iter unprec 974 
+norm x-z = 4.35108
+flag =
+     1
+iter =
+        1000
+relres =
+       0.00445103303085284
+nbr iter jac 1000 
+norm x-z = 0.103861
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 158.073
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 158.073
+flag =
+     1
+iter =
+        1000
+relres =
+      9.59872915336957e-09
+nbr iter SSOR1 1000 
+norm x-z = 2.15756e-07
+flag =
+     1
+iter =
+   998
+relres =
+      2.91505635388372e-07
+nbr iter SSOR1.3 998 
+norm x-z = 8.2094e-06
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.2.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 164.565 
+Solver time   = 1.48201 
+
+Solution: Min = -9.995083E-01 
+          Max = +9.984745E-01 
+
+condest A = 888662 
+flag =
+     1
+iter =
+   999
+relres =
+        0.0545130343058791
+nbr iter unprec 999 
+norm x-z = 1.81991
+flag =
+     1
+iter =
+        1000
+relres =
+      0.000366014341303438
+nbr iter jac 1000 
+norm x-z = 0.00646716
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 162.02
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 162.02
+flag =
+     0
+iter =
+   948
+relres =
+      9.81429055592624e-11
+nbr iter SSOR1 948 
+norm x-z = 1.90953e-09
+flag =
+     1
+iter =
+        1000
+relres =
+      1.90344669584388e-09
+nbr iter SSOR1.3 1000 
+norm x-z = 2.58846e-08
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.25.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 165.423 
+Solver time   = 1.56001 
+
+Solution: Min = -9.996434E-01 
+          Max = +9.992318E-01 
+
+condest A = 546464 
+flag =
+     1
+iter =
+   974
+relres =
+        0.0244388424188006
+nbr iter unprec 974 
+norm x-z = 1.47409
+flag =
+     1
+iter =
+        1000
+relres =
+      2.34950552370758e-05
+nbr iter jac 1000 
+norm x-z = 0.000215891
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 162.299
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 162.299
+flag =
+     0
+iter =
+   837
+relres =
+      9.43450147189583e-11
+nbr iter SSOR1 837 
+norm x-z = 7.77459e-10
+flag =
+     0
+iter =
+   925
+relres =
+      9.64012945865589e-11
+nbr iter SSOR1.3 925 
+norm x-z = 6.88801e-10
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.3.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 164.597 
+Solver time   = 1.74721 
+
+Solution: Min = -9.998030E-01 
+          Max = +9.997354E-01 
+
+condest A = 330739 
+flag =
+     1
+iter =
+   998
+relres =
+       0.00961389387089854
+nbr iter unprec 998 
+norm x-z = 0.164812
+flag =
+     1
+iter =
+        1000
+relres =
+       2.8949295244961e-06
+nbr iter jac 1000 
+norm x-z = 2.6841e-05
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 160.614
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 160.614
+flag =
+     0
+iter =
+   713
+relres =
+       9.7520342554345e-11
+nbr iter SSOR1 713 
+norm x-z = 1.69382e-09
+flag =
+     0
+iter =
+   798
+relres =
+       9.9034752119911e-11
+nbr iter SSOR1.3 798 
+norm x-z = 1.30976e-09
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.35.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 164.971 
+Solver time   = 1.70041 
+
+Solution: Min = -9.999438E-01 
+          Max = +9.997362E-01 
+
+condest A = 192985 
+flag =
+     1
+iter =
+   999
+relres =
+      0.000166171698797268
+nbr iter unprec 999 
+norm x-z = 0.00318204
+flag =
+     1
+iter =
+        1000
+relres =
+      6.22897935899982e-08
+nbr iter jac 1000 
+norm x-z = 6.65028e-07
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 159.111
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 159.111
+flag =
+     0
+iter =
+   630
+relres =
+       9.9440813203689e-11
+nbr iter SSOR1 630 
+norm x-z = 1.16995e-09
+flag =
+     0
+iter =
+   693
+relres =
+       9.1542632464277e-11
+nbr iter SSOR1.3 693 
+norm x-z = 6.17011e-10
+
+
+
+===============================
+===============================
+.\results\convergence\quads\z-mesh\zzzz_quad_mms_1_L1_n20_a0.4.mat 
+===============================
+===============================
+ans =
+       25600      102400
+Assembly time = 166.157 
+Solver time   = 1.51321 
+
+Solution: Min = -1.000039E+00 
+          Max = +1.000066E+00 
+
+condest A = 107728 
+flag =
+     1
+iter =
+        1000
+relres =
+      1.14313448793054e-06
+nbr iter unprec 1000 
+norm x-z = 1.82464e-05
+flag =
+     1
+iter =
+        1000
+relres =
+      1.68757616792204e-09
+nbr iter jac 1000 
+norm x-z = 1.4172e-08
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter GS 0 
+norm x-z = 158.92
+flag =
+     1
+iter =
+     0
+relres =
+     1
+nbr iter SOR1.3 0 
+norm x-z = 158.92
+flag =
+     0
+iter =
+   567
+relres =
+      9.74144687291505e-11
+nbr iter SSOR1 567 
+norm x-z = 1.45422e-09
+flag =
+     0
+iter =
+   617
+relres =
+       9.5343459294786e-11
+nbr iter SSOR1.3 617 
+norm x-z = 1.29492e-09
+>> 
