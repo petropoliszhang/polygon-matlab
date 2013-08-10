@@ -1,7 +1,5 @@
 clear all; close all; clc;
 
-% to be posted online
-
 % This routine generates an nm by nm mesh, commonly known as a
 % Shestakov mesh, with 0 < r < rm and 0 < z < zm. The randomness
 % is controlled by parameter "a", where 0 <= a <= 0.5. A value of 
@@ -15,8 +13,8 @@ clear all; close all; clc;
 % "Test Problems in Radiative Transfer Calculations", by A. Shestakov, 
 % D. Kershaw, and G. Zimmerman
 %
-% Many thanks to Michael Hall (LANL) for providing a copy of the F77 
-% program
+% Thanks also to Michael Hall (LANL) for providing a copy of the original  
+% F77 program
 %
 % issues/comments about the matlab code: send an email to
 % jean.ragusa@tamu.edu
