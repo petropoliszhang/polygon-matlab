@@ -224,7 +224,7 @@ Wachspress \cite{Wachspress} developed a family of rational polynomial functions
 as basis functions in a finite element method on polygonal/polyhedral grids. This yields
 symmetric positive-definite (SPD) matrices but (i) the finite element integrals must be carried out 
 numerically and (ii) the Jacobian of the transformation becomes zero on degenerate cells 
-(such as the ones shown on \fig{fig:amr_schematics}) and on non-convex cells. 
+(such as the ones shown on \fig{fig:amr}) and on non-convex cells. 
 %
 %Morel et al. \cite{MorelDendyHallWhite1992} introduced a cell-centered finite volume scheme 
 %for arbitrary quadrilateral meshes. Their scheme was second-order accurate and yielded back a 
@@ -330,7 +330,7 @@ Mesh generation using polygons (polyhedra in 3D) is an active area of research.
 Some meshing tools, such as MSTK \cite{mstk} and the Computational Geometry Algorithms 
 Library \cite{cgal}, may be employed to generate/process polygonal meshes.  
 Several CFD codes (Fluent, StarCCM, OpenFoam) also offer polygonal meshing and solver capabilities. 
-
+%
 The rationale for polygonal/polyhedral cells is as follows.
 While quadrilaterals (hexahedra in 3D) can be seen as the standard cell shapes for logically 
 structured meshes, they may be difficult to employ in complex geometries. For unstructured meshes,
@@ -347,7 +347,7 @@ resolution.  The following features of polygonal cells are noteworthy:
 	instance. 
   \item The notion of ``hanging nodes'' for locally refined/adapted meshed is no longer needed.
 	For example, \fig{fig:amr1} shows two quadrilateral elements before local refinement; on
-	\fig{fig:amr2}, one of the two cells has been refined. The un-refined cell is now viewed as a
+	\fig{fig:amr2}, one of the two cells has been refined. The un-refined cell can now be viewed as a
 	pentagon.
 \end{itemize}
 
@@ -373,8 +373,10 @@ resolution.  The following features of polygonal cells are noteworthy:
 \subsection{Piecewise Linear Basis Functions on Arbitrary Polygons}
 %-----------------------------------------------------------
 
-Consider a polygonal cell with $N_V$ vertices, $(x_i,y_i)$. The polygon needs not 
-to be convex. In order to describe the piecewise linear basis functions
+Here, we describe piecewise linear finite elements basis functions for
+arbitrary polygons.
+Consider a polygonal cell with $N_V$ vertices, $(x_i,y_i)$ for $1\le i \le N_V$. 
+The polygon needs not to be convex. In order to describe the piecewise linear basis functions
 for such a cell, we introduce a cell ``center'', denoted hereafter 
 by $c=(x_c,y_c)$, with $x_c =\sum_{i=1}^{N_V} \alpha_{i} x_i$
 and  $y_c = \sum_{i=1}^{N_V} \alpha_{i} y_i$. We require that
@@ -382,28 +384,29 @@ $\sum_{i=1}^{N_V} \alpha_{i} = 1$. Thus, point $c$ can be interpreted as
 a weighted average of the polygon's vertices. Often, one chooses 
 $\alpha_i = 1 / N_V$ but one may also define point $c$ as the centroid of the
 polygon under consideration.
-With the introduction of the cell center, the polygon can be viewed as
+With the introduction of the cell center, the polygon can also be described as
 $N_V$ triangular subcells (or ``sides'' if using the terminology of \cite{BaileyAdams2008}), 
-each of these triangles being composed of two
+with each of these triangles being composed of two
 successive vertices and the cell center.
 The $N_V$ piecewise linear basis functions are then given by:
 %
 \begin{equation}
-  b_j(\br) = t_j(\br) + \alpha_{j} t_c(\br) , \qquad j=1,\ldots,N_V ,
+  b_i(\br) = t_i(\br) + \alpha_{i} t_c(\br) , \qquad i=1,\ldots,N_V ,
 \end{equation}
 %
-where $t_j(\br)$ is the standard linear function defined on the two adjacent
-triangular subcells formed by (1) vertex $j$, vertex $j-1$ and the cell center $c$,
-and (2) vertex $j$, vertex $j+1$ and the cell center $c$.
-$t_j$ is equal to one at the $j^{th}$ vertex and to zero at all other vertices of the polygon,
+where $t_i(\br)$ is the standard linear function defined on the two adjacent
+triangular subcells formed by (1) vertex $i$, vertex $i-1$ and the cell center $c$,
+and (2) vertex $i$, vertex $i+1$ and the cell center $c$.
+$t_i$ is equal to one at the $i^{th}$ vertex and to zero at all other vertices of the polygon,
 as well as at the cell center.
 $t_c(\br)$ is the ``tent'' function associated with the cell center and is equal to one 
 at the cell center and to zero at all of the polygon vertices.
 %
 We stress that this choice of basis functions is not equivalent to employing a standard 
-continuous finite element representation within a polygon that would divide such a polygon 
-into $N_V$ triangular subcells. Indeed, in the case of a standard continuous finite 
-element representation, the number of basis functions would be $N_V+1$ 
+continuous finite element representation within a polygon 
+% that would divide such a polygon into $N_V$ triangular subcells. 
+Indeed, in the case of a standard continuous finite 
+element representation, the number of basis functions would be equal to $N_V+1$ 
 (for the $N_V$ vertices and the cell center). In the
 piecewise linear representation, the unknowns are only located at the cell 
 vertices and the cell center point is only used to define the basis functions.
@@ -417,8 +420,8 @@ and in \fig{fig:pwl_degen_pentagon} for the degenerate pentagon.
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[scale=0.77]{pentagons.png}
-\label{fig:pentagons}
 \caption{Non-degenerate (left) and degenerate (right) pentagonal cells}
+\label{fig:pentagons}
 \end{figure}
 %
 %
@@ -459,10 +462,10 @@ and in \fig{fig:pwl_degen_pentagon} for the degenerate pentagon.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this Section, we present the discontinuous Galerkin finite element technique employed to
-discretize the radiation diffusion equation on arbitrary polygonal grids. Many variants of such discretization
-methods exist for diffusion problems (depending on the choice of stabilization terms, whether 
+discretize the radiation diffusion equation on arbitrary polygonal grids. Many variants of such discontinuous discretization
+methods exist for diffusion problems (depending, for instance, on the choice of stabilization terms, whether 
 the diffusion equation is expressed in its mixed form, \ldots). We refer the Readers to the review
-papers \cite{DouglasN.Arnold2002} for additional details. Here, we employ the Symmetric
+paper \cite{DouglasN.Arnold2002} for additional details. Here, we employ the Symmetric
 Interior Penalty (SIP) method which we have found to be robust in our test cases and relatively simple 
 to implement.
 %Even though discontinuous Galerkin methods are commonly used in the particle and radiation transport communities, 
@@ -489,10 +492,10 @@ Nitsche's idea, extended to all cell edges (not only cells with edges on the bou
 to the family of interior penalty methods for discontinuous finite elements. The SIP form,
 which we have chosen here because it is one of the simplest forms and leads to symmetric 
 positive definite matrices, is discussed next. 
-
-First, we recall \eqt{eq:radiation_diffusion} and specify 
+%
+But first, we recall \eqt{eq:radiation_diffusion} and specify 
 Dirichlet, Neumann, and Robin boundary condition types on various portions the the domain's
-boundary:
+boundary: the radiation diffusion equation is given by
 \begin{equation}
   -\div D(\vr) \grad E(\vr) + \sigma_a(\vr) E(\vr) = Q(\vr)\ \textrm{ for } \vr \in \D,
 \end{equation}
@@ -509,10 +512,10 @@ and Robin boundary conditions
   \frac{1}{4}E(\vr) + \frac{1}{2} D(\vr) \partial_n E(\vr) = F^{inc}(\vr) \ \textrm{ for } \vr \in  \partial \D^r \, .
 \end{equation}
 %
-where $E$ is the unknown radiation scalar intensity. The boundary of the domain is split as
+$E$ is the unknown radiation scalar intensity. The boundary of the domain is split such that
 $\partial \D = \partial \D^d \cup \partial \D^n \cup \partial \D^r$,  where the superscripts
 denote Dirichlet, Neumann, and Robin types, respectively. $E_0$, $F_0$, and $F^{inc}$ are specified
-quantities. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $vn$ the outward unit normal vector.
+quantities. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $\vn$ the outward unit normal vector.
 
 
 % Obviously, the domain boundary is the  $\partial \D = \mathcal{E}_h^{\partial\D,D}\cup \mathcal{E}_h^{\partial\D,N} \cup \mathcal{E}_h^{\partial\D,R}$.
@@ -520,7 +523,7 @@ quantities. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $vn$ th
 \subsection{The Symmetric Interior Penalty (SIP) Method}
 %-----------------------------------------------------------
 
-In this paragraph, we describe the SIP discretization \cite{DouglasN.Arnold2002,Kanschat2007} of the 
+In this paragraph, we describe the SIP discretization \cite{DouglasN.Arnold2002,Kanschat2007} applied to the 
 radiation diffusion equation using discontinuous finite elements. 
 We introduce a partition
 of the domain, $\bigcup\nolimits_{K\in \mathbb{T}_{h}}K=\D$, and also assume
@@ -588,8 +591,9 @@ orthogonal to edge $e$.
 %In the mathematical literature, the jumps terms, $\kappa\jmp{E}\jmp{\tf}$,
 %are also identified as a stabilization technique for which the constant $\kappa$ needs to be large enough. 
 For quadrilateral meshes with linear basis functions, researchers typically utilize $C \ge 4$ 
-(through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order). Here, we use $C=4$
-unless otherwise noted. For boundary edges, 
+(through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order). Here, we use $C=4$.
+%unless otherwise noted. 
+For boundary edges, 
 Kanschat \cite{Kanschat2007} noted that doubling the value of $C$ (on quadrilateral meshes) was 
 beneficial; we have followed their recommendations. In \eqt{eq:kappa}, the $\pm$ superscripts 
 represent again values taken from either side of an edge. For triangular cells, $h_\bot$ is exactly 
@@ -617,12 +621,12 @@ using the area and perimeter of the actual polygonal cell.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
-\cite{amrrrr}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
+\cite{Ainsworth1997}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
 which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
-across the faces (edges in 2D) between neighboring cells. The magnitude of these jumps is 
+across the edges (faces in 3D) between neighboring cells. The magnitude of these jumps is 
 small in regions where the solution is smooth and can be significantly larger in regions where
 the solution undergoes rapid spatial variations. A heuristic local error indicator is, therefore, to
-monitor the interfacial jumps. Following \cite{leicht2007,Ragusa_Wang_JCP_2011}, we define 
+monitor the interfacial jumps. Following \cite{Leicht2008,Ragusa_Wang_JCP_2011}, we define 
 the error indicator on cell $K$ as:
 \begin{equation} \label{eq:error_indicator}
   \eta_K = \frac{\int_{\partial K} |\jmp{E}|_{\partial K}} {\text{meas}(\partial K)} \, .
@@ -633,33 +637,52 @@ The cells flagged for refinement are such that
   \eta_K \ge  \theta \max_{K^\prime \in \mathbb{T}_h} \left( \eta_{K^\prime} \right) \, ,
 \end{equation}  
 where $0 \le \theta \le 1$ is a user-specified coefficient. \eqt{eq:refine_fraction} signifies
-that cells selected for refinement are such that their errors, normalized to the largest error found, 
-are larger than or equal to $\theta$.
+that cells selected for refinement are such that their error, normalized to the largest error, 
+is larger than or equal to $\theta$.
 
 As noted in the Introduction, piece-wise linear basis functions can be beneficially used to handle transitions
 between mesh cells of different refinement levels. In the context of discontinuous finite elements, the
-analog of \fig{} is shown in \fig{}. With standard linear discontinuous finite element representation, 
-the cell that will not undergo refinement (labeled $K$ in \fig{}) would remain a quadrilateral 
+analog of \fig{fig:amr} is shown in \fig{fig:amr_dg}. With standard linear discontinuous finite element representation, 
+the cell that will not undergo refinement (labeled $K$ in \fig{fig:amr_dg1}) would remain a quadrilateral 
 after refinement of its neighbor, cell $K^\prime$; with such a representation, the restriction of the intensity 
 along edge $AB$ of cell $K$ would remain a linear function. However, when employing 
-PWL basis functions, cell $K$ becomes a pentagon after refinement of its neighbor and the 
+PWLD basis functions, cell $K$ becomes a pentagon after refinement of its neighbor and the 
 restriction of the intensity along the ``degenerate'' edge $AB$ of that pentagon now becomes 
 piece-wise linear.
+
+\begin{figure}[!hbtp]
+\centering
+%\vspace{40mm}
+%\hspace{-55mm}
+\subfigure[before local refinement]{
+\includegraphics[scale=0.2]{amr_dg1.png}
+\label{fig:amr_dg1}
+}
+%\hspace{45mm}
+\subfigure[after local refinement]{
+\includegraphics[scale=0.2]{amr_dg2.png}
+\label{fig:amr_dg2}
+}
+\caption{Local mesh refinement using piece-wise linear discontinuous basis functions}
+\label{fig:amr_dg}
+\end{figure}
+
 
 In this work, we only consider the application of piece-wise linear functions to AMR for 
 grids that are initially composed of quadrilateral cells only and refine cells flagged for adaptivity 
 by subdividing them into four children cells; the child cell contains the following four vertices: 
 one of the corners of its parent cell, the midpoint of the two edges that contain that corner, 
 and the centroid of the parent cell.
-For simplicity in the refinement process, we also limit that the refinement level differences between 
-neighboring cells do not exceed one, but stress that this is not at all a limitation of PWL functions.
+For simplicity in the refinement process, we also limit the refinement level differences between 
+neighboring cells to one, but stress that this is not at all a limitation of PWLD functions.
 Furthermore, with standard finite element representations, one often imposes refinement of a cell 
 when three or more of its neighbors at the same refinement depth have already been 
-further refined (Bank's $k$-neighbor rule, \cite{banks}). Such a situation would arise for 
+further refined (known as Bank's $k$-neighbor rule, \cite{bank}). Such a situation would arise for a 
 quadrilateral cell when at least three of its four neighbors have been refined,
-then that quadrangle would also be refined. However, with PLW functions, such a cell is viewed as a
-heptagon (three of its neighbors have been refined) with seven unconstrained unknowns or as an 
-octagon (all four neighbors have been refined) with eight unconstrained unknowns.
+then, according to Bank's rule, that quadrangle would also have to be refined. 
+However, with PWLD functions, such a cell is viewed as a
+heptagon (three of its neighbors have been refined) with seven unknowns located at the heptagon's vertices 
+or as an octagon (all four neighbors have been refined) with eight unknowns.
 
 
 
@@ -675,7 +698,8 @@ second-order accurate, and do not suffer excessively from a mesh imprint (especi
 distorted grids) have been a topic of research in numerous publications. Our numerical examples
 are taken from that literature. Earlier works focused on quadrilateral (hexahedral in 3D) grids
 \cite{aaa}. Therefore, we also provide results obtained using four types of quadrilateral meshes: 
-``random'', ``'sinusoidal'', ``Z-mesh'' \cite{kershaw too?}, and the so-called ``Shestakov-Kershaw'' grids.
+``random'', ``'sinusoidal'', Kershaw's ``Z-mesh'' \cite{Kershaw1981}, and the so-called ``Shestakov''
+(due to Shestakov \& Kershaw) grids \cite{Shestakov1988,Sheshakov1990}.
 A random quadrilateral mesh on a rectangular $L_x \times Ly$ domain is obtained by moving the interior 
 vertices of a regular rectangular mesh by a random fraction of the grid spacing: $\pm\xi\delta x$ along 
 the $x$-axis and $\pm\xi\delta y$ along the $y$-axis, where $\delta x\,,\delta y$ is the grid resolution 
@@ -699,8 +723,8 @@ quadrilateral mesh.
 \subsection{A Standard Problem with Linear Exact Solution}
 %-----------------------------------------------------------
 A standard test problem to verify that a numerical scheme preserves linear solutions has been
-proposed in 1D by Morel et al. \cite{morel} and has been extended to multi-D by adding 
-appropriate reflective boundary conditions in several publications \cite{}. This test consists
+proposed by Morel et al. \cite{Morel1992} \tcr{AAAAAAand has been extended to multi-D by adding 
+appropriate reflective boundary conditions} in several publications \cite{aaa}. This test consists
 in solving the radiation diffusion equation on a unit square domain containing an homogeneous pure 
 scatterer material ($\sigma_a=0$), no volumetric sources ($Q=0$), with reflective boundary conditions 
 on the top and bottom faces, and Robin boundary conditions on the left and right faces
@@ -718,7 +742,7 @@ E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
 (b) a a $20 \times 20$ Z-mesh with a randomness factor of $a=0.05$ (recall that for the Z-mesh and the Shestakov, randomness increases
 as $a\to 0$), 
 (c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$, and 
-(d) a small  $3 \times 3$ non-convex grid due to Shashkov \cite{shashkov}.
+(d) a small  $3 \times 3$ non-convex grid due to Shashkov \cite{ShashkovSteinberg1996}.
 \tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 
 %5 quads /256 had the cell centers lying outside of their cell. 
 The linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
@@ -842,7 +866,7 @@ Hendecagon&   0 & 6  &  2 \\ \hline
 %-----------------------------------------------------------
 
 In this Section, we compare the convergence rates of PWLD finite elements on several quadrilateral
-and polygonal meshes using the method of manufactured solutions \cite{mms}. Using the following exact solution,
+and polygonal meshes using the method of manufactured solutions \cite{roache_2009}. Using the following exact solution,
 \begin{equation}
 	E^{\textit{exa}}(x,y) = \sin(\nu \pi x/L_x) \sin(\nu\pi y/L_y) \qquad \text{in } \D=[0,L_x]\times [0,L_y]
 \end{equation}
@@ -919,7 +943,7 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 }
 \subfigure[Z Meshes]{
 \includegraphics[scale=0.28]{../pwld_diffusion/results/convergence/cv_Z_quad}
-\label{fig:cv_rate_shes_quad}
+\label{fig:cv_rate_Z_quad}
 }
 \caption{Convergence Rates for Shestakov and Z Quadrilateral Grids as a function of the randomness parameter $a$ (Shestakov) and the skewness parameter $s$ (Z)}
 \label{fig:conv_rate_shes_Z_quad}
@@ -1020,11 +1044,11 @@ Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids an
 \centering
 \subfigure[6374 $N_\textit{dof}$  Random, Mesh]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_msh0004}
-\label{fig:cv_smooth_poly_mesh_nm2}
+\label{fig:cv_random_poly_mesh_nm2}
 }
 \subfigure[6374 $N_\textit{dof}$  Random, Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_sol0004}
-\label{fig:cv_smooth_poly_isoline_nm2}
+\label{fig:cv_random_poly_isoline_nm2}
 }
 %
 \subfigure[6332 $N_\textit{dof}$  Sinusoidal, Mesh]{
@@ -1066,7 +1090,7 @@ of convergence of PWLD AMR with PWLD on uniformly refined grids.In the AMR proce
 error is within 20\% of the maximum detected error are flanged for refinement, that is, a value of 
 $\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
 To compare the numerical errors and obtain the rate of convergence, we employed again the method of 
-manufactured solutions \cite{mms}. This time, a strongly spatially varying function is chosen
+manufactured solutions. This time, a strongly spatially varying function is chosen
 for the exact solution:
 \begin{equation}
 	E^{\textit{exa}}(x,y) = 100 \frac{xy(L_x-x)(L_y-y)}{(L_x L_y)^2}\exp\Big(-\frac{(x-x_0)^2+(y-y_0)^2}{\varsigma}\Big)
@@ -1119,11 +1143,11 @@ a factor of 5-6 in terms of the number of unknowns.
 \centering
 \subfigure[Cycle \# 12]{
 \includegraphics[scale=0.2]{../pwld_diffusion/results/amr/special/amr0005}
-\label{fig:amr_cycle_12}
+\label{fig:amr_sol}
 }
 \subfigure[Cycle \# 17]{
 \includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
-\label{fig:amr_cycle_17}
+\label{fig:amr_zoom}
 }
 \caption{AMR Grids .................}
 \label{fig:amr_grids2}
