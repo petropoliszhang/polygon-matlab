@@ -1,12 +1,14 @@
 clear all; close all; clc
 
-L=100;
-n=50;
+L=1;
+n=60;
 h=L/n;
 xi=linspace(0,L,n+1);
 eta=xi;
-fraction=0.15;
-logi_save=true;
+fraction=1/pi/2+.002;
+
+logi_save_plots = false;
+logi_write_file = false;
 
 for i=1:n+1
 %     ax=1;   if(i==1|i==n+1),ax=0;end
@@ -27,11 +29,15 @@ surf(x,y,ones(n+1,n+1))
 view(0,90)
 
 output_file1=strcat('.\figs\smooth_quad_mesh_L',int2str(L),'_n',int2str(n),'_a',num2str(fraction,3));
-print('-dpdf',strcat(output_file1,'.pdf'));
-print('-dpng',strcat(output_file1,'.png'));
-saveas(gcf,strcat(output_file1,'.fig'),'fig');
+if(logi_save_plots)
+    print('-dpdf',strcat(output_file1,'.pdf'));
+    print('-dpng',strcat(output_file1,'.png'));
+    saveas(gcf,strcat(output_file1,'.fig'),'fig');
+end
 
-if(~logi_save), return; end
+%---------------------------------------------
+
+if(~logi_write_file), return; end
 
 %---------------------------------------------
 % save txt file
