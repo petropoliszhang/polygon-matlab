@@ -1,0 +1,234 @@
+Running script that drives the pwld code
+result_basename =
+results\smoo_poly_mms_3_L1_n2_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 9 
+Total number of polygons           = 9 
+Nbr of concave polygons 0 out of 9 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 9 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0156001 
+
+Assembly time = 0.109201 
+Solver time   = 0 
+
+Solution: Min = -1.026007E-01 
+          Max = +4.618379E-01 
+
+Error time    = 0 
+L2 norm time  = 0.0156001 
+	 ndof = 36, L2_error = +4.743525E-01 
+
+Vtk time      = 0.0156001 
+
+
+Time in cycle 1 = 0.374402 
+
+
+-----------------------------
+Total time    = 0.374402 
+geo =
+smooth_poly_mesh_L1_n4_a0.15.txt
+result_basename =
+results\smoo_poly_mms_3_L1_n4_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 1 
+Number of polygons with 4 vertices = 11 
+Number of polygons with 5 vertices = 2 
+Number of polygons with 6 vertices = 8 
+Number of polygons with 7 vertices = 1 
+Number of polygons with 8 vertices = 2 
+Total number of polygons           = 25 
+Nbr of concave polygons 0 out of 25 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 25 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0936006 
+
+Assembly time = 0.374402 
+Solver time   = 0 
+
+Solution: Min = -7.753199E-01 
+          Max = +8.422009E-01 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.0780005 
+	 ndof = 128, L2_error = +3.132122E-01 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 1 = 0.780005 
+
+
+-----------------------------
+Total time    = 0.780005 
+geo =
+smooth_poly_mesh_L1_n8_a0.15.txt
+result_basename =
+results\smoo_poly_mms_3_L1_n8_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 5 
+Number of polygons with 4 vertices = 15 
+Number of polygons with 5 vertices = 25 
+Number of polygons with 6 vertices = 21 
+Number of polygons with 7 vertices = 6 
+Number of polygons with 8 vertices = 9 
+Total number of polygons           = 81 
+Nbr of concave polygons 0 out of 81 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 81 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.218401 
+
+Assembly time = 1.24801 
+Solver time   = 0 
+
+Solution: Min = -9.092734E-01 
+          Max = +1.011176E+00 
+
+Error time    = 0.0468003 
+L2 norm time  = 0.202801 
+	 ndof = 440, L2_error = +1.200333E-01 
+
+Vtk time      = 0.109201 
+
+
+Time in cycle 1 = 2.05921 
+
+
+-----------------------------
+Total time    = 2.05921 
+geo =
+smooth_poly_mesh_L1_n16_a0.15.txt
+result_basename =
+results\smoo_poly_mms_3_L1_n16_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 8 
+Number of polygons with 4 vertices = 27 
+Number of polygons with 5 vertices = 76 
+Number of polygons with 6 vertices = 122 
+Number of polygons with 7 vertices = 52 
+Number of polygons with 8 vertices = 4 
+Total number of polygons           = 289 
+Nbr of concave polygons 0 out of 289 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 289 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.686404 
+
+Assembly time = 4.80483 
+Solver time   = 0.0312002 
+
+Solution: Min = -9.900987E-01 
+          Max = +1.034362E+00 
+
+Error time    = 0.0936006 
+L2 norm time  = 0.748805 
+	 ndof = 1640, L2_error = +3.618103E-02 
+
+Vtk time      = 0.436803 
+
+
+Time in cycle 1 = 7.36325 
+
+
+-----------------------------
+Total time    = 7.36325 
+geo =
+smooth_poly_mesh_L1_n32_a0.15.txt
+result_basename =
+results\smoo_poly_mms_3_L1_n32_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 4 
+Number of polygons with 4 vertices = 103 
+Number of polygons with 5 vertices = 216 
+Number of polygons with 6 vertices = 562 
+Number of polygons with 7 vertices = 176 
+Number of polygons with 8 vertices = 28 
+Total number of polygons           = 1089 
+Nbr of concave polygons 0 out of 1089 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 1089 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 3.21362 
+
+Assembly time = 20.3581 
+Solver time   = 0.0624004 
+
+Solution: Min = -9.953974E-01 
+          Max = +1.000190E+00 
+
+Error time    = 0.265202 
+L2 norm time  = 2.91722 
+	 ndof = 6332, L2_error = +9.577942E-03 
+
+Vtk time      = 1.17001 
+
+
+Time in cycle 1 = 29.4374 
+
+
+-----------------------------
+Total time    = 29.4374 
+geo =
+smooth_poly_mesh_L1_n64_a0.15.txt
+result_basename =
+results\smoo_poly_mms_3_L1_n64_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 231 
+Number of polygons with 5 vertices = 588 
+Number of polygons with 6 vertices = 2878 
+Number of polygons with 7 vertices = 424 
+Number of polygons with 8 vertices = 104 
+Total number of polygons           = 4225 
+Nbr of concave polygons 0 out of 4225 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4225 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 22.5577 
+
+Assembly time = 105.223 
+Solver time   = 0.452403 
+
+Solution: Min = -9.991245E-01 
+          Max = +1.001466E+00 
+
+Error time    = 1.02961 
+L2 norm time  = 11.4817 
+	 ndof = 24932, L2_error = +2.406777E-03 
+
+Vtk time      = 4.72683 
+
+
+Time in cycle 1 = 151.181 
+
+
+-----------------------------
+Total time    = 151.181 
+>> 

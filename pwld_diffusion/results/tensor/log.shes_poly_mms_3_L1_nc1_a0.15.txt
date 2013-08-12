@@ -1,0 +1,246 @@
+Running script that drives the pwld code
+result_basename =
+results\shes_poly_mms_3_L1_nc1_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 3 
+Number of polygons with 5 vertices = 4 
+Number of polygons with 6 vertices = 2 
+Total number of polygons           = 9 
+Nbr of concave polygons 0 out of 9 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 9 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0.140401 
+Solver time   = 0 
+
+Solution: Min = -2.427532E-01 
+          Max = +7.007782E-01 
+
+Error time    = 0 
+L2 norm time  = 0.0312002 
+	 ndof = 44, L2_error = +4.502226E-01 
+
+Vtk time      = 0.0156001 
+
+
+Time in cycle 1 = 0.530403 
+
+
+-----------------------------
+Total time    = 0.530403 
+geo =
+shestakov_poly_mesh_L1_nc2_a0.15.txt
+result_basename =
+results\shes_poly_mms_3_L1_nc2_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 1 
+Number of polygons with 4 vertices = 11 
+Number of polygons with 5 vertices = 4 
+Number of polygons with 6 vertices = 4 
+Number of polygons with 7 vertices = 3 
+Number of polygons with 8 vertices = 2 
+Total number of polygons           = 25 
+Nbr of concave polygons 0 out of 25 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 25 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0780005 
+
+Assembly time = 0.374402 
+Solver time   = 0 
+
+Solution: Min = -9.026580E-01 
+          Max = +9.285371E-01 
+
+Error time    = 0 
+L2 norm time  = 0.0624004 
+	 ndof = 128, L2_error = +3.066750E-01 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 1 = 0.717605 
+
+
+-----------------------------
+Total time    = 0.733205 
+geo =
+shestakov_poly_mesh_L1_nc3_a0.15.txt
+result_basename =
+results\shes_poly_mms_3_L1_nc3_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 19 
+Number of polygons with 5 vertices = 24 
+Number of polygons with 6 vertices = 18 
+Number of polygons with 7 vertices = 16 
+Number of polygons with 8 vertices = 4 
+Total number of polygons           = 81 
+Nbr of concave polygons 0 out of 81 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 81 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.218401 
+
+Assembly time = 1.35721 
+Solver time   = 0 
+
+Solution: Min = -1.086879E+00 
+          Max = +9.298488E-01 
+
+Error time    = 0.0312002 
+L2 norm time  = 0.202801 
+	 ndof = 448, L2_error = +1.607846E-01 
+
+Vtk time      = 0.109201 
+
+
+Time in cycle 1 = 2.15281 
+
+
+-----------------------------
+Total time    = 2.15281 
+geo =
+shestakov_poly_mesh_L1_nc4_a0.15.txt
+result_basename =
+results\shes_poly_mms_3_L1_nc4_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 9 
+Number of polygons with 4 vertices = 54 
+Number of polygons with 5 vertices = 86 
+Number of polygons with 6 vertices = 59 
+Number of polygons with 7 vertices = 53 
+Number of polygons with 8 vertices = 19 
+Number of polygons with 9 vertices = 4 
+Number of polygons with 10 vertices = 5 
+Total number of polygons           = 289 
+Nbr of concave polygons 0 out of 289 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 289 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.717605 
+
+Assembly time = 4.89843 
+Solver time   = 0.0156001 
+
+Solution: Min = -1.052715E+00 
+          Max = +1.023457E+00 
+
+Error time    = 0.0624004 
+L2 norm time  = 0.795605 
+	 ndof = 1636, L2_error = +6.054172E-02 
+
+Vtk time      = 0.436803 
+
+
+Time in cycle 1 = 7.39445 
+
+
+-----------------------------
+Total time    = 7.39445 
+geo =
+shestakov_poly_mesh_L1_nc5_a0.15.txt
+result_basename =
+results\shes_poly_mms_3_L1_nc5_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 12 
+Number of polygons with 4 vertices = 152 
+Number of polygons with 5 vertices = 307 
+Number of polygons with 6 vertices = 315 
+Number of polygons with 7 vertices = 189 
+Number of polygons with 8 vertices = 82 
+Number of polygons with 9 vertices = 26 
+Number of polygons with 10 vertices = 4 
+Number of polygons with 11 vertices = 1 
+Number of polygons with 12 vertices = 1 
+Total number of polygons           = 1089 
+Nbr of concave polygons 0 out of 1089 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 1089 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 2.85482 
+
+Assembly time = 20.1709 
+Solver time   = 0.0936006 
+
+Solution: Min = -1.012068E+00 
+          Max = +1.005647E+00 
+
+Error time    = 0.265202 
+L2 norm time  = 3.02642 
+	 ndof = 6345, L2_error = +2.009227E-02 
+
+Vtk time      = 1.26361 
+
+
+Time in cycle 1 = 29.1878 
+
+
+-----------------------------
+Total time    = 29.1878 
+geo =
+shestakov_poly_mesh_L1_nc6_a0.15.txt
+result_basename =
+results\shes_poly_mms_3_L1_nc6_a0.15
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 51 
+Number of polygons with 4 vertices = 564 
+Number of polygons with 5 vertices = 1142 
+Number of polygons with 6 vertices = 1170 
+Number of polygons with 7 vertices = 795 
+Number of polygons with 8 vertices = 349 
+Number of polygons with 9 vertices = 121 
+Number of polygons with 10 vertices = 27 
+Number of polygons with 11 vertices = 5 
+Number of polygons with 12 vertices = 1 
+Total number of polygons           = 4225 
+Nbr of concave polygons 1 out of 4225 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4225 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 17.1757 
+
+Assembly time = 104.989 
+Solver time   = 0.312002 
+
+Solution: Min = -1.004680E+00 
+          Max = +1.004167E+00 
+
+Error time    = 1.04521 
+L2 norm time  = 11.2477 
+	 ndof = 24922, L2_error = +6.091857E-03 
+
+Vtk time      = 4.71123 
+
+
+Time in cycle 1 = 144.941 
+
+
+-----------------------------
+Total time    = 144.941 
+>> 

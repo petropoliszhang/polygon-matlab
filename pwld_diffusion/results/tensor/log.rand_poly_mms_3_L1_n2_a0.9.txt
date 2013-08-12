@@ -1,0 +1,250 @@
+Running script that drives the pwld code
+result_basename =
+results\rand_poly_mms_3_L1_n2_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 4 vertices = 3 
+Number of polygons with 5 vertices = 4 
+Number of polygons with 6 vertices = 2 
+Total number of polygons           = 9 
+Nbr of concave polygons 0 out of 9 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 9 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0312002 
+
+Assembly time = 0.140401 
+Solver time   = 0 
+
+Solution: Min = -4.529325E-01 
+          Max = +6.431302E-01 
+
+Error time    = 0 
+L2 norm time  = 0.0156001 
+	 ndof = 44, L2_error = +4.429015E-01 
+
+Vtk time      = 0.0312002 
+
+
+Time in cycle 1 = 0.452403 
+
+
+-----------------------------
+Total time    = 0.452403 
+geo =
+random_poly_mesh_L1_n4_a0.9.txt
+result_basename =
+results\rand_poly_mms_3_L1_n4_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 1 
+Number of polygons with 4 vertices = 7 
+Number of polygons with 5 vertices = 8 
+Number of polygons with 6 vertices = 6 
+Number of polygons with 7 vertices = 2 
+Number of polygons with 8 vertices = 0 
+Number of polygons with 9 vertices = 1 
+Total number of polygons           = 25 
+Nbr of concave polygons 0 out of 25 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 25 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.0624004 
+
+Assembly time = 0.374402 
+Solver time   = 0 
+
+Solution: Min = -9.266857E-01 
+          Max = +1.045759E+00 
+
+Error time    = 0 
+L2 norm time  = 0.0624004 
+	 ndof = 130, L2_error = +2.362652E-01 
+
+Vtk time      = 0.0468003 
+
+
+Time in cycle 1 = 0.702005 
+
+
+-----------------------------
+Total time    = 0.702005 
+geo =
+random_poly_mesh_L1_n8_a0.9.txt
+result_basename =
+results\rand_poly_mms_3_L1_n8_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 4 
+Number of polygons with 4 vertices = 16 
+Number of polygons with 5 vertices = 25 
+Number of polygons with 6 vertices = 21 
+Number of polygons with 7 vertices = 7 
+Number of polygons with 8 vertices = 7 
+Number of polygons with 9 vertices = 0 
+Number of polygons with 10 vertices = 0 
+Number of polygons with 11 vertices = 1 
+Total number of polygons           = 81 
+Nbr of concave polygons 0 out of 81 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 81 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.234001 
+
+Assembly time = 1.31041 
+Solver time   = 0 
+
+Solution: Min = -9.655510E-01 
+          Max = +1.102724E+00 
+
+Error time    = 0.0156001 
+L2 norm time  = 0.234002 
+	 ndof = 443, L2_error = +1.256656E-01 
+
+Vtk time      = 0.0936006 
+
+
+Time in cycle 1 = 2.12161 
+
+
+-----------------------------
+Total time    = 2.12161 
+geo =
+random_poly_mesh_L1_n16_a0.9.txt
+result_basename =
+results\rand_poly_mms_3_L1_n16_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 4 
+Number of polygons with 4 vertices = 50 
+Number of polygons with 5 vertices = 86 
+Number of polygons with 6 vertices = 70 
+Number of polygons with 7 vertices = 52 
+Number of polygons with 8 vertices = 20 
+Number of polygons with 9 vertices = 5 
+Number of polygons with 10 vertices = 2 
+Total number of polygons           = 289 
+Nbr of concave polygons 0 out of 289 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 289 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 0.686404 
+
+Assembly time = 4.78923 
+Solver time   = 0.0312002 
+
+Solution: Min = -1.029018E+00 
+          Max = +1.000295E+00 
+
+Error time    = 0.0936006 
+L2 norm time  = 0.764405 
+	 ndof = 1651, L2_error = +3.534501E-02 
+
+Vtk time      = 0.327602 
+
+
+Time in cycle 1 = 7.16045 
+
+
+-----------------------------
+Total time    = 7.16045 
+geo =
+random_poly_mesh_L1_n32_a0.9.txt
+result_basename =
+results\rand_poly_mms_3_L1_n32_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 17 
+Number of polygons with 4 vertices = 147 
+Number of polygons with 5 vertices = 288 
+Number of polygons with 6 vertices = 308 
+Number of polygons with 7 vertices = 224 
+Number of polygons with 8 vertices = 75 
+Number of polygons with 9 vertices = 22 
+Number of polygons with 10 vertices = 7 
+Number of polygons with 11 vertices = 1 
+Total number of polygons           = 1089 
+Nbr of concave polygons 0 out of 1089 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 1089 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 3.01082 
+
+Assembly time = 20.0773 
+Solver time   = 0.0936006 
+
+Solution: Min = -1.011155E+00 
+          Max = +9.997770E-01 
+
+Error time    = 0.280802 
+L2 norm time  = 2.88602 
+	 ndof = 6374, L2_error = +8.634209E-03 
+
+Vtk time      = 1.21681 
+
+
+Time in cycle 1 = 29.0006 
+
+
+-----------------------------
+Total time    = 29.0006 
+geo =
+random_poly_mesh_L1_n64_a0.9.txt
+result_basename =
+results\rand_poly_mms_3_L1_n64_a0.9
+
+--------------------------------------------
+------ Initial mesh (cycle 1) ------
+--------------------------------------------
+Number of polygons with 3 vertices = 50 
+Number of polygons with 4 vertices = 489 
+Number of polygons with 5 vertices = 1080 
+Number of polygons with 6 vertices = 1299 
+Number of polygons with 7 vertices = 851 
+Number of polygons with 8 vertices = 351 
+Number of polygons with 9 vertices = 79 
+Number of polygons with 10 vertices = 20 
+Number of polygons with 11 vertices = 5 
+Number of polygons with 12 vertices = 1 
+Total number of polygons           = 4225 
+Nbr of concave polygons 0 out of 4225 cells 
+total area read in geom = 1 
+0 centroid(s) outside out of 4225 cells 
+fraction of centroids outside of polygon = 0 
+fraction of centroids on edge of polygon = 0 
+Mesh time     = 16.9729 
+
+Assembly time = 105.878 
+Solver time   = 0.561604 
+
+Solution: Min = -9.996654E-01 
+          Max = +1.001917E+00 
+
+Error time    = 1.02961 
+L2 norm time  = 11.3257 
+	 ndof = 25043, L2_error = +2.188994E-03 
+
+Vtk time      = 4.72683 
+
+
+Time in cycle 1 = 145.877 
+
+
+-----------------------------
+Total time    = 145.877 
+>> 
