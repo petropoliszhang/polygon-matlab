@@ -52,8 +52,12 @@ if ~logi_mms
         error('undefined problem type');
     end
 else
-    tot = 2; sca = 1;
-    c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0;
+    if(mms_type<=2)
+        tot = 2; sca = 1;
+        c_diff=1/(3*tot); sigma_a=tot-sca; S_ext=0;
+    else
+        c_diff=1*[1 1]; sigma_a=0*[1 1]; S_ext=[0 0];
+    end
     bc_val = [];
 end%
 %------------------------------------------------
@@ -62,7 +66,7 @@ t_beg=cputime;
 %
 % numerical parameters
 %
-C_pen=4*1;
+C_pen=4*10;
 C_pen_bd=2*C_pen;
 %
 %------------------------------------------------
@@ -131,6 +135,21 @@ if(logi_mms)
             surf(uu,vv,zz)
             %             figure(999)
             %             surf(uu,vv,mms(uu,vv))
+        case{3}
+            % exact solution
+            freq=3;
+            exact=@(x,y) sin(freq*pi*x/Lx).*sin(freq*pi*y/Ly);
+            % forcing rhs
+            mms=@(sigma_a_,c_diff_,x,y) sigma_a_.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly)+1.0./Ly.^2.*pi.^2.*c_diff_.*freq.^2.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly).*(x+1.0).^2-(pi.*c_diff_.*freq.*cos((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly).*(x.*2.0+2.0))./Lx+1.0./Lx.^2.*pi.^2.*c_diff_.*freq.^2.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly).*((x+1.0).^2+y.^2)+(pi.*c_diff_.*freq.*x.*cos((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly))./Lx+(pi.*c_diff_.*freq.*y.*cos((pi.*freq.*y)./Ly).*sin((pi.*freq.*x)./Lx))./Ly+(pi.^2.*c_diff_.*freq.^2.*x.*y.*cos((pi.*freq.*x)./Lx).*cos((pi.*freq.*y)./Ly).*2.0)./(Lx.*Ly);
+            %             mms=@(sigma_a_,c_diff_,x,y) sigma_a_.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly)+1.0./Lx.^2.*pi.^2.*freq.^2.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly)+1.0./Ly.^2.*pi.^2.*freq.^2.*sin((pi.*freq.*x)./Lx).*sin((pi.*freq.*y)./Ly);
+            % select quadrature order
+            n_quad = 12;
+            xx=linspace(0,Lx);
+            yy=linspace(0,Ly);
+            [uu,vv]=meshgrid(xx,yy);
+            zz=mms(0,1,uu,vv);
+            figure(99)
+            surf(uu,vv,zz)
         otherwise
             error('wrong mss type');
     end
