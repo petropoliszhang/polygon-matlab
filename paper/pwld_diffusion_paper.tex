@@ -278,9 +278,9 @@ The motivations for employing discontinuous finite elements on polygonal grids a
 %	the discretization of the diffusion equation on polygonal meshes; \\
 	prior works dealing with the spatial discretization of the radiation diffusion equation on polygonal meshes 
 	have used finite volume, mimetic finite differences, and continuous finite element techniques;  
-	we wish to assess the performance of Piece-Wise linear discontinuous finite elements for such grids;
+	we wish to test the performance of Piece-Wise linear discontinuous finite elements for such grids;
 \item prior works also dealt with spatial discretization errors on highly distorted quadrilateral grids; 
-  we \tcr{wish to assess} the accuracy of a PWLD discretization on such grids as well; 
+  we wish to assess the accuracy of a PWLD discretization on such grids as well; 
 \item a diffusion solve often serves as a synthetic accelerator or preconditioner for 
   iterative solution techniques applied to radiation transport problems
 	\cite{AdamsLarsen2002,JamesS.Warsa2004}. On unstructured and polygonal/polyhedral grids,
@@ -314,7 +314,7 @@ equation is reviewed in \sct{sec:ip}.
 Mesh adaptivity utilizing piecewise linear basis function is presented in 
 \sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented here 
 are borrowed from the literature on spatial discretization techniques applied to 
-the diffusion equation \tcr{solved} on highly distorted quadrilateral grids and polygonal grids.
+the diffusion equation solved on highly distorted quadrilateral grids and polygonal grids.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -327,8 +327,8 @@ the diffusion equation \tcr{solved} on highly distorted quadrilateral grids and 
 
 Polygonal cells are an alternative to standard (triangles/quads) mesh partitioning.
 Mesh generation using polygons (polyhedra in 3D) is an active area of research.
-Some meshing tools, such as MSTK \cite{mstk} and the Computational Geometry Algorithms 
-Library \cite{cgal}, may be employed to generate/process polygonal meshes.  
+Some meshing tools, such as MSTK \cite{garimella-2004-mstk} and the Computational Geometry Algorithms 
+Library \cite{cgal,cgal:gw-p2-12b}, may be employed to generate/process polygonal meshes.  
 Several CFD codes (Fluent, StarCCM, OpenFoam) also offer polygonal meshing and solver capabilities. 
 %
 The rationale for polygonal/polyhedral cells is as follows.
@@ -621,7 +621,7 @@ using the area and perimeter of the actual polygonal cell.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Solutions with strong and rapid spatial variations can be accurately captured using mesh adaptivity
-\cite{Ainsworth1997}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
+\cite{Ainsworth2000}. Adaptive Mesh Refinement (AMR) techniques require local error estimates to determine
 which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
 across the edges (faces in 3D) between neighboring cells. The magnitude of these jumps is 
 small in regions where the solution is smooth and can be significantly larger in regions where
@@ -693,76 +693,101 @@ or as an octagon (all four neighbors have been refined) with eight unknowns.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Solution techniques to the radiation diffusion equation that preserve linear solution, are 
+Solution techniques that preserve linear solutions, are 
 second-order accurate, and do not suffer excessively from a mesh imprint (especially when using highly
-distorted grids) have been a topic of research in numerous publications. Our numerical examples
-are taken from that literature. Earlier works focused on quadrilateral (hexahedral in 3D) grids
-\cite{aaa}. Therefore, we also provide results obtained using four types of quadrilateral meshes: 
-``random'', ``'sinusoidal'', Kershaw's ``Z-mesh'' \cite{Kershaw1981}, and the so-called ``Shestakov''
-(due to Shestakov \& Kershaw) grids \cite{Shestakov1988,Sheshakov1990}.
-A random quadrilateral mesh on a rectangular $L_x \times Ly$ domain is obtained by moving the interior 
-vertices of a regular rectangular mesh by a random fraction of the grid spacing: $\pm\xi\delta x$ along 
+distorted grids) have been a topic of research in numerous publications dealing with the discretization of the
+the radiation diffusion equation . Our numerical examples
+are taken from that literature. Earlier works focused on quadrilateral (and hexahedral) grids
+\cite{Morel1992,MorelRobertsShashkov1998,MorelHallShashkov2001,Palmer2001} and, therefore, 
+we also provide results obtained using four types of quadrilateral meshes used in those publications: 
+\begin{enumerate}
+\item 
+``random'' grids, obtained by displacing interior vertices of a uniform orthogonal grid by a fraction
+of the original cell width: $\pm\xi\delta x$ along 
 the $x$-axis and $\pm\xi\delta y$ along the $y$-axis, where $\delta x\,,\delta y$ is the grid resolution 
 and $\xi$ is a random number ($0 \le \xi \le 1$). $\xi=0$ returns the original rectangular grid. In 
-the literature, a value of $\xi$ in the order of 0.25 is often employed; here we show results with $\xi$ up to 0.65. 
-Above 0.70, the original cells are often flipped onto themselves. The Z-mesh and Shestakov 
-mesh are meant to model grid distortions that occur in Lagrangian hydrodynamic simulations. 
-For Shestakov meshes, the randomness parameter $a$ varies between 0 (extremely distorted) 
-and 0.5 (structured rectangular); this notation appeared in Shestakov's original publication and it is 
-easy to note the equivalence $\xi = 1-2a$.
+the literature, a value of $\xi$ in the order of 0.25 or less is often employed; here we show results with $\xi$ up to 0.65. 
+Above 0.65, some of the original cells are often flipped onto themselves. 
+\item
+ ``'sinusoidal'' grids, given by the transformation
+\begin{align*}
+x_{i,j} &= \hat x_i + \epsilon L_x \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) \\
+y_{i,j} &= \hat y_i + \epsilon L_y \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) 
+\end{align*}
+with $(\hat x_i, \hat y_i)$ the vertices of a uniform orthogonal grid over the rectangular domain 
+$[0\, , L_x]\times [0\, , L_y]$, and $\epsilon$ a distortion parameter ($0\le \epsilon \le 1/(2\pi)$). 
+A rectangular mesh is recovered when $\epsilon=0$. $\epsilon$ is user-specified and not randomly generated.
+\item
+Kershaw's ``Z-mesh'' \cite{Kershaw1981}.  
 For Z-meshes, the skewness parameter $s$ varies between 0 (extremely skewed) and 0.5 (structured rectangular)
 but note that here, $s$ is user-specified and not randomly generated.
+\item 
+``Shestakov'' grids (due to Shestakov \& Kershaw, \cite{Shestakov1988,Sheshakov1990}).
+For Shestakov meshes, the randomness parameter $a$ varies between 0 (extremely distorted) 
+and 0.5 (structured rectangular).
+%; this notation appeared in Shestakov's original publication and it is easy to note the equivalence $\xi = 1-2a$.
+\end{enumerate}
+%A random quadrilateral mesh on a rectangular $L_x \times Ly$ domain is obtained by moving the interior 
+%vertices of a regular rectangular mesh by a random fraction of the grid spacing
+The Z- and Shestakov meshes are meant to model grid distortions that occur in Lagrangian hydrodynamic 
+simulations. 
 
-Polygonal grids employed here are obtained by computing a bounded Voronoi diagram, using the 
-vertices generated from the previous quadrilateral meshes (either the random, sinusoidal, Z-mesh, 
+
+Our examples using polygonal grids are also taken from the current literature 
+\cite{Kuznetsov2004,Brezzi2005,BaileyAdams2008}.
+The polygonal grids employed here are generated by computing a bounded Voronoi diagram, using the 
+vertices generated from one of the previous quadrilateral meshes (either the random, sinusoidal, Z-mesh, 
 or Shestakov quadrilateral grids). The Voronoi diagram is bounded to the size of the original 
 quadrilateral mesh.
 
+The discrete linear system of equation is solved using a preconditioned conjugate gradient (PCG) algorithm. 
+SSOR and aggregation Algebraic MultiGrid \cite{agmg}  are used as preconditioner. A reduction of the
+initial residual norm by a factor of $10^{10}$ is used as the stopping criterion for PCG. 
 
 %-----------------------------------------------------------
 \subsection{A Standard Problem with Linear Exact Solution}
 %-----------------------------------------------------------
 A standard test problem to verify that a numerical scheme preserves linear solutions has been
-proposed by Morel et al. \cite{Morel1992} \tcr{AAAAAAand has been extended to multi-D by adding 
-appropriate reflective boundary conditions} in several publications \cite{aaa}. This test consists
-in solving the radiation diffusion equation on a unit square domain containing an homogeneous pure 
+proposed by Morel et al. \cite{Morel1992}. This test consists
+in solving the radiation diffusion equation on a rectangular domain containing an homogeneous pure 
 scatterer material ($\sigma_a=0$), no volumetric sources ($Q=0$), with reflective boundary conditions 
 on the top and bottom faces, and Robin boundary conditions on the left and right faces
 \begin{align}
   E(0) - 2 D \left.\partial_x E\right|_0 &= 4F^{inc} \ \forall y \textrm{ at } x=0, \\
-  E(1) + 2 D \left.\partial_x E\right|_1 &= 0 \ \forall y \textrm{ at } x=1.
+  E(L_x) + 2 D \left.\partial_x E\right|_{L_x} &= 0 \ \forall y \textrm{ at } x=L_x.
 \end{align}
-The exact solution (for a domain of length $L$ in the $x$-direction) is
+The exact solution (for a domain of length $L_x$ in the $x$-direction) is
 \begin{equation}
-E(x,y) = 	\frac{4F^{inc}}{L+4D}\left(L+2D-x \right)
+E(x,y) = 	\frac{4F^{inc}}{L_x+4D}\left(L_x+2D-x \right)
 \end{equation}
 
 \fig{fig:linear_quad} presents the isolines obtained for this problems using four different quadrilateral grids:
 (a) a $16 \times 16$ random grid obtained by randomly moving the vertices of a rectangular grids by 66\% ($\alpha=0.66$), 
-(b) a a $20 \times 20$ Z-mesh with a randomness factor of $a=0.05$ (recall that for the Z-mesh and the Shestakov, randomness increases
-as $a\to 0$), 
-(c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$, and 
-(d) a small  $3 \times 3$ non-convex grid due to Shashkov \cite{ShashkovSteinberg1996}.
+(b) a $20 \times 20$ Z-mesh with a skewness factor of $s=0.05$ (recall that for Z-meshes, skewness increases
+as $s\to 0$), 
+(c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$ (recall also that for Shestakov meshes, 
+randomness increases as $a\to 0$), and 
+(d) a small $3 \times 3$ non-convex grid due to Shashkov \cite{ShashkovSteinberg1996}.
 \tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 
 %5 quads /256 had the cell centers lying outside of their cell. 
 The linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
-%
-\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to general a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarized the types and number of polygonal cells found in each of these grids. 
-For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. Again with the quadrilateral grids,  the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
+
+\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarized the types and number of polygonal cells found in each of these grids. 
+For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
 
 
 \pagebreak
 \begin{figure}[!hbtp]
 \centering
-\subfigure[Random quads $\alpha=0.66$]{
+\subfigure[Random quads, $\alpha=0.66$]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/rand/rand_quad_linear_L1_n16_a0_66}
 \label{fig:linear_rand_quad}
 }
-\subfigure[Z-mesh]{
+\subfigure[Z-mesh, $s=0.05$]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/z-mesh/zzzz_quad_linear_L1_n20_a0_05}
 \label{fig:linear_z_quad}
 }
-\subfigure[Shestakov $a=0.15$]{
+\subfigure[Shestakov, $a=0.15$]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/shes/shes_quad_linear_L1_nc4_a0_15}
 \label{fig:linear_shes_quad}
 }
@@ -770,7 +795,7 @@ For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:line
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/quads/misha}
 \label{fig:linear_misha}
 }
-\caption{Linear solution, 16x16 quads/shes,20x20Z,3x3misha}
+\caption{Linear solutions on quadrilateral grids}
 \label{fig:linear_quad}
 \end{figure}
 
@@ -779,7 +804,7 @@ For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:line
 	\centering
 		\begin{tabular}{|l||c|}
 		\hline
-		Grid      & \# of convex cells / total \# of cells \\ \hline\hline
+		Grid  of \fig{fig:linear_quad}    & \# of convex cells / total \# of cells \\ \hline\hline
 		Random    & 54 / 256 \\ \hline
 		Z-mesh    &  0 / 400 \\ \hline
 		Shestakov & 22 / 256 \\ \hline
@@ -804,7 +829,7 @@ For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:line
 \includegraphics[scale=0.15]{../pwld_diffusion/results/linear/poly/shes/shes_poly_linear_L1_nc4_a0_02}
 \label{fig:linear_shes_poly}
 }
-\caption{Linear solution, 16x16 quads/shes,20x20Z,3x3misha}
+\caption{Linear solution on polygonal grids}
 \label{fig:linear_poly}
 \end{figure}
 
@@ -856,7 +881,7 @@ Nonagon   &   4 & 4  & 18 \\ \hline
 Decagon   &   0 & 0  &  2 \\ \hline
 Hendecagon&   0 & 6  &  2 \\ \hline		
 		\end{tabular}
-	\caption{Number and type of polygonal cells shown in in \fig{fig:linear_poly}}
+	\caption{Number and type of polygonal cells shown in \fig{fig:linear_poly}}
 	\label{tab:poly_cell_types_linear_poly}
 \end{table}
 
@@ -865,17 +890,18 @@ Hendecagon&   0 & 6  &  2 \\ \hline
 \subsection{Convergence Rate Studies On Distorted Meshes}
 %-----------------------------------------------------------
 
-In this Section, we compare the convergence rates of PWLD finite elements on several quadrilateral
+In this example, we compare the convergence rates of PWLD finite elements on several quadrilateral
 and polygonal meshes using the method of manufactured solutions \cite{roache_2009}. Using the following exact solution,
 \begin{equation}
 	E^{\textit{exa}}(x,y) = \sin(\nu \pi x/L_x) \sin(\nu\pi y/L_y) \qquad \text{in } \D=[0,L_x]\times [0,L_y]
 \end{equation}
-with zero-Dirichlet boundary conditions (and $\nu$ a frequency parameter, chosen to be 3 here), one can compute 
-the corresponding volumetric source term $Q(x,y)$ for the diffusion equation. Then, by solving on a sequence of
+with zero-Dirichlet boundary conditions, $D=1/6$, $\sigma_a=1$, and $\nu$, a frequency parameter, chosen to be 3 here, one can compute 
+the corresponding volumetric source term $Q(x,y)$ for the diffusion equation. Then, by solving \eqt{eq:radiation_diffusion} 
+on a sequence of
 grids with increasing resolution, one can determine the convergence rate of the $L_2$-norm of the error
 as a function of the number of unknowns. The $L_2$-norm of the error, $\varepsilon_h$, is defined in the usual manner:
 \begin{equation}
-	\varepsilon_h^2 = \| E^{\textit{exa}} - E_h \|^2_\D = \int_D \left[ E^{\textit{exa}}(x,y)  - E_h(x,y) \right]^2 \, dxdy	\, .
+	\varepsilon_h^2 = \| E^{\textit{exa}} - E_h \|^2_\D = \int_\D \left[ E^{\textit{exa}}(x,y)  - E_h(x,y) \right]^2 \, dxdy	\, .
 \end{equation}
 To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used. This can be summarized as follows:
 \begin{equation}
@@ -885,11 +911,11 @@ To compute with high accuracy the integral of a generic function $f$ on an arbit
 \end{equation}
 Note that the same process (subdivision of $K$ into sides that are further split into quadrangles) is also employed to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
 
-For uniform structured meshes, it is fairly straightforward to obtain the asymptotic convergence rate by plotting the error $\varepsilon_h$ versus the mesh size $h$. Grid resolution is also related to the number of degrees of freedom, $N_\textit{dof}$ (unknowns) via 
+For uniform structured meshes, it is fairly straightforward to obtain the asymptotic convergence rate by plotting the error $\varepsilon_h$ versus the mesh size $h$. Conversely, grid resolution is also related to the number of degrees of freedom, $N_\textit{dof}$ (unknowns) via 
 \begin{equation}
 N_{\textit{dof}} \propto  h ^{-\dim} 
 \end{equation}
-where $\dim$ is the dimensionality of the domain (here $\dim = 2$). Hence, a second-order convergence rate will translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
+where $\dim$ is the dimensionality of the domain (here, $\dim = 2$). Hence, a second-order convergence rate will translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
 
 \subsubsection{Distorted Quadrilateral Meshes}
 %--------------------------------------------
@@ -1097,6 +1123,7 @@ for the exact solution:
 	 \quad \text{in } \D=[0,L_x]\times [0,L_y] \,.
 \end{equation}
 We have chosen the location of the peak to be $x_0=\tfrac{6}{10}L_x$, $y_0=\tfrac{7}{10}L_y$, with $\varsigma=L_xL_y/100$. 
+Thew diffusion coefficient and absorption cross section are  $D=1/6$ and $\sigma_a=1$. 
 This exact solution satisfies zero-Dirichlet boundary conditions. One then can compute 
 the corresponding volumetric source term $Q(x,y)$ used to generate the right-hand of the discrete linear system. 
 We solve the radiation diffusion equation on a sequence of grids with increasing resolution. The coarsest grid level
