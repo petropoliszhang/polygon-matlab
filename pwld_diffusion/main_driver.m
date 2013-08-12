@@ -11,6 +11,8 @@ geo = 'z_mesh_quad_L1_n20_a0.2.txt';
 % geo = 'z_mesh_quad_L1_n20_a0.4.txt';
 % geo = 'z_mesh_quad_L1_n20_a0.25.txt';
 geo = 'z_mesh_quad_L1_n20_a0.35.txt';
+geo = 'random_quad_mesh_L1_n2_a0.txt'
+
 if(strcmp(geo,''))
     data.geofile = '';
 else
@@ -19,18 +21,18 @@ end
 
 % ---- mms/linear choice
 data.logi_mms = true;
-data.mms_type = 1;
+data.mms_type = 3;
 if ~data.logi_mms
     data.pbtype = 'linear'
 end
 
 % ----- refinement choices
-data.max_ref_cycles = 4;
+data.max_ref_cycles = 7;
 data.ref_threshold  = 0; % 0=uniform refinement
 data.logi_amr_output = false;
 
 % ---- plotting choices
-data.logi_plot           = false;
+data.logi_plot           = true;
 data.logi_plot_err_i     = false;
 data.generate_vtk_output = true;
 
