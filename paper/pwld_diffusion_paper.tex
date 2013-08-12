@@ -711,12 +711,12 @@ Above 0.65, some of the original cells are often flipped onto themselves.
 \item
  ``'sinusoidal'' grids, given by the transformation
 \begin{align*}
-x_{i,j} &= \hat x_i + \epsilon L_x \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) \\
-y_{i,j} &= \hat y_i + \epsilon L_y \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) 
+x_{i,j} &= \hat x_i + \zeta L_x \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) \\
+y_{i,j} &= \hat y_i + \zeta L_y \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) 
 \end{align*}
 with $(\hat x_i, \hat y_i)$ the vertices of a uniform orthogonal grid over the rectangular domain 
-$[0\, , L_x]\times [0\, , L_y]$, and $\epsilon$ a distortion parameter ($0\le \epsilon \le 1/(2\pi)$). 
-A rectangular mesh is recovered when $\epsilon=0$. $\epsilon$ is user-specified and not randomly generated.
+$[0\, , L_x]\times [0\, , L_y]$, and $\zeta$ a distortion parameter ($0\le \zeta \le 1/(2\pi)$). 
+A rectangular mesh is recovered when $\zeta=0$. $\zeta$ is user-specified and not randomly generated.
 \item
 Kershaw's ``Z-mesh'' \cite{Kershaw1981}.  
 For Z-meshes, the skewness parameter $s$ varies between 0 (extremely skewed) and 0.5 (structured rectangular)
@@ -898,29 +898,38 @@ and polygonal meshes using the method of manufactured solutions \cite{roache_200
 with zero-Dirichlet boundary conditions, $D=1/6$, $\sigma_a=1$, and $\nu$, a frequency parameter, chosen to be 3 here, one can compute 
 the corresponding volumetric source term $Q(x,y)$ for the diffusion equation. Then, by solving \eqt{eq:radiation_diffusion} 
 on a sequence of
-grids with increasing resolution, one can determine the convergence rate of the $L_2$-norm of the error
+grids with increasing resolution, one can determine the convergence rate of the error
 as a function of the number of unknowns. The $L_2$-norm of the error, $\varepsilon_h$, is defined in the usual manner:
 \begin{equation}
 	\varepsilon_h^2 = \| E^{\textit{exa}} - E_h \|^2_\D = \int_\D \left[ E^{\textit{exa}}(x,y)  - E_h(x,y) \right]^2 \, dxdy	\, .
 \end{equation}
-To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used. This can be summarized as follows:
+To compute with high accuracy the integral of a generic function $f$ on an arbitrary polygonal partition $\mathbb{T}_h$ of $\D$, 
+we sum the integration over each polygonal cell; the integration over each cell is split into its triangular sides (using two 
+consecutive vertices and the cell center point); finally, the integration over each triangular side is performed by 
+subdividing each triangle into three quadrangles for which a high-order standard 2D Gauss-Legendre quadrature is used. 
+This can be summarized as follows:
 \begin{equation}
 	\int_{\mathbb{T}_h} f  = \sum_{K\in \mathbb{T}_h} \sum_{\text{sides of }K} \sum_{k=1}^3 
 	\sum_{q=1}^{N_q} w_q f_q
 	\, .
 \end{equation}
-Note that the same process (subdivision of $K$ into sides that are further split into quadrangles) is also employed to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
+Note that the same process (subdivision of $K$ into sides that are further split into quadrangles) is also employed 
+to compute accurately the contribution of the volumetric source to the system's right-hand side, $\int_K \tf_i Q$.
 
-For uniform structured meshes, it is fairly straightforward to obtain the asymptotic convergence rate by plotting the error $\varepsilon_h$ versus the mesh size $h$. Conversely, grid resolution is also related to the number of degrees of freedom, $N_\textit{dof}$ (unknowns) via 
+For uniform structured meshes, it is fairly straightforward to obtain the asymptotic convergence rate by plotting the error 
+$\varepsilon_h$ versus the mesh size $h$. Conversely, grid resolution is also related to the number of degrees of freedom, 
+$N_\textit{dof}$ (unknowns) via 
 \begin{equation}
 N_{\textit{dof}} \propto  h ^{-\dim} 
 \end{equation}
-where $\dim$ is the dimensionality of the domain (here, $\dim = 2$). Hence, a second-order convergence rate will translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
+where $\dim$ is the dimensionality of the domain (here, $\dim = 2$). Hence, a second-order convergence rate will 
+translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
+
 
 \subsubsection{Distorted Quadrilateral Meshes}
 %--------------------------------------------
 
-A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal, Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
+A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal (with $\zeta=0.15$), Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
 For a given mesh type, a sequence of embedded grids (straightforward to obtain) was utilized; this is actually part of the construction process for Shestakov grids. In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids ($a=0.25$) used here. 
 
 The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly distorted Shestakov meshes. To further analyze this observation, we provide the convergence for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid when a value of 0 corresponds to a highly distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any quadrilateral discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
