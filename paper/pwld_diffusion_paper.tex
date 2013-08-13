@@ -1300,21 +1300,25 @@ only four with a standard bilinear discontinuous discretization, the 3-irregular
 \includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy25}
 \label{fig:amr_cycle_25}
 }
-\subfigure[Cycle \# 20]{
-\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy30}
-\label{fig:amr_cycle_30}
+%\subfigure[Cycle \# 20]{
+%\includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy30}
+%\label{fig:amr_cycle_30}
+%}
+\subfigure[Zoom (Cycle \# 15)]{
+\includegraphics[scale=0.27]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25d}
+\label{fig:amr_zoom}
 }
 \caption{AMR Grids at various adaptivity cycles}
 \label{fig:amr_grids}
 \end{figure}
 
-% example of num solution
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
-\caption{Zoom on the AMR grid of cycle \#15}
-\label{fig:amr_zoom}
-\end{figure}
+%% zoom cycle 15
+%\begin{figure}[!hbtp]
+%\centering
+%\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
+%\caption{Zoom on the AMR grid of cycle \#15}
+%\label{fig:amr_zoom}
+%\end{figure}
 
 % zoom and isolines
 %\begin{figure}[!hbtp]
@@ -1341,7 +1345,8 @@ Hexagon   &  227  \\ \hline
 Heptagon  &  56  \\ \hline
 Octagon   &  98  \\ \hline
    \end{tabular}
-	\caption{Number and type of polygonal cells shown in \fig{fig:amr_cycle_30}}
+	%\caption{Number and type of polygonal cells shown in \fig{fig:amr_cycle_30}}
+	\caption{Number and type of polygonal cells at adaptivity cycle \# 20}
 	\label{tab:poly_cell_types_amr_poly}
 \end{table}
 
@@ -1350,6 +1355,19 @@ Octagon   &  98  \\ \hline
 \section{Conclusions} \label{sec:ccl}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A piece-wise linear discontinuous (PWLD) finite element discretization has been applied to the radiation
+diffusion equation on arbitrary polygonal grids. The Symmetric Interior Penalty stabilization technique
+has been employed and extended to polygonal cells. The resulting linear system is SPD and can be effectively
+solved using PCG. Second-order convergence has been numerically verified on highly distorted grids.
+Polygonal grids have been generated using bounded Voronoi diagrams using vertex locations from 
+severely distorted quadrilateral grids; many meshes contain polygons with a high number of vertices 
+(e.g., $>6$). 
+One of the attractive features of a PWL discretization resides in its handling of locally refined grids.
+Cells adjacent to more refined cells do not possess hanging nodes on the common edges with the refined cells
+but rather the nature of the coarse cell is changed to that of a polygon with additional sides.
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
