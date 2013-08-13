@@ -17,7 +17,7 @@ hold all
 disp('quad uniform')
 norm_data(:,1)
 clear norm_data;
-leg=['Uniform   '];
+leg=['Uniform           '];
 
 % random
 % geo = 'rand_quad_mms_1_L1_nc8_emb1_a0.66.mat';
@@ -33,7 +33,7 @@ plot(log10(ndof_),log10(erro_),'s-');
 disp('quad rand')
 ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; 'Random    '];
+leg=[leg ; 'Random            '];
 
 % smooth
 geo = 'smoo_quad_mms_1_L1_nc7_emb1_a0.15.mat';
@@ -48,7 +48,7 @@ plot(log10(ndof_),log10(erro_),'o-');
 disp('quad smooth')
 ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; 'Sinusoidal'];
+leg=[leg ; 'Sinusoidal        '];
 
 % shestakov
 % % geo = 'shes_quad_mms_1_L1_nc8_emb1_a0.1.mat';
@@ -64,7 +64,7 @@ plot(log10(ndof_),log10(erro_),'x-');
 disp('quad shestakov')
 ndof_'
 clear norm_data ndof_ erro_;
-leg=[leg ; 'Shestakov '];
+leg=[leg ; 'Shestakov (a=0.25)'];
 
 % % z-mesh
 % str = strcat(dir,'z-mesh\z-mesh-n6_a0.05_mms_1.mat');
@@ -105,7 +105,7 @@ erro_=[erro_; norm_data(:,2)];
 erro_(3)=erro_(3)*1.15;
 plot(log10(ndof_),log10(erro_),'s-');
 clear norm_data ndof_ erro_;
-leg=[leg ; 'Z         '];
+leg=[leg ; 'Z (s=0.30)        '];
 
 % ref
 slop=-1;
@@ -114,7 +114,7 @@ x0=1.2;y0=-.5;
 yref=@(x) slop*(x-x0)+y0;
 x1=4.25;
 plot([x0 x1],[yref(x0) yref(x1)],'--','LineWidth',2);
-leg=[leg ; 'Slope = 1 '];
+leg=[leg ; 'Slope = 1         '];
 
 
 %add legend

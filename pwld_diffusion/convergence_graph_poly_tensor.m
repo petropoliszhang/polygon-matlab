@@ -153,6 +153,6 @@ xlabel('log(number of unknowns)','Fontsize',12)
 ylabel('log(error)','Fontsize',12)
 axis tight
 axis([1.5 4.65 -3.25 -0.25])
-print('-dpdf',strcat('results\tensor\cv_poly','.pdf'));
-print('-dpng',strcat('results\tensor\cv_poly','.png'));
+print('-dpdf',strcat('results\tensor\cv_tens','.pdf'));
+print('-dpng',strcat('results\tensor\cv_tens','.png'));
 

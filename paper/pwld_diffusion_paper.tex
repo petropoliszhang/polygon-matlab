@@ -95,6 +95,7 @@
 \newcommand{\vn}{\vec{n}}
 \newcommand{\vnk}{\vec{\mathbf{n}}}
 \newcommand{\vj}{\vec{J}}
+\newcommand{\eig}[1]{\| #1 \|_2}
 
 \newcommand{\EI}{\mathcal{E}_h^i}
 \newcommand{\ED}{\mathcal{E}_h^{\partial \D^d}}
@@ -161,8 +162,10 @@
 %% \address[label2]{}
 
 %-------------------------
-\author{Jean C. Ragusa\fnref{label1}\corref{cor1}}
+\author{Jean C. Ragusa}
 \ead{jean.ragusa@tamu.edu}
+\address{Department of Nuclear Engineering, Texas A\&M University, College Station, TX 77843, USA}
+
 % \cortext[cor1]{Corresponding author}
 %-------------------------
 
@@ -745,7 +748,7 @@ SSOR and aggregation Algebraic MultiGrid \cite{agmg}  are used as preconditioner
 initial residual norm by a factor of $10^{10}$ is used as the stopping criterion for PCG. 
 
 %-----------------------------------------------------------
-\subsection{A Standard Problem with Linear Exact Solution}
+\subsection{A Standard Problem with Linear Exact Solution} \label{sec:results_linear}
 %-----------------------------------------------------------
 A standard test problem to verify that a numerical scheme preserves linear solutions has been
 proposed by Morel et al. \cite{Morel1992}. This test consists
@@ -772,7 +775,7 @@ randomness increases as $a\to 0$), and
 %5 quads /256 had the cell centers lying outside of their cell. 
 The linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
 
-\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarized the types and number of polygonal cells found in each of these grids. 
+\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarizes the types and number of polygonal cells found in each of these grids. 
 For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
 
 
@@ -800,7 +803,7 @@ For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:line
 \end{figure}
 
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 	\centering
 		\begin{tabular}{|l||c|}
 		\hline
@@ -866,7 +869,7 @@ For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:line
 %Number of polygons with 11 vertices = 2 
 %Total number of polygons           = 289 
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
 	\centering
 		\begin{tabular}{|l||c|c|c|}
 		\hline
@@ -885,14 +888,15 @@ Hendecagon&   0 & 6  &  2 \\ \hline
 	\label{tab:poly_cell_types_linear_poly}
 \end{table}
 
+\pagebreak
 
 %-----------------------------------------------------------
-\subsection{Convergence Rate Studies On Distorted Meshes}
+\subsection{Convergence Rate Studies On Distorted Meshes} \label{sec:results_conv}
 %-----------------------------------------------------------
 
 In this example, we compare the convergence rates of PWLD finite elements on several quadrilateral
 and polygonal meshes using the method of manufactured solutions \cite{roache_2009}. Using the following exact solution,
-\begin{equation}
+\begin{equation} \label{eq:mms1}
 	E^{\textit{exa}}(x,y) = \sin(\nu \pi x/L_x) \sin(\nu\pi y/L_y) \qquad \text{in } \D=[0,L_x]\times [0,L_y]
 \end{equation}
 with zero-Dirichlet boundary conditions, $D=1/6$, $\sigma_a=1$, and $\nu$, a frequency parameter, chosen to be 3 here, one can compute 
@@ -926,15 +930,17 @@ where $\dim$ is the dimensionality of the domain (here, $\dim = 2$). Hence, a se
 translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
 
 
-\subsubsection{Distorted Quadrilateral Meshes}
+\subsubsection{Distorted Quadrilateral Meshes} \label{sec:results_conv_quad}
 %--------------------------------------------
 
-A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal (with $\zeta=0.15$), Shestakov mesh (with $a=0.25$), and Z-mesh (with $a=0.05$).
-For a given mesh type, a sequence of embedded grids (straightforward to obtain) was utilized; this is actually part of the construction process for Shestakov grids. In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids ($a=0.25$) used here. 
+A convergence study is performed using four types of quadrilateral grids: uniform, Sinusoidal (with $\zeta=0.15$), Shestakov mesh (with $a=0.25$), and Z-mesh (with $s=0.05$).
+For the Sinusoidal, Shestakov, and Z-mesh types, a series of embedded grids of increasing resolution is utilized (this is actually part of the standard construction process for these grids). For the random quadrilateral grids, we have simply generated one realization of a grid per refinement level.  In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids used here. 
+ In \fig{fig:rand_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ random grids used here. 
 
-The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes, thus PWLD finite elements applied to the diffusion equation are second-order accurate for most quadrilateral meshes and exhibit reduced rates for highly distorted Shestakov meshes. To further analyze this observation, we provide the convergence for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid when a value of 0 corresponds to a highly distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any quadrilateral discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
+The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes. Thus, PWLD finite element discretization is second-order accurate for most quadrilateral meshes, even the ones with a significant amount of distortion, and exhibit reduced rates for highly distorted Shestakov meshes.
+To further analyze this observation, we provide the convergence rates for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid and a value of close to 0 corresponds to a severely distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any spatial discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
 
-Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at increased resolutions, the grid imprints are no longer discernible).
+Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point found in \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at higher grid resolutions, the grid imprints are no longer discernible).
 
 \pagebreak
 
@@ -960,6 +966,31 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 \caption{Quadrilateral Shestakov Grids ($a=0.25$)}
 \label{fig:shes_quad_grids}
 \end{figure}
+
+
+%   rand quad grids
+\begin{figure}[!hbtp]
+\centering
+\subfigure[$2\times 2$ ]{
+\includegraphics[scale=0.075]{../pwld_diffusion/results/convergence/quads/rand/visit/rand_quad_1}
+\label{fig:rand_quad_grids1}
+}
+\subfigure[$8\times 8$  ]{
+\includegraphics[scale=0.075]{../pwld_diffusion/results/convergence/quads/rand/visit/rand_quad_3}
+\label{fig:rand_quad_grids3}
+}
+\subfigure[$32\times 32$ ]{
+\includegraphics[scale=0.075]{../pwld_diffusion/results/convergence/quads/rand/visit/rand_quad_5}
+\label{fig:rand_quad_grids4}
+}
+\subfigure[$128\times 128$ ]{
+\includegraphics[scale=0.075]{../pwld_diffusion/results/convergence/quads/rand/visit/rand_quad_7}
+\label{fig:rand_quad_grids7}
+}
+\caption{Quadrilateral Random Grids}
+\label{fig:rand_quad_grids}
+\end{figure}
+
 
 %   quad conv, all
 \begin{figure}[!hbtp]
@@ -1020,11 +1051,11 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 %   quad mesh/isoline
 \begin{figure}[!hbtp]
 \centering
-\subfigure[$32\times 32$ Sinusoidal, Mesh]{
+\subfigure[$32\times 32$ Sinusoidal ($\zeta=0.15$), Mesh]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_mesh_0004}
 \label{fig:cv_smooth_quad_mesh_nm2}
 }
-\subfigure[$32\times 32$ Sinusoidal, Isolines]{
+\subfigure[$32\times 32$ Sinusoidal ($\zeta=0.15$), Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/quads/smooth/visit/smooth_quad_iso7_0004}
 \label{fig:cv_smooth_quad_isoline_nm2}
 }
@@ -1051,17 +1082,19 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 
 
 
-\subsubsection{Polygonal Meshes}
+\subsubsection{Polygonal Meshes} \label{sec:results_conv_poly}
 %--------------------------------------------
 
-We carry the same study as in the previous Section but using polygonal grids. We employ the same terminology (
+We carry out the same study as in the previous Section but using polygonal grids this time. We employ the same terminology (
 random, sinusoidal, Shestakov, Z) to denote the polygonal meshes generated. However, recall that this denomination
 only describes the manner in which the vertices (used as input for the bounded Voronoi diagram) have been obtained.
-
-\fig{fig:conv_rate_poly} shows the convergence study on polygonal grids. Second-order accuracy is observed for all 
+%
+\fig{fig:conv_rate_poly} shows the convergence rate study on polygonal grids. Second-order accuracy is observed for all 
 grids, including the Shestakov grids generated with $a=0.15$ and $a=0.25$, and a Z-mesh obtained with a skewness 
 coefficient of $s=0.05$.
-
+\tbl{tab:poly_cell_types_conv_poly} summarizes the types and number of polygonal cells used for the highest resolution point in 
+\fig{fig:conv_rate_poly}. For instance, The percentages of cells that are not triangular nor quadrangular for the random, Sinusoidal, 
+Z-mesh, and Shestakov polygonal grids are 87\%, 94\%, 58\%, and 82\%, respectively.
 
 Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point of \fig{fig:conv_rate_poly} so as to display more prominently some mesh effects (at increased resolutions, the grid imprints are no longer discernible).
 
@@ -1074,40 +1107,66 @@ Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids an
 \label{fig:conv_rate_poly}
 \end{figure}
 
+\begin{table}[!htbp]
+	\centering
+		\begin{tabular}{|l||c|c|c|c|}
+		\hline
+Polygon type    &Random &Sinusoidal& Z-mesh& Shestakov  \\ \hline\hline
+Triangle        & 50    &    0   &   0     & 58   \\ \hline
+Quadrangle      & 489   &  231   &  2732   & 665  \\ \hline
+Pentagon        & 1080  &  588   &  696    & 1090 \\ \hline
+Hexagon         & 1299  &  2878  &  2585   & 1107 \\ \hline
+Heptagon        & 851   &  424   &  478    & 724  \\ \hline
+Octagon         & 351   &  104   &  40     & 363  \\ \hline
+Nonagon         & 79    &   0    &  10     & 154  \\ \hline
+Decagon         &  20   &   0    &   6     & 42   \\ \hline
+Hendecagon      &  5    &   0    &   4     & 14   \\ \hline		
+Dodecagon       &  1    &   0    &   4     &  5   \\ \hline		
+13 sides        &  0    &   0    &   2     &  2   \\ \hline		
+14 sides        &  0    &   0    &   2     &  0   \\ \hline		
+17 sides        &  0    &   0    &   0     &  1   \\ \hline		
+22 sides        &  0    &   0    &   2     &  0   \\ \hline			\end{tabular}
+	\caption{Number and type of polygonal cells shown in \fig{fig:conv_rate_poly}}
+	\label{tab:poly_cell_types_conv_poly}
+\end{table}
+
+
+
 %   poly mesh/isoline
 \begin{figure}[!hbtp]
+\vspace{-2.5cm}
 \centering
-\subfigure[6374 $N_\textit{dof}$  Random, Mesh]{
+\subfigure[  Random Mesh (6374 $N_\textit{dof}$)]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_msh0004}
 \label{fig:cv_random_poly_mesh_nm2}
 }
-\subfigure[6374 $N_\textit{dof}$  Random, Isolines]{
+\subfigure[  Random Mesh Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/rand/visit/rand_poly_a0_9_sol0004}
 \label{fig:cv_random_poly_isoline_nm2}
 }
 %
-\subfigure[6332 $N_\textit{dof}$  Sinusoidal, Mesh]{
+\subfigure[  Sinusoidal Mesh (6332 $N_\textit{dof}$)]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/smooth/visit/smoo_poly_0_15_msh0004}
 \label{fig:cv_smooth_poly_mesh_nm2}
 }
-\subfigure[6332 $N_\textit{dof}$  Sinusoidal, Isolines]{
+\subfigure[  Sinusoidal Mesh Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/smooth/visit/smoo_poly_0_15_sol0004}
 \label{fig:cv_smooth_poly_isoline_nm2}
 }
 %
-\subfigure[6317 $N_\textit{dof}$  Shestakov ($a=0.10$), Mesh]{
+\subfigure[  Shestakov ($a=0.10$) Mesh (6317 $N_\textit{dof}$)]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/shes/visit/shes_poly_0_10_msh0004}
 \label{fig:cv_shes_poly_mesh_nm2}
 }
-\subfigure[6317 $N_\textit{dof}$  Shestakov ($a=0.10$), Isolines]{
+\subfigure[ Shestakov Mesh Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/shes/visit/shes_poly_0_10_sol0004}
 \label{fig:cv_shes_poly_isoline_nm2}
 }
-\subfigure[8644 $N_\textit{dof}$  Z-mesh ($s=0.05$), Mesh]{
+\subfigure[  Z-mesh ($s=0.05$) (8644 $N_\textit{dof}$)]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/z-mesh/visit/z_poly_0_05_msh0004}
 \label{fig:cv_z_poly_mesh_nm2}
 }
-\subfigure[8644 $N_\textit{dof}$  Z-mesh ($s=0.05$), Isolines]{
+\subfigure[Z-mesh  Isolines]{
 \includegraphics[scale=0.15]{../pwld_diffusion/results/convergence/poly/z-mesh/visit/z_poly_0_05_sol0004}
 \label{fig:cv_z_poly_isoline_nm2}
 }
@@ -1116,34 +1175,100 @@ Finally, \fig{fig:conv_poly_nm2} presents some representative polygonal grids an
 \end{figure}
 
 
+\pagebreak
+
 %--------------------------------------------
-\subsection{Adaptive Mesh Refinement Using a PWLD Discretization}
+\subsection{Tensor Diffusion Tests Using Polygonal Grids} \label{sec:results_tens}
 %--------------------------------------------
 
-In this Section, we use a PWLD discretization to handle seamlessly AMR grids and compare the rate
-of convergence of PWLD AMR with PWLD on uniformly refined grids.In the AMR process, the cells whose
-error is within 20\% of the maximum detected error are flanged for refinement, that is, a value of 
-$\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
-To compare the numerical errors and obtain the rate of convergence, we employed again the method of 
-manufactured solutions. This time, a strongly spatially varying function is chosen
-for the exact solution:
+In this series of run, we replace the traditional diffusion coefficient with a full symmetry tensor,
 \begin{equation}
-	E^{\textit{exa}}(x,y) = 100 \frac{xy(L_x-x)(L_y-y)}{(L_x L_y)^2}\exp\Big(-\frac{(x-x_0)^2+(y-y_0)^2}{\varsigma}\Big)
-	 \quad \text{in } \D=[0,L_x]\times [0,L_y] \,.
+  D \longrightarrow \mathbb{D} \,.
 \end{equation}
+In our numerical experiments, we use
+\begin{equation}
+  \mathbb{D}  =  
+  \begin{bmatrix}
+  (x+1)^2+y^2 & -xy \\
+    -xy       & (x+1)^2
+  \end{bmatrix}
+  \, ,
+\end{equation}
+as found in the test cases carried out for mimetic finite differences on polygonal grids in \cite{Kuznetsov2004,Brezzi2005}.
+The exact solution is again given by \eqt{eq:mms1} with $\nu=3$ on a unit square domain.
+With mimetic finite differences, the spatially varying coefficients and tensors are evaluated at the center of mass of
+the cells, whereas in our finite element discretization, they are evaluated at quadrature points. Specifically,
+the following changes were made to accommodate for the diffusion tensor: (1) the element stiffness matrix is now
+\begin{equation}
+  \left( \mathbb{D}^{xx} \partial_x E +\mathbb{D}^{xy} \partial_y E \right) \partial_x \tf +
+  \left( \mathbb{D}^{yx} \partial_x E +\mathbb{D}^{yy} \partial_y E \right) \partial_y \tf  \, ,
+ \end{equation}
+as it should be; (2) the integrand of the line integrals is modified as follows
+\begin{equation}
+ D\partial_n E \tf  = D\grad E \cdot \vn \tf  \longrightarrow  \mathbb{D}\grad E \cdot \vn \tf \, ;
+\end{equation}
+and, (3) the diffusion coefficient appearing in the penalty factor is replaced with the largest eigenvalue of
+the diffusion tensor at the edge's midpoint
+\begin{equation}
+\frac{C}{2} \left( \frac{D^+}{h_\bot^+} + \frac{D^-}{h_\bot^-} \right)
+ \longrightarrow  \frac{C}{2} \left( \frac{\eig{\mathbb{D}}^+}{h_\bot^+} + \frac{\eig{\mathbb{D}}^-}{h_\bot^-} \right)
+ \, ,
+\end{equation}
+(we could have computed the largest eigenvalue of $\mathbb{D}$ at every quadrature point appearing in the edge
+integrals of the penalty term, but choosing the midpoint value avoids doing this while preserving second-order convergence).
+
+The same polygonal grids as in \sct{sec:results_conv_poly} are used to study the convergence of the PWLD discretization
+for the tensor diffusion problem. 
+\fig{fig:conv_rate_tens} presents the convergence rates for these polygonal grids. Again, second-order accuracy 
+is observed for all grids, including the Shestakov grids generated with $a=0.15$, and a Z-mesh obtained with a skewness 
+coefficient of $s=0.05$.
+
+%   tensor conv, all
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[scale=0.5]{../pwld_diffusion/results/tensor/cv_tens}
+\caption{Rate of Convergence for the Tensor Diffusion Problem Using Polygonal Grids}
+\label{fig:conv_rate_tens}
+\end{figure}
+ 
+%--------------------------------------------
+\subsection{Adaptive Mesh Refinement Using PWLD Finite Elements} \label{sec:results_conv_amr}
+%--------------------------------------------
+
+In this Section, we use the PWLD discretization to seamlessly handle AMR grids and compare the rate
+of convergence rate of AMR grids with the ones of uniformly refined grids. In the AMR process, the cells whose
+error is within 20\% of the maximum detected error are flagged for refinement, that is, a value of 
+$\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
+To compare the numerical errors and obtain the rate of convergence, we employ again the method of 
+manufactured solutions. This time, a rapidly spatially varying function is chosen
+\tcr{as the exact solution}:
+%
+\begin{multline}
+	E^{\textit{exa}}(x,y) = 100 \frac{xy(L_x-x)(L_y-y)}{(L_x L_y)^2}\exp\Big(-\frac{(x-x_0)^2+(y-y_0)^2}{\varsigma}\Big) \\
+	 \quad \text{in } \D=[0,L_x]\times [0,L_y] \,.
+\end{multline}
+%
 We have chosen the location of the peak to be $x_0=\tfrac{6}{10}L_x$, $y_0=\tfrac{7}{10}L_y$, with $\varsigma=L_xL_y/100$. 
-Thew diffusion coefficient and absorption cross section are  $D=1/6$ and $\sigma_a=1$. 
+The diffusion coefficient and absorption cross section are  $D=1/6$ and $\sigma_a=1$. 
 This exact solution satisfies zero-Dirichlet boundary conditions. One then can compute 
 the corresponding volumetric source term $Q(x,y)$ used to generate the right-hand of the discrete linear system. 
 We solve the radiation diffusion equation on a sequence of grids with increasing resolution. The coarsest grid level
 uses simply a $2\times 2$ grid with quadrangles. This initial grid is either uniformly refined or locally adapted 
 using the refinement criteria set forth in \sct{sec:amr}. The $L_2$-norm of the error (difference
 between the exact and the computed numerical solutions) is plotted in \fig{fig:conv_rate_amr}. As expected, both refinement
-strategies lead to a convergence rate of one measured with the number of unknowns, demonstrating the 
-second-order accuracy of PWLD discretization. Using an AMR strategy, the solution is obtained with roughly a savings of
-a factor of 5-6 in terms of the number of unknowns. 
-
-%   poly conv, all
+strategies lead to a convergence rate of one measured against the number of unknowns, demonstrating the 
+second-order accuracy of PWLD discretization on both grid types. We note that when using an AMR strategy 
+the solution is obtained with roughly a savings of
+a factor of 5 to 6 in terms of the number of unknowns. 
+The numerical solution obtained with AMR is graphed on \fig{fig:amr_sol}.
+\fig{fig:amr_grids} shows the AMR grids at cycles 5, 10, 15, and 20. The location of peak in the exact solution is
+locally refined as the number of adaptivity cycles increases. \fig{fig:amr_zoom} presents a zoom on the AMR grid of cycle 15
+where one can note the presences of several (degenerated) octogonal cells surrounded by once-more refined neighbors on all 
+of their sides. Since these cells possess eight unknowns with the PWLD discretization, as opposed to
+only four with a standard bilinear discontinuous discretization, the 3-irregular rule of Bank does not need to be applied.
+\tbl{tab:poly_cell_types_amr_poly} provides the types and number of polygonal cells used in the last AMR grid.
+ 
+%   amr conv, all
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[scale=0.5]{../pwld_diffusion/results/amr/cv_amr}
@@ -1151,43 +1276,80 @@ a factor of 5-6 in terms of the number of unknowns.
 \label{fig:conv_rate_amr}
 \end{figure}
 
-
+% example of num solution
 \begin{figure}[!hbtp]
 \centering
-\subfigure[Cycle \# 12]{
+\includegraphics[scale=0.15]{../pwld_diffusion/results/amr/special/amr0005}
+\caption{Numerical solution at the last adaptivity cycle}
+\label{fig:amr_sol}
+\end{figure}
+
+
+% 4 adaptivy cycles
+\begin{figure}[!hbtp]
+\centering
+\subfigure[Cycle \# 5]{
 \includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy12}
 \label{fig:amr_cycle_12}
 }
-\subfigure[Cycle \# 17]{
+\subfigure[Cycle \# 10]{
 \includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy17}
 \label{fig:amr_cycle_17}
 }
-\subfigure[Cycle \# 25]{
+\subfigure[Cycle \# 15]{
 \includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy25}
 \label{fig:amr_cycle_25}
 }
-\subfigure[Cycle \# 30]{
+\subfigure[Cycle \# 20]{
 \includegraphics[scale=0.25]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_1/amr_mms_2_threshold0_8_amr_cy30}
 \label{fig:amr_cycle_30}
 }
-\caption{AMR Grids}
+\caption{AMR Grids at various adaptivity cycles}
 \label{fig:amr_grids}
 \end{figure}
 
-% zoom and isolines
+% example of num solution
 \begin{figure}[!hbtp]
 \centering
-\subfigure[Cycle \# 12]{
-\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/special/amr0005}
-\label{fig:amr_sol}
-}
-\subfigure[Cycle \# 17]{
 \includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
+\caption{Zoom on the AMR grid of cycle \#15}
 \label{fig:amr_zoom}
-}
-\caption{AMR Grids .................}
-\label{fig:amr_grids2}
 \end{figure}
+
+% zoom and isolines
+%\begin{figure}[!hbtp]
+%\centering
+%\subfigure[Cycle \# 12]{
+%\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/special/amr0005}
+%\label{fig:amr_sol}
+%}
+%\subfigure[Cycle \# 17]{
+%\includegraphics[scale=0.2]{../pwld_diffusion/results/amr/amr0_8_matlab_mesh_linewidth_2/amr_mms_2_threshold0_8_amr_cy25c}
+%\label{fig:amr_zoom}
+%}
+%\caption{AMR Grids .................}
+%\label{fig:amr_grids2}
+%\end{figure}
+
+\begin{table}[!htbp]
+	\centering
+		\begin{tabular}{|l||c|}
+		\hline
+Quadrangle&  8297  \\ \hline
+Pentagon  &  446  \\ \hline
+Hexagon   &  227  \\ \hline
+Heptagon  &  56  \\ \hline
+Octagon   &  98  \\ \hline
+   \end{tabular}
+	\caption{Number and type of polygonal cells shown in \fig{fig:amr_cycle_30}}
+	\label{tab:poly_cell_types_amr_poly}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions} \label{sec:ccl}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
