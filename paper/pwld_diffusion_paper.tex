@@ -152,7 +152,8 @@
 %-------------------------
 %-------------------------
 %\title{Discontinuous Finite Element Solution for Diffusion Equations on Arbitrary Polygonal Meshes}
-\title{Discontinuous Finite Element Solution of the Radiation Diffusion Equation on Arbitrary Quadrilateral and Polygonal Meshes}
+\title{Discontinuous Finite Element Solution of the Radiation Diffusion Equation on Arbitrary Polygonal Meshes
+and Locally Adapted Quadrilateral Grids}
 %-------------------------
 %-------------------------
 
@@ -172,7 +173,14 @@
 %-------------------------
 \begin{abstract}
 
-aaaa
+A piece-wise linear discontinuous (PWLD) finite element discretization of the diffusion equation for arbitrary polygonal meshes
+is presented. It is based on the standard diffusion form and uses the symmetric interior penalty technique which yields a 
+symmetric positive definite linear system matrix. A preconditioned conjugate gradient algorithm is employed to solve the linear system. 
+Piece-wise linear approximations allow a straightforward implementation of local mesh adaptation by allowing unrefined cells to
+be interpreted as polygons with an increased number of vertices.
+Several test cases, taken from the literature on discretizations of the radiation diffusion, are presented. Random, sinusoidal, Shestakov, 
+and Z meshes are used. The last numerical example demonstrates the application of the PWLD discretization to adaptive mesh refinement.
+ 
 
 \end{abstract}
 %-------------------------
@@ -182,8 +190,7 @@ aaaa
   Radiation Diffusion \sep
 	Arbitrary Polygonal Grids \sep
   Discontinuous Finite Element \sep
-  Piecewise Linear Discontinuous \sep
-  Adaptive Mesh Refinement\, .
+  Adaptive Mesh Refinement
 \end{keyword}
 %-------------------------
 
@@ -779,7 +786,7 @@ The linearity of the true solution is exactly reproduced by the piecewise linear
 For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
 
 
-\pagebreak
+%\pagebreak
 \begin{figure}[!hbtp]
 \centering
 \subfigure[Random quads, $\alpha=0.66$]{
@@ -942,7 +949,7 @@ To further analyze this observation, we provide the convergence rates for Shesta
 
 Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point found in \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at higher grid resolutions, the grid imprints are no longer discernible).
 
-\pagebreak
+%\pagebreak
 
 %   shes quad grids
 \begin{figure}[!hbtp]
@@ -1080,6 +1087,10 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 \end{figure}
 
 
+\pagebreak
+\newpage
+\pagebreak
+\newpage
 
 
 \subsubsection{Polygonal Meshes} \label{sec:results_conv_poly}
@@ -1363,9 +1374,26 @@ solved using PCG. Second-order convergence has been numerically verified on high
 Polygonal grids have been generated using bounded Voronoi diagrams using vertex locations from 
 severely distorted quadrilateral grids; many meshes contain polygons with a high number of vertices 
 (e.g., $>6$). 
+
 One of the attractive features of a PWL discretization resides in its handling of locally refined grids.
 Cells adjacent to more refined cells do not possess hanging nodes on the common edges with the refined cells
-but rather the nature of the coarse cell is changed to that of a polygon with additional sides.
+but rather the nature of the coarse cell is changed to that of a polygon with additional sides. I have
+fully embedded this characteristic of PWL finite element within an automated adaptive mesh refinement process
+and noted that second-order convergence was retained while reducing the number of unknowns for the same 
+level of accuracy when compared with uniformly refined quadrilateral grids.
+
+%Testing the effectiveness of a PWLD discretization on arbitrary polygonal meshes 
+%\tcr{for} the radiation diffusion equation 
+%Having demonstrated that discretizing the radiation diffusion equation on arbitrary polygonal meshes 
+%can be done 
+%was the first 
+%was a premise for their \tcr{to pave the way} 
+
+This paper shows that the radiation diffusion equation can be effectively discretized on arbitrary 
+polygonal meshes using a piece-wise linear discontinuous finite element approximation. Subsequent publications
+should ascertain whether this diffusion linear system can be employed as a synthetic accelerator (preconditioner)
+for radiation transport problems discretized on arbitrary polygonal meshes. % \cite{DSA_poly}
+ 
 
 
 
