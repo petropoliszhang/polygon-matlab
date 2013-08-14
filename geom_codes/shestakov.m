@@ -1,26 +1,23 @@
-clear all; close all; clc;
-
 % This routine generates an nm by nm mesh, commonly known as a
 % Shestakov mesh, with 0 < r < rm and 0 < z < zm. The randomness
 % is controlled by parameter "a", where 0 <= a <= 0.5. A value of 
-% a = 0.5 gives a rectangular % mesh. Boomerang zones are allowed 
+% a = 0.5 gives a rectangular mesh. Boomerang zones are allowed 
 % but bowties are not allowed.
 %
 % Matlab version by Jean C. Ragusa, Texas A&M University, April 1, 2013
 %
-% based on the original Fortran program by Alek Sheshakov; that program 
+% based on the original Fortran program by Alek Shestakov; that program 
 % is found in: Nuclear Science & Engineering, Vol 105, pp.88-104 (1990),
 % "Test Problems in Radiative Transfer Calculations", by A. Shestakov, 
 % D. Kershaw, and G. Zimmerman
 %
-% Thanks also to Michael Hall (LANL) for providing a copy of the original  
+% Thanks to Michael Hall (LANL) for providing a copy of the original  
 % F77 program
-%
-% issues/comments about the matlab code: send an email to
-% jean.ragusa@tamu.edu
+
+clear all; close all; clc;
 
 % number of subdivisions of the original rectangle
-nc = 6;
+nc = 4;
 % random parameter
 a  = 0.25;
 % rectangle dimensions

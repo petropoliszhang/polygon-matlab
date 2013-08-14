@@ -173,13 +173,14 @@ and Locally Adapted Quadrilateral Grids}
 %-------------------------
 \begin{abstract}
 
-A piece-wise linear discontinuous (PWLD) finite element discretization of the diffusion equation for arbitrary polygonal meshes
-is presented. It is based on the standard diffusion form and uses the symmetric interior penalty technique which yields a 
+In this paper, we propose a piece-wise linear discontinuous (PWLD) finite element discretization of the diffusion equation for arbitrary 
+polygonal meshes. It is based on the standard diffusion form and uses the symmetric interior penalty technique, which yields a 
 symmetric positive definite linear system matrix. A preconditioned conjugate gradient algorithm is employed to solve the linear system. 
-Piece-wise linear approximations allow a straightforward implementation of local mesh adaptation by allowing unrefined cells to
+Piece-wise linear approximations also allow a straightforward implementation of local mesh adaptation by allowing unrefined cells to
 be interpreted as polygons with an increased number of vertices.
-Several test cases, taken from the literature on discretizations of the radiation diffusion, are presented. Random, sinusoidal, Shestakov, 
-and Z meshes are used. The last numerical example demonstrates the application of the PWLD discretization to adaptive mesh refinement.
+Several test cases, taken from the literature on the discretization of the radiation diffusion, are presented: random, sinusoidal, 
+Shestakov, and Z meshes are used. The last numerical example demonstrates the application of the PWLD discretization to adaptive 
+mesh refinement.
  
 
 \end{abstract}
@@ -266,13 +267,13 @@ grids \cite{Kuznetsov2004,Brezzi2005,LipnikovShashkovSvyatskiy2006,LipnikovShash
 %and hexahedral \cite{MorelHallShashkov2001} grids, locally refined grids \cite{LipnikovMorelShashkov2004}, and
 %arbitrary polygonal grids \cote{Kuznetsov2004,Brezzi2005,LipnikovShashkovSvyatskiy2006,LipnikovShashkov2010}.
 %
-Bailey et al. \cite{BaileyAdams2008} recently employed piecewise linear basis
+Bailey et al. \cite{BaileyAdams2008} recently employed piece-wise linear basis
 functions to solve a diffusion equation using a Galerkin finite element technique on 
 arbitrary polygonal and polyhedral grids. Their goal was to devise a {\em continuous} finite 
 element discretization that does not necessitate numerical integration, yields an SPD matrix, 
 is second-order accurate, and handles arbitrary polygonal/polyhedral grids (including 
 grids with degenerate cells). The approach they followed is a standard Galerkin weak 
-formulation for continuous finite elements, with piecewise linear basis functions 
+formulation for continuous finite elements, with piece-wise linear basis functions 
 defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedrons.
 
 In this paper, we are interested in solving a diffusion equation on arbitrary polygonal
@@ -280,7 +281,7 @@ grids using a {\em discontinuous} finite element discretization. We employ the
 Symmetric Interior Penalty (SIP) technique \cite{Arnold1982,DouglasN.Arnold2002,Kanschat2007}, 
 developed for the discretization of elliptic equations using discontinuous Galerkin techniques;
 this results in a linear system matrix that is Symmetric Positive Definite (SPD). For basis functions,
-we use the piecewise linear functions of \cite{BaileyAdams2008}.
+we use the piece-wise linear functions of \cite{BaileyAdams2008}.
 The motivations for employing discontinuous finite elements on polygonal grids are as follows: 
 \begin{enumerate}
 \item 
@@ -315,20 +316,20 @@ The motivations for employing discontinuous finite elements on polygonal grids a
 % polygonal/polyhedral grids \cite{MorelWarsaWareing,PWLD,CFEM-PWDL-Warsa,WangRagusa}.
 
 The remainder of the paper is as follows. In \sct{sec:poly}, we further discuss
-the use of polygonal meshes, define the piecewise linear discontinuous 
+the use of polygonal meshes, define the piece-wise linear discontinuous 
 basis functions for arbitrary polygons, and examine how polygonal grids
 can be utilized in handling local mesh refinement (as in AMR 
 approaches). The Symmetric Interior Penalty technique applied to the diffusion 
 equation is reviewed in \sct{sec:ip}.
 %The resulting linear system will be solved using an Algebraic Multi-Grid (AMG) approach.
-Mesh adaptivity utilizing piecewise linear basis function is presented in 
+Mesh adaptivity utilizing piece-wise linear basis function is presented in 
 \sct{sec:amr}. Results are provided in \sct{sec:results}; all of the test cases presented here 
 are borrowed from the literature on spatial discretization techniques applied to 
 the diffusion equation solved on highly distorted quadrilateral grids and polygonal grids.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Polygonal Grids and Piecewise Linear Basis Functions} \label{sec:poly}
+\section{Polygonal Grids and Piece-wise Linear Basis Functions} \label{sec:poly}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-----------------------------------------------------------
@@ -380,13 +381,13 @@ resolution.  The following features of polygonal cells are noteworthy:
 
 
 %-----------------------------------------------------------
-\subsection{Piecewise Linear Basis Functions on Arbitrary Polygons}
+\subsection{Piece-wise Linear Basis Functions on Arbitrary Polygons}
 %-----------------------------------------------------------
 
-Here, we describe piecewise linear finite elements basis functions for
+Here, we describe piece-wise linear finite elements basis functions for
 arbitrary polygons.
 Consider a polygonal cell with $N_V$ vertices, $(x_i,y_i)$ for $1\le i \le N_V$. 
-The polygon needs not to be convex. In order to describe the piecewise linear basis functions
+The polygon needs not to be convex. In order to describe the piece-wise linear basis functions
 for such a cell, we introduce a cell ``center'', denoted hereafter 
 by $c=(x_c,y_c)$, with $x_c =\sum_{i=1}^{N_V} \alpha_{i} x_i$
 and  $y_c = \sum_{i=1}^{N_V} \alpha_{i} y_i$. We require that
@@ -398,7 +399,7 @@ With the introduction of the cell center, the polygon can also be described as
 $N_V$ triangular subcells (or ``sides'' if using the terminology of \cite{BaileyAdams2008}), 
 with each of these triangles being composed of two
 successive vertices and the cell center.
-The $N_V$ piecewise linear basis functions are then given by:
+The $N_V$ piece-wise linear basis functions are then given by:
 %
 \begin{equation}
   b_i(\br) = t_i(\br) + \alpha_{i} t_c(\br) , \qquad i=1,\ldots,N_V ,
@@ -418,12 +419,12 @@ continuous finite element representation within a polygon
 Indeed, in the case of a standard continuous finite 
 element representation, the number of basis functions would be equal to $N_V+1$ 
 (for the $N_V$ vertices and the cell center). In the
-piecewise linear representation, the unknowns are only located at the cell 
+piece-wise linear representation, the unknowns are only located at the cell 
 vertices and the cell center point is only used to define the basis functions.
 For example, \fig{fig:pentagons} presents two simple examples of polygonal cells: a 
 pentagon and a degenerated pentagon, the later is typically obtained
 during local mesh adaptation (see also \fig{fig:amr2}).
-The isolines of the piecewise linear basis functions for vertex $D$ and
+The isolines of the piece-wise linear basis functions for vertex $D$ and
 $E$ are graphed in \fig{fig:pwl_pentagon} for the regular pentagon
 and in \fig{fig:pwl_degen_pentagon} for the degenerate pentagon.
 %
@@ -780,10 +781,10 @@ randomness increases as $a\to 0$), and
 (d) a small $3 \times 3$ non-convex grid due to Shashkov \cite{ShashkovSteinberg1996}.
 \tbl{tab:FractionOfConcaveCellsInQuadrilateralsGridsShownInFigFig} summarizes the numbers of non-convex quadrilaterals in each of these grids.  For instance, the randomized rectangular grid with $\alpha=0.66$ contains about 21\% of non-convex cells. 
 %5 quads /256 had the cell centers lying outside of their cell. 
-The linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
+The linearity of the true solution is exactly reproduced by the piece-wise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
 
 \fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarizes the types and number of polygonal cells found in each of these grids. 
-For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piecewise linear discontinuous finite element solution on polygonal grids.
+For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piece-wise linear discontinuous finite element solution on polygonal grids.
 
 
 %\pagebreak
@@ -1252,7 +1253,7 @@ error is within 20\% of the maximum detected error are flagged for refinement, t
 $\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
 To compare the numerical errors and obtain the rate of convergence, we employ again the method of 
 manufactured solutions. This time, a rapidly spatially varying function is chosen
-\tcr{as the exact solution}:
+as the exact solution:
 %
 \begin{multline}
 	E^{\textit{exa}}(x,y) = 100 \frac{xy(L_x-x)(L_y-y)}{(L_x L_y)^2}\exp\Big(-\frac{(x-x_0)^2+(y-y_0)^2}{\varsigma}\Big) \\
@@ -1371,15 +1372,15 @@ A piece-wise linear discontinuous (PWLD) finite element discretization has been 
 diffusion equation on arbitrary polygonal grids. The Symmetric Interior Penalty stabilization technique
 has been employed and extended to polygonal cells. The resulting linear system is SPD and can be effectively
 solved using PCG. Second-order convergence has been numerically verified on highly distorted grids.
-Polygonal grids have been generated using bounded Voronoi diagrams using vertex locations from 
+Polygonal grids have been generated from bounded Voronoi diagrams created using vertex locations from 
 severely distorted quadrilateral grids; many meshes contain polygons with a high number of vertices 
 (e.g., $>6$). 
 
-One of the attractive features of a PWL discretization resides in its handling of locally refined grids.
+One of the attractive features of a PWL discretization lies in its handling of locally refined grids.
 Cells adjacent to more refined cells do not possess hanging nodes on the common edges with the refined cells
-but rather the nature of the coarse cell is changed to that of a polygon with additional sides. I have
-fully embedded this characteristic of PWL finite element within an automated adaptive mesh refinement process
-and noted that second-order convergence was retained while reducing the number of unknowns for the same 
+but rather the nature of the coarse cell is changed to that of a polygon with additional sides. We have
+fully embedded this characteristic of PWL finite elements within an automated adaptive mesh refinement process
+and verified that second-order convergence was retained while reducing the number of unknowns for the same 
 level of accuracy when compared with uniformly refined quadrilateral grids.
 
 %Testing the effectiveness of a PWLD discretization on arbitrary polygonal meshes 
@@ -1390,13 +1391,25 @@ level of accuracy when compared with uniformly refined quadrilateral grids.
 %was a premise for their \tcr{to pave the way} 
 
 This paper shows that the radiation diffusion equation can be effectively discretized on arbitrary 
-polygonal meshes using a piece-wise linear discontinuous finite element approximation. Subsequent publications
-should ascertain whether this diffusion linear system can be employed as a synthetic accelerator (preconditioner)
-for radiation transport problems discretized on arbitrary polygonal meshes. % \cite{DSA_poly}
+polygonal meshes using a piece-wise linear discontinuous finite element approximation. 
+This will allow us to use proven DFEM-based DSA preconditioners \cite{Ragusa_Wang_NSE_2010} to tackle 
+radiation transport problems on polygonal grids in the future and will be the topic of subsequent 
+publications.
+%
+%should ascertain whether this diffusion linear system can be employed as a synthetic accelerator (preconditioner)
+%for radiation transport problems discretized on arbitrary polygonal meshes. % \cite{DSA_poly}
  
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgments} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+The author is grateful to Dr. Alex Shestakov (LLNL) for providing Reference \cite{Sheshakov1990}
+and for suggesting studying smooth meshes (Sinusoidal grids) as well. We would also like to
+acknowledge Dr. Michael Hall (LANL) for retrieving a Fortran77 copy of the ``Shestakov'' program. 
+%and Dr. Mikhail Shashkov (LANL) for an example of a ``Shestakov'' grid.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
