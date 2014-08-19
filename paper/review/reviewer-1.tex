@@ -1,0 +1,241 @@
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb}
+% more math
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsbsy}
+
+\usepackage{color}
+\newcommand{\mt}[1]{\marginpar{\small #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% new commands
+\newcommand{\nc}{\newcommand}
+% operators
+\renewcommand{\div}{\vec{\nabla}\! \cdot \!}
+\newcommand{\grad}{\vec{\nabla}}
+% latex shortcuts
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bal}{\begin{align}}
+\newcommand{\eali}{\end{align}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+% DGFEM commands
+\newcommand{\jmp}[1]{[\![#1]\!]}                     % jump
+\newcommand{\mvl}[1]{\{\!\!\{#1\}\!\!\}}             % mean value
+\newcommand{\keff}{\ensuremath{k_{\textit{eff}}}\xspace}
+% shortcut for domain notation
+\newcommand{\D}{\mathcal{D}}
+% vector shortcuts
+\newcommand{\vo}{\vec{\Omega}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vn}{\vec{n}}
+\newcommand{\vnk}{\vec{\mathbf{n}}}
+\newcommand{\vj}{\vec{J}}
+% extra space
+\newcommand{\qq}{\quad\quad}
+% common reference commands
+\newcommand{\eqt}[1]{Eq.~(\ref{#1})}                     % equation
+\newcommand{\fig}[1]{Fig.~\ref{#1}}                      % figure
+\newcommand{\tbl}[1]{Table~\ref{#1}}                     % table
+
+\newcommand{\ud}{\,\mathrm{d}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+{ \Large Answers to Reviewer \#1}
+\end{center}
+
+\bigskip
+
+\noindent Ms. Ref. No. JCOMP-D-13-00928\\
+Discontinuous Finite Element Solution of the Radiation Diffusion Equation on Arbitrary Polygonal Meshes and Locally Adapted Quadrilateral Grids\\
+{\it Journal of Computational Physics},\\
+
+\bigskip
+\bigskip
+
+{
+\color{blue}
+This paper is a very high quality paper for the Journal of Computational Physics and should be
+accepted for publication without reservation. One of the main strengths of this paper is its very thorough
+review of spatial discretization technology for radiation diffusion. It is well written, and includes a
+comprehensive set of test problems applied to the new discretization proposed.
+}
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+I have some suggestions for improvement, but as a reviewer, I do not require these additions to the paper
+for publication.
+}
+
+
+Thank you
+\bigskip
+
+
+
+{
+\color{blue}
+On the list or prior works, a reference or references should be included for each item in the list. For the
+first two items, no references are included.
+}
+
+
+Thank you
+\bigskip
+
+{
+\color{blue}
+The derivation of the discretization is complicated enough to warrant an appendix which goes through
+the details of the mathematics (e.g. how to get to Eq. 3 and Eq. 8), like one would find in a thesis or
+dissertation. I am a proponent of including these detailed types of explanations in papers because I think
+they enhance the read-ability of the paper; however, some disagree with this philosophy.
+}
+
+
+Thank you
+\bigskip
+
+{
+\color{blue}
+The author could state more clearly how this work is distinct from previous work. The author mentions
+that others have applied a Discontinuous method to diffusion operators. How is the proposed method
+different? In section 3, the author writes: "Many variants of such discontinuous discretization methods
+exist for diffusion problems…" It may be a good idea to say, the discretization in this paper is different
+because…
+}
+
+
+Thank you
+\bigskip
+
+{
+\color{blue}
+I am curious as to why the statement was made that "we have opted to use two loops: one over the
+elements…" Did this have an impact of computational performance? It seems like the reason why was never
+addressed.
+}
+
+
+Thank you
+\bigskip
+
+{
+\color{blue}
+For the discussion at the top of page 9 about C and h$_\perp$ a picture may be helpful, especially when
+describing the inradius and circumradius for polygons.
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+I am curious if the author has tried standard linear basis functions (u(x,y) = a + bx + cy) on
+quadrilaterals to see if this works for the DFEM type diffusion discretization.
+}
+
+
+Thank you
+\bigskip
+
+{
+\color{blue}
+What code was this method implemented in? Was it just a test code? Was it MATLAB? Were there any
+parallel runs? What linear solver package was used, if any?
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+I think a potential weakness of the paper is that the author does not compare the new method to any of
+the existing methods. If this is not hard to do, these results would be very interesting to include in the
+paper. Additionally, these results could be included in a future paper or conference proceedings.
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+For the linear test problem results, what are the iteration counts for the linear solve as the mesh is
+distorted? Was the iteration count a lot different for the different mesh types? For quads vs. polygons?
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+A reference for computing bounded Voronoi diagrams is a good idea.
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+For the convergence plots, I think the terminology is a bit inconsistent. In the text the author writes
+in terms of dof. In the plots, he uses number of unknowns. This could be a bit more consistent, but is a
+minor detail.
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+In general, an understanding of how resistant this method is to negative solutions would be another
+interesting thing to study, especially in a time dependent case, with a delta-function like source. I would
+anticipate that this method would perform a lot better than the CFEMs.
+}
+
+
+Thank you
+\bigskip
+
+
+
+{
+\color{blue}
+Does the author anticipate a straight-forward application to RZ geometry and 3D geometry? Will the
+method recover spherical symmetry in RZ geometry. Brunner, et. Al. have observed an issue with this for RZ
+geometry. See T.A. Brunner…, "Perserving Spherical Symmetry in Axisymmetric Coordinates for Diffusion,"
+in Proc. International Conference on Mathematics and Computational Methods Applied to Nuclear Science and
+Engineering, May 5-9, 2013, Sun Valley, ID (2013), CD-ROM
+}
+
+
+Thank you
+\bigskip
+
+
+\end{document}
+

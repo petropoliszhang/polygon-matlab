@@ -1,0 +1,125 @@
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb}
+% more math
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsbsy}
+
+\usepackage{color}
+\newcommand{\mt}[1]{\marginpar{\small #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% new commands
+\newcommand{\nc}{\newcommand}
+% operators
+\renewcommand{\div}{\vec{\nabla}\! \cdot \!}
+\newcommand{\grad}{\vec{\nabla}}
+% latex shortcuts
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bal}{\begin{align}}
+\newcommand{\eali}{\end{align}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+% DGFEM commands
+\newcommand{\jmp}[1]{[\![#1]\!]}                     % jump
+\newcommand{\mvl}[1]{\{\!\!\{#1\}\!\!\}}             % mean value
+\newcommand{\keff}{\ensuremath{k_{\textit{eff}}}\xspace}
+% shortcut for domain notation
+\newcommand{\D}{\mathcal{D}}
+% vector shortcuts
+\newcommand{\vo}{\vec{\Omega}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vn}{\vec{n}}
+\newcommand{\vnk}{\vec{\mathbf{n}}}
+\newcommand{\vj}{\vec{J}}
+% extra space
+\newcommand{\qq}{\quad\quad}
+% common reference commands
+\newcommand{\eqt}[1]{Eq.~(\ref{#1})}                     % equation
+\newcommand{\fig}[1]{Fig.~\ref{#1}}                      % figure
+\newcommand{\tbl}[1]{Table~\ref{#1}}                     % table
+
+\newcommand{\ud}{\,\mathrm{d}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+{ \Large Answers to Reviewer \#2}
+\end{center}
+
+\bigskip
+
+\noindent Ms. Ref. No. JCOMP-D-13-00928\\
+Discontinuous Finite Element Solution of the Radiation Diffusion Equation on Arbitrary Polygonal Meshes and Locally Adapted Quadrilateral Grids\\
+{\it Journal of Computational Physics},\\
+
+\bigskip
+\bigskip
+
+{
+\color{blue}
+This paper describes a new approach to the solution of the radiation dffusion
+equation on arbitrary polygonal meshes and meshes consistent with adaptive
+mesh refinement (AMR), using a discontinuous finite element approach with the
+symmetric interior penalty technique. My recommendation is that this paper
+be published after some minor revisions. The author does a great job making
+clear the distinct contribution of the paper and distinguishes this research from
+that performed previously.
+}
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+There is no mention anywhere in the paper that one downside of discontinuous finite element methods, when compared with continuous finite
+element methods, is the much greater number of unknowns. This should
+be pointed out, and if there is a computational expense associated with
+this increased number unknowns, it should be discussed.
+}
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+There is no investigation of the effect of the user supplied parameters in
+the symmetric interior penalty (SIP) technique, nor is there any discussion
+of whether the results that are obtained are sensitively dependent on these
+choices. Do the results obtained require the choices of C and h? made by
+the author? Will other choices lead to poorer or better performance?
+}
+
+
+Thank you
+\bigskip
+
+
+{
+\color{blue}
+A list of typographical, grammatical and notational errors follows. Note:
+page numbers are those in the document provided to the reviewer, not those
+provided by the author.
+}
+
+Thank you for pointing them out and for the thorough review. We have corrected them.
+
+\bigskip
+
+
+
+
+
+
+
+\end{document}
+
