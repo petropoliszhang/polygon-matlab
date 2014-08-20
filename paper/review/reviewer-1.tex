@@ -46,6 +46,8 @@
 \newcommand{\tbl}[1]{Table~\ref{#1}}                     % table
 
 \newcommand{\ud}{\,\mathrm{d}}
+
+\newcommand{\tcr}[1]{\textcolor{red}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -71,7 +73,7 @@ review of spatial discretization technology for radiation diffusion. It is well 
 comprehensive set of test problems applied to the new discretization proposed.
 }
 
-Thank you
+Thank you for your thorough review and appreciation of our work. 
 \bigskip
 
 
@@ -82,7 +84,9 @@ for publication.
 }
 
 
-Thank you
+Thank you. Even though you do not require these additions for publication, I take it at heart to publish the 
+possible papers and I will include as many suggestions for improvement as possible in the revised version of 
+this manuscript.
 \bigskip
 
 
@@ -94,7 +98,11 @@ first two items, no references are included.
 }
 
 
-Thank you
+In this short enumeration of prior works, our intent was not to add new references but to recall
+the various techniques we have just reviewed in the above paragraphs. However, we have forgotten to 
+discuss FV techniques for polygonal meshes. This is now corrected and a sentence has been added in the 
+above literature review. Mimetic FD were already described and reviewed above so we do not think we are missing 
+references for this type of discretization techniques. 
 \bigskip
 
 {
@@ -106,7 +114,9 @@ they enhance the read-ability of the paper; however, some disagree with this phi
 }
 
 
-Thank you
+The articles we cite ``Unified Analysis of Discontinuous Galerkin Methods for Elliptic Problems'' (Douglas et. al.),
+the habilitation thesis ``Discontinuous Galerkin Methods for Viscous Incompressible Flow'' by Kanschat and a SIAM book on DG 
+methods that we have added in the revised manuscript ``Discontinuous Galerkin Methods for Solving Elliptic and Parabolic Equations: Theory and Implementation'' by Rivere\'ere are resources that provide an excellent description of the SIP method for elliptic problems (along with many DG variants). 
 \bigskip
 
 {
@@ -114,12 +124,14 @@ Thank you
 The author could state more clearly how this work is distinct from previous work. The author mentions
 that others have applied a Discontinuous method to diffusion operators. How is the proposed method
 different? In section 3, the author writes: "Many variants of such discontinuous discretization methods
-exist for diffusion problems…" It may be a good idea to say, the discretization in this paper is different
+exist for diffuion problems…" It may be a good idea to say, the discretization in this paper is different
 because…
 }
+The DG technique for the radiation diffusion equation is the standard Symmetric Interior Penalty technique. 
+We chose it because it yields a symmetric linear system that can be efficiently solved using
+a preconditioned conjugate gradient technique. The novelty is the use SIP on polygonal meshes using PWLD basis functions
+(and to perform  AMR with PWLD).
 
-
-Thank you
 \bigskip
 
 {
@@ -129,8 +141,13 @@ elements…" Did this have an impact of computational performance? It seems like
 addressed.
 }
 
+The DG bilinear form, Eq.(8), may look a bit complex. However, it only contains volume (surface in 2D) integrals 
+and face (edge in 2D) integrals. The volume integrals are split on each element (thus we loop over the elements). 
+Each integral in the volume of a given element only contribute entries in the global matrix for the unknowns present 
+in that element. The face integrals are split over the faces (thus we loop over the set of interior faces). Each face integral
+contributes entries in the global matrix for the  unknowns present in the two elements separating by that face. 
+Thus, the manner in which cell/face information is accessed and used is different. It felt like coding would be clearer if  our implementation would mimic the various terms found in the bilinear form of Eq.(8).
 
-Thank you
 \bigskip
 
 {
@@ -140,7 +157,7 @@ describing the inradius and circumradius for polygons.
 }
 
 
-Thank you
+\tcr{Thank you}
 \bigskip
 
 
@@ -150,8 +167,13 @@ I am curious if the author has tried standard linear basis functions (u(x,y) = a
 quadrilaterals to see if this works for the DFEM type diffusion discretization.
 }
 
+One can, of course, use linear basis functions on quadrilaterals. However, the ultimate goal is to employ
+the diffusion equation as a preconditioner to a radiation transport solver. In the thick diffusion limit,
+employing linear basis functions on quadrilaterals leads to a locking of the transport solution to the 
+wrong answer. In reactor problems, where the thick diffusion limit is not a relevant regime, researcher
+may prefer to use linear basis functions (a+bx+cy+dz) on hexadredal cells to reduce the number of unknowns
+without drastically reducing accuracy.
 
-Thank you
 \bigskip
 
 {
@@ -159,9 +181,13 @@ Thank you
 What code was this method implemented in? Was it just a test code? Was it MATLAB? Were there any
 parallel runs? What linear solver package was used, if any?
 }
+The test bed code is MATLAB. We use both the built-in optimized LU package but also a conjugate gradient solve
+preconditioned with an algebraic multigrid method. The PWLD SIP technique for diffusion is now being 
+implement in a massively C++ radiation transport to be used either as a standalone solver or a 
+synthetic preconditioner. 
 
 
-Thank you
+
 \bigskip
 
 

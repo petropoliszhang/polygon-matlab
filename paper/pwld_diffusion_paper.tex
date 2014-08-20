@@ -237,6 +237,9 @@ symmetric positive-definite (SPD) matrices but (i) the finite element integrals 
 numerically and (ii) the Jacobian of the transformation becomes zero on degenerate cells 
 (such as the ones shown on \fig{fig:amr}) and on non-convex cells. 
 %
+In \cite{Herbin2006}, a cell-centered finite volume approximation is proposed to solve tensor diffusion problems
+on unstructued meshes.
+%
 %Morel et al. \cite{MorelDendyHallWhite1992} introduced a cell-centered finite volume scheme 
 %for arbitrary quadrilateral meshes. Their scheme was second-order accurate and yielded back a 
 %standard five-point stencil on orthogonal grids, but the diffusion operator was asymmetric 
@@ -260,7 +263,7 @@ as symmetry, positivity, monotonicity, asymptotic limits, and identities pertain
 to tensor and vector calculus. Mimetic methods can also be viewed as mixed hybrid 
 finite element formulations with specific spatial quadratures.  
 In addition to quadrilateral and hexahedral meshes (see, e.g., 
-\cite{MorelRobertsShashkov1998,MorelHallShashkov2001}, mimetic finite difference 
+\cite{MorelRobertsShashkov1998,MorelHallShashkov2001}), mimetic finite difference 
 methods have recently been applied to the diffusion equation on arbitrary polygonal 
 grids \cite{Kuznetsov2004,Brezzi2005,LipnikovShashkovSvyatskiy2006,LipnikovShashkov2010}.
 %conformal quadrilateral \cite{HymanShashkovSteinberg1997, ShashkovSteinberg1996,MorelRobertsShashkov1998} 
@@ -278,7 +281,7 @@ defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedr
 
 In this paper, we are interested in solving a diffusion equation on arbitrary polygonal
 grids using a {\em discontinuous} finite element discretization. We employ the
-Symmetric Interior Penalty (SIP) technique \cite{Arnold1982,DouglasN.Arnold2002,Kanschat2007}, 
+Symmetric Interior Penalty (SIP) technique \cite{Arnold1982,DouglasN.Arnold2002,Kanschat2007,Riviere2008}, 
 developed for the discretization of elliptic equations using discontinuous Galerkin techniques;
 this results in a linear system matrix that is Symmetric Positive Definite (SPD). For basis functions,
 we use the piece-wise linear functions of \cite{BaileyAdams2008}.
@@ -288,7 +291,7 @@ The motivations for employing discontinuous finite elements on polygonal grids a
 %we wish to assess the performance of piece-wise linear discontinuous finite elements for 
 %	the discretization of the diffusion equation on polygonal meshes; \\
 	prior works dealing with the spatial discretization of the radiation diffusion equation on polygonal meshes 
-	have used finite volume, mimetic finite differences, and continuous finite element techniques;  
+	have used finite volume, mimetic finite difference, and continuous finite element techniques;  
 	we wish to test the performance of Piece-Wise linear discontinuous finite elements for such grids;
 \item prior works also dealt with spatial discretization errors on highly distorted quadrilateral grids; 
   we wish to assess the accuracy of a PWLD discretization on such grids as well; 
@@ -478,7 +481,8 @@ methods exist for diffusion problems (depending, for instance, on the choice of 
 the diffusion equation is expressed in its mixed form, \ldots). We refer the Readers to the review
 paper \cite{DouglasN.Arnold2002} for additional details. Here, we employ the Symmetric
 Interior Penalty (SIP) method which we have found to be robust in our test cases and relatively simple 
-to implement.
+to implement. In addition the SIP method yields a symmetric linear system that can be efficiently solved using
+a preconditioned conjugate gradient technique.
 %Even though discontinuous Galerkin methods are commonly used in the particle and radiation transport communities, 
 The general idea of interior penalty methods can be traced back to \cite{lions1968}, where the Dirichlet
 boundary conditions to the model diffusion problem $\{-\div \grad E = Q$ in domain $\D$, $E=E^d$ on 
