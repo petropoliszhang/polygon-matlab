@@ -7,6 +7,8 @@
 \usepackage{amstext}
 \usepackage{amsbsy}
 
+\usepackage{float}
+\usepackage{graphicx}
 \usepackage{color}
 \newcommand{\mt}[1]{\marginpar{\small #1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +86,7 @@ for publication.
 }
 
 
-Thank you. Even though you do not require these additions for publication, I take it at heart to publish the 
+Thank you. Even though you do not require these additions for publication, I wish to publish the best 
 possible papers and I will include as many suggestions for improvement as possible in the revised version of 
 this manuscript.
 \bigskip
@@ -115,7 +117,9 @@ they enhance the read-ability of the paper; however, some disagree with this phi
 
 The review article ``Unified Analysis of Discontinuous Galerkin Methods for Elliptic Problems'' (Douglas et. al.),
 the habilitation thesis ``Discontinuous Galerkin Methods for Viscous Incompressible Flow'' by Kanschat and a SIAM book on DG 
-methods that we have added in the revised manuscript ``Discontinuous Galerkin Methods for Solving Elliptic and Parabolic Equations: Theory and Implementation'' by Rivere\'ere are resources that provide an excellent description of the SIP method for elliptic problems (along with other DG variants). 
+methods that we have added in the revised manuscript ``Discontinuous Galerkin Methods for Solving Elliptic and Parabolic Equations: 
+Theory and Implementation'' by Rivi\`ere are several resources that provide an excellent description of the SIP method for 
+elliptic problems (along with other DG variants). 
 \bigskip
 
 {
@@ -128,9 +132,9 @@ because…
 }
 
 The DG technique for the radiation diffusion equation is the standard Symmetric Interior Penalty (SIP) technique. 
-We chose it because it yields a symmetric linear system that can be efficiently solved using
-a preconditioned conjugate gradient technique. The novelties are the use SIP on polygonal meshes, hence the use of the PWLD basis functions,
-and performing adaptive mesh refinement with PWLD.
+We have chosen it because it yields a symmetric linear system that can be efficiently solved using
+a preconditioned conjugate gradient technique. The novelties are: the use SIP on polygonal meshes, hence the use of the PWLD basis functions,
+and adaptive mesh refinement carried out with with PWLD resulting in polygonal meshes.
 
 \bigskip
 
@@ -150,18 +154,38 @@ Thus, the manner in which cell/face information is accessed and used is differen
 to the global matrix would make the code clearer. One can of course one a single loop over elements and, for a given element, deal 
 with the face integral pertaining to that element at that moment.
 
-We haven't assess the impact on computational performance for either of these two implementations (we have coded only one implementation).
+We haven't assessed the impact on computational performance for either of these two implementations (we have coded only one implementation).
 
 \bigskip
 
 {
 \color{blue}
 For the discussion at the top of page 9 about C and h$_\perp$ a picture may be helpful, especially when
-describing the inradius and circumradius for polygons.
+describing the inradius and circumradius for polygons.\\
 }
+The constant $C$ needs to be of order 1 for the SIP method; this is described in the SIP references of Kanschat and the 
+book of Rivi\`ere. We have added a note (and a reference) pertaining to another interior penalty method where $C$ can be 0; however,
+in this case the resulting linear system is nonsymmetric and cannot be tackled using a preconditioned conjugate gradient technique.
+We believe that the interested readers will find adequate information in the references we cite in the introduction and in that 
+particular section of the manuscript.\\
 
 
-\tcr{Thank you}
+The definitions for the inradius and the circumradius for regular polygons are standard.
+The figures below summarize the values of $h_\perp$ for a regular polygons using a pentagon and a hexagon as examples of polygons 
+with odd and even number of sides. In the manuscript, we added that
+the formulae used to compute the inradius and the circumradius based on a regular polygon's area and perimeter
+are used for any polygon. What really matters is the value of the resulting penalty coefficient.  
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.75]{hperp_odd.png}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.75]{hperp_even.png}
+\end{figure}
+
+
 \bigskip
 
 
@@ -204,9 +228,11 @@ paper. Additionally, these results could be included in a future paper or confer
 }
 
 We haven't implemented mimetic finite differences or Palmer's method so we cannot compare with them. We are
-proceeding with the SIP PWLD implementation in our parallel transport solver that already the PWLC (C for continuous)
-finite element discretization of the diffusion equation on polygonal grids. We expect to communicate comparison
-results in the future.
+currently implementing the SIP discretization of the diffusion equation with PWLD basis functions 
+in our parallel transport solver, PDT.  In PDT, we already have a PWLC (C for continuous)
+finite element discretization of the diffusion equation for polygonal grids. We expect to communicate in the near
+future DSA results comparing PWLD-SIP versus PWLC (which requires a discontinuous update as a post-processing step to
+be an effective preconditioner).
  \bigskip
 
 
@@ -217,7 +243,10 @@ distorted? Was the iteration count a lot different for the different mesh types?
 }
 
 
-Thank you
+Most of the results are obtained through MATLAB's LU direct solve but we have also implemented a PCG preconditioned with AMG 
+(aggregation multigrid method or AGMG). For a CG tolerance of $10^{-11}$, the number of PCG iterations was: 20 (quad mesh),
+74 (Z-mesh quad), and 73 (Z-mesh poly). So, the polygon type (quad versus arbitrary polygons) has little impact on
+the iterative efficiency on heavily distorted meshes.
 \bigskip
 
 
@@ -227,8 +256,25 @@ A reference for computing bounded Voronoi diagrams is a good idea.
 }
 
 
-Thank you
+It is well known that the boundaries of a Voronoi diagram may have line segments of infinite length. By bounded Voronoi diagram, 
+we simply mean that we bound these line segments to intersect the  bounded box of the original quadrilateral mesh. 
+We are not aware of a reference for this. The idea in itself is simple. We illustrate it below: in red, we have a triangular mesh 
+in the rectangle $-6 \le x\,,y \le 6$. The blue lines represent the standard Voronoi diagram. We simply bound Voronoi diagram by 
+the original rectangular domain.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.75]{bounded_voronoi_example.png}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.75]{bounded_voronoi_example2.png}
+\end{figure}
+% for a set of points (here, vertices of quadrangular meshes)
+
 \bigskip
+
+
 
 
 {
