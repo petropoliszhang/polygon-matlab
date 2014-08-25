@@ -1278,12 +1278,12 @@ as the exact solution:
 %
 We have chosen the location of the peak to be $x_0=\tfrac{6}{10}L_x$, $y_0=\tfrac{7}{10}L_y$, with $\varsigma=L_xL_y/100$. 
 The diffusion coefficient and absorption cross section are  $D=1/6$ and $\sigma_a=1$. 
-This exact solution satisfies zero-Dirichlet boundary conditions. One then can compute 
-the corresponding volumetric source term $Q(x,y)$ used to generate the right-hand of the discrete linear system. 
+This exact solution satisfies zero-Dirichlet boundary conditions. One can then compute 
+the corresponding volumetric source term $Q(x,y)$ used to generate the right-hand-side of the linear system. 
 We solve the radiation diffusion equation on a sequence of grids with increasing resolution. The coarsest grid level
 uses simply a $2\times 2$ grid with quadrangles. This initial grid is either uniformly refined or locally adapted 
 using the refinement criteria set forth in \sct{sec:amr}. The $L_2$-norm of the error (difference
-between the exact and the computed numerical solutions) is plotted in \fig{fig:conv_rate_amr}. As expected, both refinement
+between the exact and the numerical solutions) is plotted in \fig{fig:conv_rate_amr}. As expected, both refinement
 strategies lead to a convergence rate of one measured against the number of unknowns, demonstrating the 
 second-order accuracy of the PWLD discretization on both grid types. We note that when using an AMR strategy 
 the solution is obtained with roughly a savings of
@@ -1291,7 +1291,7 @@ a factor of 5 to 6 in terms of the number of unknowns.
 The numerical solution obtained with AMR is graphed on \fig{fig:amr_sol}.
 \fig{fig:amr_grids} shows the AMR grids at cycles 5, 10, and 15. The location of the peak in the exact solution is
 locally refined as the number of adaptivity cycles increases. \fig{fig:amr_zoom} presents a magnification of the AMR grid of cycle 15
-where one can note the presence of several (degenerated) octogonal cells surrounded by once-more refined neighbors on all 
+where one can note the presence of several (degenerate) octogonal cells surrounded by once-more refined neighbors on all 
 of their sides. Since these cells possess eight unknowns with the PWLD discretization, as opposed to
 only four with a standard bilinear discontinuous discretization, the 3-irregular rule of Bank does not need to be applied.
 \tbl{tab:poly_cell_types_amr_poly} provides the types and number of polygonal cells used in the last AMR grid.
