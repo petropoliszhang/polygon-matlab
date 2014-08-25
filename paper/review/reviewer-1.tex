@@ -210,8 +210,9 @@ What code was this method implemented in? Was it just a test code? Was it MATLAB
 parallel runs? What linear solver package was used, if any?
 }
 
-The test bed code is MATLAB. We use both the built-in optimized LU package but also a conjugate gradient solve
-preconditioned with an algebraic multigrid method. The PWLD SIP technique for diffusion is now being 
+The test bed code is MATLAB. We use both a conjugate gradient solve
+preconditioned with an algebraic multigrid method (and also verified its answer against MATLAB's LU direct solver). 
+The PWLD SIP technique for diffusion is now being 
 implemented in a massively C++ radiation transport to be used either as a standalone solver or a 
 synthetic preconditioner for transport solves. 
 
@@ -243,8 +244,9 @@ distorted? Was the iteration count a lot different for the different mesh types?
 }
 
 
-Most of the results are obtained through MATLAB's LU direct solve but we have also implemented a PCG preconditioned with AMG 
-(aggregation multigrid method or AGMG). For a CG tolerance of $10^{-11}$, the number of PCG iterations was: 20 (quad mesh),
+%Most of the results are obtained through MATLAB's LU direct solve but we have also implemented a PCG preconditioned with AMG 
+%(aggregation multigrid method or AGMG). 
+For a CG tolerance of $10^{-11}$, the number of PCG iterations was: 20 (quad mesh),
 74 (Z-mesh quad), and 73 (Z-mesh poly). So, the polygon type (quad versus arbitrary polygons) has little impact on
 the iterative efficiency on heavily distorted meshes.
 \bigskip

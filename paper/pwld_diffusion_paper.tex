@@ -235,7 +235,7 @@ Wachspress \cite{Wachspress} developed a family of rational polynomial functions
 as basis functions in a finite element method on polygonal/polyhedral grids. This yields
 symmetric positive-definite (SPD) matrices but (i) the finite element integrals must be carried out 
 numerically and (ii) the Jacobian of the transformation becomes zero on degenerate cells 
-(such as the ones shown on \fig{fig:amr}) and on non-convex cells. 
+(such as the ones shown in \fig{fig:amr}) and on non-convex cells. 
 %
 In \cite{Herbin2006}, a cell-centered finite volume approximation is proposed to solve tensor diffusion problems
 on unstructued meshes.
@@ -248,14 +248,14 @@ on unstructued meshes.
 Palmer \cite{Palmer2001,PalmerLLNL} proposed a node-based finite volume method 
 that enforces particle balance over the control volume associated with a given grid vertex.
 This control volume defines a dual cell constructed as 
-the union of all corners surrounding the specified vertex $v$. In 2D, a corner 
+the union of all corners surrounding the specified vertex $p$. In 2D, a corner 
 is a quadrilateral with the following vertices: vertex $p$, the cell center, and the midpoint
 of the edges that contain vertex $p$. On a triangular grid, Palmer's scheme is equivalent 
 to employing linear continuous finite elements with ``mass-matrix lumping''. This method is 
 second-order accurate but its discretization of the diffusion equation produces an 
 asymmetric (i.e., not SPD) matrix, in general.
 %
-Mimetic finite difference methods create discrete analog of vector and tensor
+Mimetic finite difference methods create discrete analogs of vector and tensor
 calculus in order to accurately approximate the original differential operators;
 see, e.g., \cite{HymanMorelShashkovSteinberg2002}.
 Mimetic methods preserve important properties of the differential operators such 
@@ -277,7 +277,7 @@ element discretization that does not necessitate numerical integration, yields a
 is second-order accurate, and handles arbitrary polygonal/polyhedral grids (including 
 grids with degenerate cells). The approach they followed is a standard Galerkin weak 
 formulation for continuous finite elements, with piece-wise linear basis functions 
-defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedrons.
+defined on subcells (which they called ``sides'') of arbitrary polygons/polyhedra.
 
 In this paper, we are interested in solving a diffusion equation on arbitrary polygonal
 grids using a {\em discontinuous} finite element discretization. We employ the
@@ -390,7 +390,7 @@ resolution.  The following features of polygonal cells are noteworthy:
 Here, we describe piece-wise linear finite elements basis functions for
 arbitrary polygons.
 Consider a polygonal cell with $N_V$ vertices, $(x_i,y_i)$ for $1\le i \le N_V$. 
-The polygon needs not to be convex. In order to describe the piece-wise linear basis functions
+The polygon needs not be convex. In order to describe the piece-wise linear basis functions
 for such a cell, we introduce a cell ``center'', denoted hereafter 
 by $c=(x_c,y_c)$, with $x_c =\sum_{i=1}^{N_V} \alpha_{i} x_i$
 and  $y_c = \sum_{i=1}^{N_V} \alpha_{i} y_i$. We require that
@@ -411,13 +411,13 @@ The $N_V$ piece-wise linear basis functions are then given by:
 where $t_i(\br)$ is the standard linear function defined on the two adjacent
 triangular subcells formed by (1) vertex $i$, vertex $i-1$ and the cell center $c$,
 and (2) vertex $i$, vertex $i+1$ and the cell center $c$.
-$t_i$ is equal to one at the $i^{th}$ vertex and to zero at all other vertices of the polygon,
+$t_i$ is equal to one at the $i^{th}$ vertex and equal to zero at all other vertices of the polygon,
 as well as at the cell center.
 $t_c(\br)$ is the ``tent'' function associated with the cell center and is equal to one 
 at the cell center and to zero at all of the polygon vertices.
 %
 We stress that this choice of basis functions is not equivalent to employing a standard 
-continuous finite element representation within a polygon 
+continuous finite element representation within a polygon. 
 % that would divide such a polygon into $N_V$ triangular subcells. 
 Indeed, in the case of a standard continuous finite 
 element representation, the number of basis functions would be equal to $N_V+1$ 
@@ -425,7 +425,7 @@ element representation, the number of basis functions would be equal to $N_V+1$
 piece-wise linear representation, the unknowns are only located at the cell 
 vertices and the cell center point is only used to define the basis functions.
 For example, \fig{fig:pentagons} presents two simple examples of polygonal cells: a 
-pentagon and a degenerated pentagon, the later is typically obtained
+pentagon and a degenerate pentagon, the later is typically obtained
 during local mesh adaptation (see also \fig{fig:amr2}).
 The isolines of the piece-wise linear basis functions for vertex $D$ and
 $E$ are graphed in \fig{fig:pwl_pentagon} for the regular pentagon
@@ -478,14 +478,14 @@ and in \fig{fig:pwl_degen_pentagon} for the degenerate pentagon.
 In this Section, we present the discontinuous Galerkin finite element technique employed to
 discretize the radiation diffusion equation on arbitrary polygonal grids. Many variants of such discontinuous discretization
 methods exist for diffusion problems (depending, for instance, on the choice of stabilization terms, whether 
-the diffusion equation is expressed in its mixed form, \ldots). We refer the Readers to the review
+the diffusion equation is expressed in its mixed form, \ldots). We refer the reader to the review
 paper \cite{DouglasN.Arnold2002} for additional details. Here, we employ the Symmetric
 Interior Penalty (SIP) method which we have found to be robust in our test cases and relatively simple 
 to implement. In addition the SIP method yields a symmetric linear system that can be efficiently solved using
 a preconditioned conjugate gradient technique.
 %Even though discontinuous Galerkin methods are commonly used in the particle and radiation transport communities, 
 The general idea of interior penalty methods can be traced back to \cite{lions1968}, where the Dirichlet
-boundary conditions to the model diffusion problem $\{-\div \grad E = Q$ in domain $\D$, $E=E^d$ on 
+boundary conditions for the model diffusion problem $\{-\div \grad E = Q$ in domain $\D$, $E=E^d$ on 
 the boundary $\partial \D\}$ have been enforced via a penalty method, thereby modifying the 
 boundary condition to read $E+\frac{1}{\mu}\partial_n E = E^d$ with $\mu\gg 1$. Later, 
 Nitsche \cite{nitsche1971} proposed a consistent formulation for the enforcement of the 
@@ -501,7 +501,7 @@ Dirichlet boundary condition with a penalty term, leading to the weak formulatio
 - \int_{\partial\D} E^d \partial_n \tf ,
 \end{equation}
 with $\tf$ a finite element basis function and $\mu=\alpha/h$, where $h$ denotes 
-the mesh size and $\alpha>1$ is a constant.
+the mesh size and $\alpha>1$ is a constant. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $\vn$ the outward unit normal vector.
 %
 Nitsche's idea, extended to all cell edges (not only cells with edges on the boundary), leads
 to the family of interior penalty methods for discontinuous finite elements. The SIP form,
@@ -530,7 +530,7 @@ and Robin boundary conditions
 $E$ is the unknown radiation scalar intensity. The boundary of the domain is split such that
 $\partial \D = \partial \D^d \cup \partial \D^n \cup \partial \D^r$,  where the superscripts
 denote Dirichlet, Neumann, and Robin types, respectively. $E_0$, $F_0$, and $F^{inc}$ are specified
-quantities. $\partial_n \boxdot$ denotes $ \grad \boxdot \cdot \vn$ with $\vn$ the outward unit normal vector.
+quantities. 
 
 
 % Obviously, the domain boundary is the  $\partial \D = \mathcal{E}_h^{\partial\D,D}\cup \mathcal{E}_h^{\partial\D,N} \cup \mathcal{E}_h^{\partial\D,R}$.
@@ -573,12 +573,12 @@ we have opted to use two loops: one over the elements to compute the volume inte
 \begin{equation}
 \int_{\mathbb{T}_{h}} \longrightarrow \sum_{K \in \mathbb{T}_{h}} \int_{K} \, ,
 \end{equation}
-and one of the edge sets to compute the edge integrals
+and one over the edge sets to compute the edge integrals
 \begin{equation}
 \int_{\mathcal{E}_h} \longrightarrow \sum_{e \in \mathcal{E}_h} \int_{e} \, .
 \end{equation}
 We have also chosen to arbitrarily assign a unit normal vector, $\vn$, to each interior edge (for the boundary edges,
-$\vn$ is always to outward point unit normal vector). With this choice, the definition of the mean value and the jump of a quantity $u$ on any given interior edge are given by
+$\vn$ is always the outward pointing unit normal vector). With this choice, the definition of the mean value and the jump of a quantity $u$ on any given interior edge are given by
 \begin{equation} \label{eq:mean}
 \mvl{u} = \frac{u^+ + u^-}{2}
 \end{equation}
@@ -590,7 +590,7 @@ respectively.  The values taken by the quantity $u$ while approaching the edge f
 \begin{equation} \label{eq:upm}
 u^\pm = \lim_{s\to 0^\pm} u(\vr + s \vn) \, ,
 \end{equation}
-for any point $\vr$ on that edge (that is, $u^+$ is the trace of $u$ along that edge taken from the cell pointed by $\vn$).
+for any point $\vr$ on that edge (that is, $u^+$ is the trace of $u$ along that edge taken from the cell pointed to by $\vn$).
 %
 The penalty coefficient, $\kappa$, is edge-dependent and is given by
 \begin{equation} \label{eq:kappa}
@@ -601,12 +601,12 @@ The penalty coefficient, $\kappa$, is edge-dependent and is given by
     \end{array}
     \right. \, ,
 \end{equation}
-where $C$ is a constant, $h_{\bot}$ is the length of the cell in the direction 
+where $C$ is a constant and $h_{\bot}$ is the length of the cell in the direction 
 orthogonal to edge $e$. 
 %In the mathematical literature, the jumps terms, $\kappa\jmp{E}\jmp{\tf}$,
 %are also identified as a stabilization technique for which the constant $\kappa$ needs to be large enough. 
 For quadrilateral meshes with linear basis functions, researchers typically utilize $C \ge 4$ 
-(through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order).  Here, we use $C=4$.
+(through the formula $C=c(p+1)^2$, with $c\ge 1$ and $p$ the polynomial order).  % Here, we use $C=4$.
 %unless otherwise noted. 
 Note that the nonsymmetric interior penalty method of Babuska, Baumann, and Oden \cite{Babuska1999103}
 allows for $C=0$ but the resulting linear system is nonsymmetric and cannot be tackled using a 
@@ -620,7 +620,11 @@ However, there are no formulae to compute $h_{\bot}$ for arbitrary polygons. In 
 polygonal cells were assumed to be regular polygonal cells, in which case $h_{\bot}^\reg$ is given
 by twice the inradius for regular even-sided polygons and by the inradius plus the 
 circumradius for odd-sided polygons. The inradius and the circumradius are computed 
-using the area and perimeter of the actual polygonal cell. 
+using the area and perimeter of the {\it actual} polygonal cell. 
+%
+In the Results section, the polygonal meshes generated are fairly smooth and the polygonal cells are almost regular polygons. So, $h_\perp \simeq h^{reg}_\perp$ and the standard value of $C=4$ (i.e., $c=1$ here) was retained. 
+%
+However, for extremely skewed Shestakov meshes using {\it quadrangles}, $h_\perp $ may become different enough than $h^{reg}_\perp$. In this case, the constant $C$ has to be increased slightly, up to $C=20$ in the worst case (the SIP method was always convergent with $C=4$ but some small local artifacts were visible in the solution in regions with highly distorted and elongated quadrangles).
 %The calculated value for $h_\perp$ may be, for extremely skewed meshes, inaccurate, leading to too small a value for the penalty coefficient.
 
 % (not the formulas pertaining to the regular polygons). 
@@ -646,7 +650,7 @@ Solutions with strong and rapid spatial variations can be accurately captured us
 which cells to refine. When using discontinuous finite elements, the numerical solution is discontinuous
 across the edges (faces in 3D) between neighboring cells. The magnitude of these jumps is 
 small in regions where the solution is smooth and can be significantly larger in regions where
-the solution undergoes rapid spatial variations. A heuristic local error indicator is, therefore, to
+the solution undergoes rapid spatial variations. A heuristic local error indicator is therefore to
 monitor the interfacial jumps. Following \cite{Leicht2008,Ragusa_Wang_JCP_2011}, we define 
 the error indicator on cell $K$ as:
 \begin{equation} \label{eq:error_indicator}
@@ -730,12 +734,12 @@ and $\xi$ is a random number ($0 \le \xi \le 1$). $\xi=0$ returns the original r
 the literature, a value of $\xi$ in the order of 0.25 or less is often employed; here we show results with $\xi$ up to 0.65. 
 Above 0.65, some of the original cells are often flipped onto themselves. 
 \item
- ``'sinusoidal'' grids, given by the transformation
+ ``sinusoidal'' grids, given by the transformation
 \begin{align*}
-x_{i,j} &= \hat x_i + \zeta L_x \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) \\
-y_{i,j} &= \hat y_i + \zeta L_y \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_i/L_y \right) 
+x_{i,j} &= \hat x_i + \zeta L_x \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_j/L_y \right) \\
+y_{i,j} &= \hat y_j + \zeta L_y \sin\left(2\pi \hat x_i/L_x \right) \sin\left(2\pi \hat y_j/L_y \right) 
 \end{align*}
-with $(\hat x_i, \hat y_i)$ the vertices of a uniform orthogonal grid over the rectangular domain 
+with $(\hat x_i, \hat y_j)$ the vertices of a uniform orthogonal grid over the rectangular domain 
 $[0\, , L_x]\times [0\, , L_y]$, and $\zeta$ a distortion parameter ($0\le \zeta \le 1/(2\pi)$). 
 A rectangular mesh is recovered when $\zeta=0$. $\zeta$ is user-specified and not randomly generated.
 \item
@@ -762,16 +766,16 @@ or Shestakov quadrilateral grids). Standard Voronoi diagrams obtained using thes
 may contain cells with edges of infinite length along the boundary. The standard Voronoi diagram 
 is then clipped to fit within the bounded box of the original quadrilateral mesh).
 
-The discrete linear system of equation is solved using a preconditioned conjugate gradient (PCG) algorithm. 
+The discrete linear system of equations is solved using a preconditioned conjugate gradient (PCG) algorithm. 
 SSOR and aggregation Algebraic MultiGrid \cite{agmg}  are used as preconditioner. A reduction of the
-initial residual norm by a factor of $10^{10}$ is used as the stopping criterion for PCG. 
+initial residual norm by a factor of $10^{11}$ is used as the stopping criterion for PCG. 
 
 %-----------------------------------------------------------
 \subsection{A Standard Problem with Linear Exact Solution} \label{sec:results_linear}
 %-----------------------------------------------------------
 A standard test problem to verify that a numerical scheme preserves linear solutions has been
 proposed by Morel et al. \cite{Morel1992}. This test consists
-in solving the radiation diffusion equation on a rectangular domain containing an homogeneous pure 
+of solving the radiation diffusion equation on a rectangular domain containing an homogeneous pure 
 scatterer material ($\sigma_a=0$), no volumetric sources ($Q=0$), with reflective boundary conditions 
 on the top and bottom faces, and Robin boundary conditions on the left and right faces
 \begin{align}
@@ -783,8 +787,8 @@ The exact solution (for a domain of length $L_x$ in the $x$-direction) is
 E(x,y) = 	\frac{4F^{inc}}{L_x+4D}\left(L_x+2D-x \right)
 \end{equation}
 
-\fig{fig:linear_quad} presents the isolines obtained for this problems using four different quadrilateral grids:
-(a) a $16 \times 16$ random grid obtained by randomly moving the vertices of a rectangular grids by 66\% ($\alpha=0.66$), 
+\fig{fig:linear_quad} presents the isolines obtained for this problem using four different quadrilateral grids:
+(a) a $16 \times 16$ random grid obtained by randomly moving the vertices of a rectangular grid by 66\% ($\alpha=0.66$), 
 (b) a $20 \times 20$ Z-mesh with a skewness factor of $s=0.05$ (recall that for Z-meshes, skewness increases
 as $s\to 0$), 
 (c) a $16 \times 16$ Shestakov grid  with a randomness factor of $a=0.15$ (recall also that for Shestakov meshes, 
@@ -794,7 +798,7 @@ randomness increases as $a\to 0$), and
 %5 quads /256 had the cell centers lying outside of their cell. 
 The linearity of the true solution is exactly reproduced by the piece-wise linear discontinuous finite element solution. In the example chosen ($L=1$,$D=2$, $F^{inc}=9$), the solution varies from 20 (left) to 16 (right). Each isoline on the plots represents an increment of 0.2 in the solution.
 
-\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalents, that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some feature of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarizes the types and number of polygonal cells found in each of these grids. 
+\fig{fig:linear_poly} presents solutions obtained using polygonal grids; the polygonal grids are based on their quadrilateral equivalent; that is, the vertices of a given type of quadrilateral grids are utilized to generate a bounded Voronoi digram. Hence, we still refer to the polygonal meshes as random mesh, Z-mesh, and Shestakov mesh. For instance, one can note that the polygonal versions of the Z-mesh and the Shestakov mesh still contain some features of their quadrilateral-equivalent. \tbl{tab:poly_cell_types_linear_poly} summarizes the type and number of polygonal cells found in each of these grids. 
 For example, there are six polygons with 11 sides in the Z-mesh of \fig{fig:linear_poly}. The percentages of cells that are not triangular nor quadrangular for the random, Z-mesh, and Shestakov polygonal grids of \fig{fig:linear_poly} are 81\%, 48\%, and 73\%, respectively. As with quadrilateral grids, the linearity of the true solution is exactly reproduced by the piece-wise linear discontinuous finite element solution on polygonal grids.
 
 
@@ -946,7 +950,8 @@ $\varepsilon_h$ versus the mesh size $h$. Conversely, grid resolution is also re
 N_{\textit{dof}} \propto  h ^{-\dim} 
 \end{equation}
 where $\dim$ is the dimensionality of the domain (here, $\dim = 2$). Hence, a second-order convergence rate will 
-translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$.
+translate into the error $\varepsilon_h$ being linearly proportional to $1/N_{\textit{dof}}$. When plotted against the
+number of unknowns, a slope of 1 for $\varepsilon_h$ signifies second-order convergence in space.
 
 
 \subsubsection{Distorted Quadrilateral Meshes} \label{sec:results_conv_quad}
@@ -956,8 +961,8 @@ A convergence study is performed using four types of quadrilateral grids: unifor
 For the Sinusoidal, Shestakov, and Z-mesh types, a series of embedded grids of increasing resolution is utilized (this is actually part of the standard construction process for these grids). For the random quadrilateral grids, we have simply generated one realization of a grid per refinement level.  In \fig{fig:shes_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ Shestakov grids used here. 
  In \fig{fig:rand_quad_grids}, we show the $2 \times 2$, $8 \times 8$ , $32 \times 32$ , and $128\times 128$ random grids used here. 
 
-The  variation of the $L_2$ norm of the error as a function of the number of unknowns rate is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes. Thus, PWLD finite element discretization is second-order accurate for most quadrilateral meshes, even the ones with a significant amount of distortion, and exhibit reduced rates for highly distorted Shestakov meshes.
-To further analyze this observation, we provide the convergence rates for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 correspond to a structured rectangular grid and a value of close to 0 corresponds to a severely distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically looses such a rate for more distorted grids; this is not surprising and we are not aware of any spatial discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
+The  variation of the $L_2$ norm of the error as a function of the number of unknowns is graphed in \fig{fig:conv_rate_quad} for quadrilateral grids. A slope of one is observed for all meshes except for Shestakov meshes. Thus, PWLD finite element discretization is second-order accurate for most quadrilateral meshes, even the ones with a significant amount of distortion, and exhibit reduced rates for highly distorted Shestakov meshes.
+To further analyze this observation, we provide the convergence rates for Shestakov and Z meshes in \fig{fig:conv_rate_shes_Z_quad} as a function of the randomness parameter $a$ (Shestakov meshes) and the skewness parameter $s$ (Z meshes); recall that $0 \le a\, , s \le 0.5$ and that a value of 0.5 corresponds to a structured rectangular grid and a value of close to 0 corresponds to a severely distorted/skewed grid. For $0.3 \le a \le 0.5$, PWLD retains second-order convergence on Shestakov grids but drastically loses such a rate for more distorted grids; this is not surprising and we are not aware of any spatial discretization technique able to preserve second-order convergence on such grids. For Z-meshes, second-order convergence is retained for all grids, even the highly skewed grid with $s=0.05$ (shown in \fig{fig:cv_z_quad_mesh_nm2}, for instance).
 
 Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grids and the solution isolines (15 isolines, equally spaced by 0.125 in solution magnitude). The grids and isolines are not provided for the highest resolution data point found in \fig{fig:conv_rate_quad} (but the third-to-last data point) so as to display the mesh effects (at higher grid resolutions, the grid imprints are no longer discernible).
 
@@ -1109,7 +1114,7 @@ Finally, \fig{fig:conv_quad_nm2} presents some representative quadrilateral grid
 %--------------------------------------------
 
 We carry out the same study as in the previous Section but using polygonal grids this time. We employ the same terminology (
-random, sinusoidal, Shestakov, Z) to denote the polygonal meshes generated. However, recall that this denomination
+random, sinusoidal, Shestakov, Z) to denote the polygonal meshes generated. However, recall that this nomenclature 
 only describes the manner in which the vertices (used as input for the bounded Voronoi diagram) have been obtained.
 %
 \fig{fig:conv_rate_poly} shows the convergence rate study on polygonal grids. Second-order accuracy is observed for all 
@@ -1204,7 +1209,7 @@ Dodecagon       &  1    &   0    &   4     &  5   \\ \hline
 \subsection{Tensor Diffusion Tests Using Polygonal Grids} \label{sec:results_tens}
 %--------------------------------------------
 
-In this series of run, we replace the traditional diffusion coefficient with a full symmetry tensor,
+In this series of test problems, we replace the traditional diffusion coefficient with a full symmetry tensor,
 \begin{equation}
   D \longrightarrow \mathbb{D} \,.
 \end{equation}
@@ -1259,7 +1264,7 @@ coefficient of $s=0.05$.
 %--------------------------------------------
 
 In this Section, we use the PWLD discretization to seamlessly handle AMR grids and compare the rate
-of convergence rate of AMR grids with the ones of uniformly refined grids. In the AMR process, the cells whose
+of convergence of AMR grids with that observed when using uniformly refined grids. In the AMR process, the cells whose
 error is within 20\% of the maximum detected error are flagged for refinement, that is, a value of 
 $\theta=0.8$ is employed in \eqt{eq:refine_fraction}.
 To compare the numerical errors and obtain the rate of convergence, we employ again the method of 
@@ -1280,13 +1285,13 @@ uses simply a $2\times 2$ grid with quadrangles. This initial grid is either uni
 using the refinement criteria set forth in \sct{sec:amr}. The $L_2$-norm of the error (difference
 between the exact and the computed numerical solutions) is plotted in \fig{fig:conv_rate_amr}. As expected, both refinement
 strategies lead to a convergence rate of one measured against the number of unknowns, demonstrating the 
-second-order accuracy of PWLD discretization on both grid types. We note that when using an AMR strategy 
+second-order accuracy of the PWLD discretization on both grid types. We note that when using an AMR strategy 
 the solution is obtained with roughly a savings of
 a factor of 5 to 6 in terms of the number of unknowns. 
 The numerical solution obtained with AMR is graphed on \fig{fig:amr_sol}.
-\fig{fig:amr_grids} shows the AMR grids at cycles 5, 10, and 15. The location of peak in the exact solution is
-locally refined as the number of adaptivity cycles increases. \fig{fig:amr_zoom} presents a zoom on the AMR grid of cycle 15
-where one can note the presences of several (degenerated) octogonal cells surrounded by once-more refined neighbors on all 
+\fig{fig:amr_grids} shows the AMR grids at cycles 5, 10, and 15. The location of the peak in the exact solution is
+locally refined as the number of adaptivity cycles increases. \fig{fig:amr_zoom} presents a magnification of the AMR grid of cycle 15
+where one can note the presence of several (degenerated) octogonal cells surrounded by once-more refined neighbors on all 
 of their sides. Since these cells possess eight unknowns with the PWLD discretization, as opposed to
 only four with a standard bilinear discontinuous discretization, the 3-irregular rule of Bank does not need to be applied.
 \tbl{tab:poly_cell_types_amr_poly} provides the types and number of polygonal cells used in the last AMR grid.

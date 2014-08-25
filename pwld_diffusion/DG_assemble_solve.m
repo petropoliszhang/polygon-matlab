@@ -91,27 +91,29 @@ for iel=1:nel
             KK(iside,3,2)=Wx'*(feval(tx3,X,Y).*feval(tx2,X,Y)+feval(ty3,X,Y).*feval(ty2,X,Y))*Wy*alpha;
             KK(iside,3,3)=Wx'*(feval(tx3,X,Y).*feval(tx3,X,Y)+feval(ty3,X,Y).*feval(ty3,X,Y))*Wy*alpha^2;
             
-            if nargin(mms) == 4 % tensor diffusion
-                
-                tensxx=@(x,y) (x+1).^2 + y.^2;
-                tensxy=@(x,y) -x.*y;
-                tensyy=@(x,y) (x+1).^2 + 0.*y;
-                
-                %             % for testing only
-%                             tensxx=@(x,y) 0.*x+0.*y+1;
-%                             tensxy=@(x,y) 0.*x+0.*y+0;
-%                             tensyy=@(x,y) 0.*x+0.*y+1;
-                
-                KK(iside,1,1)=Wx'*(   feval(tx1,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy;
-                KK(iside,1,2)=Wx'*(   feval(tx1,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy;
-                KK(iside,1,3)=Wx'*(   feval(tx1,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
-                KK(iside,2,1)=Wx'*(   feval(tx2,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy;
-                KK(iside,2,2)=Wx'*(   feval(tx2,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy;
-                KK(iside,2,3)=Wx'*(   feval(tx2,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
-                KK(iside,3,1)=Wx'*(   feval(tx3,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
-                KK(iside,3,2)=Wx'*(   feval(tx3,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
-                KK(iside,3,3)=Wx'*(   feval(tx3,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha^2;
-                
+            if TF
+                if nargin(mms) == 4 % tensor diffusion
+                    
+                    tensxx=@(x,y) (x+1).^2 + y.^2;
+                    tensxy=@(x,y) -x.*y;
+                    tensyy=@(x,y) (x+1).^2 + 0.*y;
+                    
+                    %             % for testing only
+                    %                             tensxx=@(x,y) 0.*x+0.*y+1;
+                    %                             tensxy=@(x,y) 0.*x+0.*y+0;
+                    %                             tensyy=@(x,y) 0.*x+0.*y+1;
+                    
+                    KK(iside,1,1)=Wx'*(   feval(tx1,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy;
+                    KK(iside,1,2)=Wx'*(   feval(tx1,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy;
+                    KK(iside,1,3)=Wx'*(   feval(tx1,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty1,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
+                    KK(iside,2,1)=Wx'*(   feval(tx2,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy;
+                    KK(iside,2,2)=Wx'*(   feval(tx2,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy;
+                    KK(iside,2,3)=Wx'*(   feval(tx2,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty2,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
+                    KK(iside,3,1)=Wx'*(   feval(tx3,X,Y).*( feval(tx1,X,Y).*feval(tensxx,X,Y) + feval(ty1,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty1,X,Y).*feval(tensyy,X,Y) + feval(tx1,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
+                    KK(iside,3,2)=Wx'*(   feval(tx3,X,Y).*( feval(tx2,X,Y).*feval(tensxx,X,Y) + feval(ty2,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty2,X,Y).*feval(tensyy,X,Y) + feval(tx2,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha;
+                    KK(iside,3,3)=Wx'*(   feval(tx3,X,Y).*( feval(tx3,X,Y).*feval(tensxx,X,Y) + feval(ty3,X,Y).*feval(tensxy,X,Y) )  +  feval(ty3,X,Y).*( feval(ty3,X,Y).*feval(tensyy,X,Y) + feval(tx3,X,Y).*feval(tensxy,X,Y) )   )*Wy*alpha^2;
+                    
+                end
             end
             
         end
@@ -193,14 +195,16 @@ for iel=1:nel
             tf3=@(x,y) ( vB(1)*(y-vA(2)) + x*(vA(2)-vB(2)) + vA(1)*(-y+vB(2)) ) / ...
                 ( vC(1)*(vA(2)-vB(2)) + vA(1)*(vB(2)-vC(2)) + vB(1)*(-vA(2)+vC(2)) );
             % evaluate each integral per triangle for the 3 basis functions
-            if nargin(mms) == 4 % tensor diffusion
-                Q(iside,1)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf1,X,Y))*Wy;
-                Q(iside,2)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf2,X,Y))*Wy;
-                Q(iside,3)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf3,X,Y))*Wy;
-            else
-                Q(iside,1)=Wx'*(feval(mms,X,Y).*feval(tf1,X,Y))*Wy;
-                Q(iside,2)=Wx'*(feval(mms,X,Y).*feval(tf2,X,Y))*Wy;
-                Q(iside,3)=Wx'*(feval(mms,X,Y).*feval(tf3,X,Y))*Wy;
+            if TF
+                if nargin(mms) == 4 % tensor diffusion
+                    Q(iside,1)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf1,X,Y))*Wy;
+                    Q(iside,2)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf2,X,Y))*Wy;
+                    Q(iside,3)=Wx'*(feval(mms,sigma_a(mat),c_diff(mat),X,Y).*feval(tf3,X,Y))*Wy;
+                else
+                    Q(iside,1)=Wx'*(feval(mms,X,Y).*feval(tf1,X,Y))*Wy;
+                    Q(iside,2)=Wx'*(feval(mms,X,Y).*feval(tf2,X,Y))*Wy;
+                    Q(iside,3)=Wx'*(feval(mms,X,Y).*feval(tf3,X,Y))*Wy;
+                end
             end
         end
         % compute contribution to global rhs
@@ -298,12 +302,14 @@ for ied=1:n_edge
     %       - (b-) D- grad(phi-).ne/2
     % compute row vector: n' * G (ne is already stored as a 1x2 row vector)
     
-    if nargin(mms) == 4 % tensor diffusion
-        midpt=mean(vert(V,:));
-        kxx=tensxx(midpt(1),midpt(2));
-        kxy=tensxy(midpt(1),midpt(2));
-        kyy=tensyy(midpt(1),midpt(2));
-        Dtens=[kxx kxy;kxy kyy];
+    if TF
+        if nargin(mms) == 4 % tensor diffusion
+            midpt=mean(vert(V,:));
+            kxx=tensxx(midpt(1),midpt(2));
+            kxy=tensxy(midpt(1),midpt(2));
+            kyy=tensyy(midpt(1),midpt(2));
+            Dtens=[kxx kxy;kxy kyy];
+        end
     else
         Dtens=eye(2);
     end
@@ -501,11 +507,32 @@ fprintf('Assembly time = %g \n',t2-t1);
 t1=cputime;
 
 z=A\b;
-
 t2=cputime;
 fprintf('Solver time   = %g \n\n',t2-t1);
-
 fprintf('Solution: Min = %+E \n          Max = %+E \n\n',min(z),max(z));
+
+% [x,flag,relres,iter,resvecAGMG]=agmg(A,b,1,1e-11,1000,1);
+% if(norm(z-x,'inf')>1e-10)
+%     warning('MG answer not same as LU');
+% end
+% fprintf('Solution: Min = %+E \n          Max = %+E \n\n',min(x),max(x));
+% 
+% [x,flag,relres,iter,resvecCG]=pcg(A,b,1e-11,1000);
+% iter
+% fprintf('Solution: Min = %+E \n          Max = %+E \n\n',min(x),max(x));
+% 
+% D=diag(diag(A));
+% L=tril(A,-1);
+% M=(D-L)*inv(D)*(D-L');
+% [x,flag,relres,iter,resvecPCG]=pcg(A,b,1e-11,10000,M);
+% iter
+% fprintf('Solution: Min = %+E \n          Max = %+E \n\n',min(x),max(x));
+% 
+% figure()
+% semilogy(resvecAGMG,'+-');hold all
+% semilogy(resvecCG,'o-');
+% semilogy(resvecPCG,'s-');
+
 %------------------------------------------------
 varargout{1}=A;
 varargout{2}=b;
