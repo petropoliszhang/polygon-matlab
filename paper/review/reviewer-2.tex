@@ -74,7 +74,7 @@ clear the distinct contribution of the paper and distinguishes this research fro
 that performed previously.
 }
 
-Thank you
+Thank you.
 \bigskip
 
 
@@ -90,11 +90,12 @@ this increased number unknowns, it should be discussed.
 This is correct. However, the ultimate goal is to employ this discontinuous FEM discretization for the diffusion equation 
 as a synthetic preconditioner for radiation transport solves (typically dicretized using discontinuous FEM). Currently, the 
 diffusion synthetic acceleration techniques available for that purpose on arbitrary polygonal grids either result in 
-non-symmetric system matrix or require a post-treatment to be effective because they rely on a continuous FEM discretizations. Here,
-we introduce and test a discontinuous FEM discretization for the diffusion equation and highlight it potential as a diffusion synthetic accelerator both int he Introduction and in the Conclusions. 
+non-symmetric system matrix or require a post-processing treatment to be effective because they rely on a continuous FEM discretizations. Here,
+we introduce and test a discontinuous FEM discretization for the diffusion equation and highlight its potential as a diffusion synthetic accelerator 
+both in the Introduction and in the Conclusions. 
 
 This PWLD SIP technique for diffusion is now being implemented in a massively C++ radiation transport to be used as a 
-synthetic preconditioner for transport solves. In that C++, we already have a PWLC (C for continuous)
+synthetic preconditioner for transport solves. In that C++ code, we already have a PWLC (C for continuous)
 finite element discretization of the diffusion equation for polygonal grids. We expect to communicate in the near
 future DSA results comparing PWLD-SIP versus PWLC (which requires a discontinuous update as a post-processing step to
 be an effective preconditioner, as mentioned previously).
@@ -115,16 +116,16 @@ The constant $C$ needs to be of order 1 for the SIP method to converge; this is 
 
 $h_\perp$ is difficult to 
 define for cells of arbitrary shapes (even quadrangles). Thus, we proposed to use the formulae
-for the inradius and circumradius of a regular polygon to compute $h^{reg}_\perp$. $h_\perp$ of the regular polygon
+for the inradius and circumradius of a regular polygon to compute $h^{reg}_\perp$. $h^{reg}_\perp$ of the regular polygon
 is well defined but we employ the actual polygon's area and perimeter to
 compute the inradius $r$ and circumradius $R$; $h^{reg}_\perp=r+R$ for odd-sided regular polygons and $h^{reg}_\perp=2r$
-for even-sided regular polygons. Nonetheless, the polygonal meshes generated using a clipped Voronoi diagram of the
-quadrangular meshes result in fairly smooth and regular polygons. So, $h_\perp \simeq h^{reg}_\perp$ and thus the standard value of $C=c(p+1)^2=4$ (i.e., $c=1$ here) is retained here since the penalty coefficient is accurately computed. 
+for even-sided regular polygons. Furthermore, the polygonal meshes generated using a clipped Voronoi diagram of the
+quadrangular mesh vertices result in fairly smooth and regular polygons. So, $h_\perp \simeq h^{reg}_\perp$ and thus the standard value of $C=c(p+1)^2=4$ (i.e., $c=1$ here) is retained here since the penalty coefficient is accurately computed. 
 
 
 However, for extremely skewed Shestakov meshes using quadrangles, $h_\perp $ may become different enough than $h^{reg}_\perp$. In which case, the constant $C$ has to be increased slightly (we used $C=20$ for the worst Shestakov meshes, Fig 8(d) but often a value of $C=4$ or $C=8$ is enough). 
 
-A discussion has been added to the manuscript.
+A discussion to this effect has been added to the manuscript.
 
 \bigskip
 
@@ -138,7 +139,7 @@ provided by the author.
 
 Thank you for pointing them out and for the thorough review. We have corrected them. \\
 
-Regarding Remark \# 26 (``It would be nice for the reader to know that that author has computed the correct $Q(x, y)$. The paper should show the formula for this quantity.''): we use a symbolic toolbox to compute $Q$ from the PDE given the exact solution and to automatically write the corresponding function to be used in the code. There would be several $Q$'s to be provided here. It is standard to verify code with the method of manufactured solutions and we hope the readers will also use symbolic toolboxes to generate automatically whatever right-hand-side is required. 
+Regarding Remark \# 26 (``It would be nice for the reader to know that that author has computed the correct $Q(x, y)$. The paper should show the formula for this quantity.''): we use a symbolic toolbox to compute $Q$ from the PDE given an exact solution and to automatically write the corresponding function to be used in the code. It is fairly standard to verify code implementation with the method of manufactured solutions and we hope the readers will also use symbolic toolboxes to generate automatically the source term as needed.
 
 \bigskip
 
